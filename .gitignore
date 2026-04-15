@@ -1,0 +1,11 @@
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+_site/
+.jekyll-cache/
+.sass-cache/
+__pycache__/
+*.pyc
+.env
