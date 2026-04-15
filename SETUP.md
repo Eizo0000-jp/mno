@@ -20,95 +20,30 @@ Googleに記事がインデックスされ検索流入が増える
 
 ---
 
-## Step 1: GitHubリポジトリを作る
+## 完了済み ✅
 
-1. https://github.com/Eizo0000-jp にログイン
-2. 右上「+」→「New repository」
-3. 設定：
-   - Repository name: `walktogether`（任意）
-   - Public を選択（GitHub Pagesの無料枠に必要）
-   - 他はデフォルトのまま
-4. 「Create repository」をクリック
-
----
-
-## Step 2: ファイルをアップロードする
-
-作成したファイル一式をGitHubにプッシュします。  
-ターミナル（コマンドプロンプト）で以下を実行：
-
-```bash
-cd C:\Users\呉栄三\Documents\walktogether
-
-git init
-git add .
-git commit -m "initial commit"
-git branch -M main
-git remote add origin https://github.com/Eizo0000-jp/walktogether.git
-git push -u origin main
-```
+- [x] Step 1: GitHubリポジトリ作成（`Eizo0000-jp/mno`）
+- [x] Step 2: ファイルをプッシュ
+- [x] Step 3: GitHub Pages有効化（`https://eizo0000-jp.github.io/mno/`）
+- [x] Step 4-1: ドメイン取得（`mobile-friend.com`）
+- [x] Step 4-2: DNSのAレコード設定（お名前.com）
+- [x] Step 4-3: CNAMEファイル設定済み
 
 ---
 
-## Step 3: GitHub Pagesを有効にする
+## 残りの手順
 
-1. GitHubのリポジトリページを開く
-2. 上部タブ「Settings」をクリック
-3. 左メニュー「Pages」をクリック
-4. 「Source」を **Deploy from a branch** に設定
-5. Branch: `main` / `/ (root)` を選択して「Save」
+### Step 4-4: GitHub Pagesにカスタムドメインを登録する
 
-→ 数分後に `https://Eizo0000-jp.github.io/walktogether/` でサイトが公開される
+1. https://github.com/Eizo0000-jp/mno/settings/pages を開く
+2. **Custom domain** に `mobile-friend.com` と入力して「Save」
+3. DNS反映後（最大48時間）に **Enforce HTTPS** のチェックが押せるようになる → チェックを入れる
 
----
-
-## Step 4: 独自ドメインを設定する（推奨）
-
-独自ドメインがあるとSEO効果が大きく上がります。
-
-### 4-1. ドメインを取得する
-
-お名前.com・ムームードメイン・お好みのところで取得（例：`rakuten-intro.com`）
-
-### 4-2. DNSを設定する
-
-ドメイン管理画面で以下のAレコードを追加：
-
-| タイプ | ホスト名 | 値              |
-|--------|----------|-----------------|
-| A      | @        | 185.199.108.153 |
-| A      | @        | 185.199.109.153 |
-| A      | @        | 185.199.110.153 |
-| A      | @        | 185.199.111.153 |
-
-または CNAMEレコード：
-
-| タイプ | ホスト名 | 値                            |
-|--------|----------|-------------------------------|
-| CNAME  | www      | Eizo0000-jp.github.io         |
-
-### 4-3. CNAMEファイルを編集する
-
-`CNAME` ファイルを開き、`yourdomain.com` を実際のドメインに変更してコミット：
-
-```
-rakuten-intro.com
-```
-
-### 4-4. GitHub Pagesでカスタムドメインを設定
-
-Settings → Pages → Custom domain にドメインを入力して Save  
-「Enforce HTTPS」にチェックを入れる
-
-### 4-5. _config.yml を更新する
-
-```yaml
-url: "https://rakuten-intro.com"   # ← 実際のドメインに変更
-```
+> DNS反映の確認方法：ターミナルで `nslookup mobile-friend.com` を実行し、GitHubのIPが返ってくればOK
 
 ---
 
-## Step 5: Anthropic APIキーを取得する
+### Step 5: Anthropic APIキーを取得する
 
 1. https://console.anthropic.com/ にアクセス
 2. アカウント作成（Googleアカウントでもログイン可）
@@ -117,9 +52,9 @@ url: "https://rakuten-intro.com"   # ← 実際のドメインに変更
 
 ---
 
-## Step 6: GitHub Secretsに登録する
+### Step 6: GitHub Secretsに登録する
 
-1. GitHubのリポジトリページ → Settings → Secrets and variables → Actions
+1. https://github.com/Eizo0000-jp/mno/settings/secrets/actions を開く
 2. 「New repository secret」で以下を登録：
 
 | Name                | Value                  |
@@ -128,9 +63,9 @@ url: "https://rakuten-intro.com"   # ← 実際のドメインに変更
 
 ---
 
-## Step 7: 動作確認
+### Step 7: 動作確認
 
-1. GitHubのリポジトリ → 上部タブ「Actions」を開く
+1. https://github.com/Eizo0000-jp/mno/actions を開く
 2. 左の「SEO記事 自動生成・公開」をクリック
 3. 右上「Run workflow」→「Run workflow」で手動実行
 4. 緑チェックになれば成功
@@ -140,7 +75,7 @@ url: "https://rakuten-intro.com"   # ← 実際のドメインに変更
 
 ## 以降は全自動
 
-設定完了後は何もしなくても、**毎週月曜・木曜に新記事が1本追加**されます。  
+設定完了後は何もしなくても、**毎週月曜・木曜に新記事が1本追加**されます。
 記事が12本（テーマが一巡）するとランダムに再生成を続けます。
 
 ---
@@ -151,9 +86,9 @@ url: "https://rakuten-intro.com"   # ← 実際のドメインに変更
 - Actions タブでエラーログを確認
 - Secrets の `ANTHROPIC_API_KEY` が正しく登録されているか確認
 
-### サイトが表示されない場合
-- Settings → Pages で公開設定が有効か確認
-- 独自ドメインのDNS設定は反映に最大48時間かかる場合がある
+### サイトが `mobile-friend.com` で表示されない場合
+- DNS反映待ち（最大48時間）
+- お名前.comのAレコードが4つ正しく設定されているか確認
 
 ### 記事が増えない場合
 - `_posts/` フォルダが空の場合、手動で一度 Run workflow を実行する
