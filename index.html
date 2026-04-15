@@ -8,523 +8,520 @@
   <meta property="og:title" content="楽天モバイル｜社員おすすめ！乗り換えるなら今がチャンス">
   <meta property="og:description" content="楽天社員が本気でおすすめする楽天モバイル。データ無制限で月3,278円。">
   <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --red: #cc0000;
-      --red-dark: #990000;
-      --red-light: #ff3333;
-      --bg: #fff8f8;
-      --text: #1a1a1a;
-      --gray: #666;
-      --border: #e8d0d0;
+      --red:        #7f0019;
+      --text:       #3c3c43;
+      --text-sub:   #6d6d72;
+      --text-light: #9d9da0;
+      --bg:         #fff;
+      --bg-kinari:  #f4eede;
+      --bg-beige:   #e0ceaa;
+      --bg-gray:    #f5f5f5;
+      --border:     #d8d8d9;
+      --border-lt:  #ebebec;
+
+      --sp-xs:  16px;
+      --sp-s:   20px;
+      --sp-sm:  24px;
+      --sp-m:   32px;
+      --sp-ml:  40px;
+      --sp-l:   48px;
+      --sp-xl:  56px;
+      --sp-xxl: 64px;
+      --sp-xxxl: 80px;
     }
 
     body {
-      font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+      font-family: "Helvetica Neue", Arial, "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
       color: var(--text);
-      background: #fff;
-      line-height: 1.7;
+      background: var(--bg);
+      word-break: break-all;
+      overflow-wrap: break-word;
     }
 
+    a { color: var(--red); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
     /* ===== HEADER ===== */
-    header {
-      background: var(--red);
-      padding: 12px 20px;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    .site-header {
+      border-bottom: 1px solid var(--border);
+      padding: 0 var(--sp-m);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
     }
-    header p {
-      color: #fff;
-      font-size: 0.85rem;
-      font-weight: bold;
+    .site-logo {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
       letter-spacing: 0.05em;
+    }
+    .site-nav { display: flex; gap: var(--sp-m); }
+    .site-nav a { font-size: 14px; color: var(--text-sub); }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 12px 32px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.8; text-decoration: none; }
+    .btn-primary {
+      background: var(--text);
+      color: #fff;
+    }
+    .btn-accent {
+      background: var(--red);
+      color: #fff;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-lg {
+      font-size: 14px;
+      padding: 16px 48px;
     }
 
     /* ===== HERO ===== */
     .hero {
-      background: linear-gradient(135deg, #cc0000 0%, #ff6666 50%, #ff9999 100%);
-      color: #fff;
-      padding: 60px 20px 80px;
+      background: var(--bg-kinari);
+      padding: var(--sp-xxxl) var(--sp-m);
       text-align: center;
-      position: relative;
-      overflow: hidden;
     }
-    .hero::before {
-      content: '';
-      position: absolute;
-      width: 400px; height: 400px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 50%;
-      top: -100px; right: -100px;
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      width: 300px; height: 300px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 50%;
-      bottom: -80px; left: -80px;
-    }
-    .hero-badge {
-      display: inline-block;
-      background: #fff;
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
       color: var(--red);
-      font-size: 0.8rem;
-      font-weight: bold;
-      padding: 4px 16px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      letter-spacing: 0.1em;
+      letter-spacing: 2.4px;
+      line-height: 1.15;
+      margin-bottom: var(--sp-s);
     }
     .hero h1 {
-      font-size: clamp(1.6rem, 5vw, 2.8rem);
-      font-weight: 900;
-      line-height: 1.3;
-      margin-bottom: 20px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-    .hero h1 span {
-      background: #fff;
-      color: var(--red);
-      padding: 2px 8px;
-      border-radius: 4px;
+      font-size: clamp(26px, 5vw, 40px);
+      font-weight: 700;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: var(--sp-s);
     }
     .hero-sub {
-      font-size: 1.1rem;
-      opacity: 0.95;
-      margin-bottom: 36px;
-      max-width: 500px;
+      font-size: 16px;
+      color: var(--text-sub);
+      margin-bottom: var(--sp-ml);
+      max-width: 480px;
       margin-left: auto;
       margin-right: auto;
     }
-    .btn-main {
-      display: inline-block;
-      background: #fff;
-      color: var(--red);
-      font-size: 1.2rem;
-      font-weight: 900;
-      padding: 18px 48px;
-      border-radius: 50px;
-      text-decoration: none;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin-bottom: 12px;
-      letter-spacing: 0.05em;
+    .hero-note {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: var(--sp-xs);
     }
-    .btn-main:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+
+    /* ===== SECTION ===== */
+    .section {
+      padding: var(--sp-xxxl) var(--sp-m);
+      max-width: 1120px;
+      margin: 0 auto;
     }
-    .btn-note {
-      display: block;
-      font-size: 0.8rem;
-      opacity: 0.85;
-      margin-top: 8px;
+    .section-alt {
+      background: var(--bg-gray);
+    }
+    .section-alt .section {
+      background: transparent;
+    }
+    .section-heading {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: var(--sp-xs);
+    }
+    .section-sub {
+      font-size: 14px;
+      color: var(--text-sub);
+      margin-bottom: var(--sp-ml);
     }
 
     /* ===== PRICE ===== */
-    .price-section {
-      background: var(--bg);
-      padding: 60px 20px;
-      text-align: center;
-    }
-    .section-title {
-      font-size: clamp(1.3rem, 4vw, 1.9rem);
-      font-weight: 900;
-      color: var(--red);
-      margin-bottom: 8px;
-    }
-    .section-sub {
-      color: var(--gray);
-      font-size: 0.95rem;
-      margin-bottom: 40px;
+    .price-wrap {
+      display: flex;
+      justify-content: center;
     }
     .price-card {
-      background: #fff;
-      border: 3px solid var(--red);
-      border-radius: 20px;
-      padding: 40px 30px;
+      border: 1px solid var(--border);
+      padding: var(--sp-ml);
       max-width: 400px;
-      margin: 0 auto;
-      box-shadow: 0 8px 30px rgba(204,0,0,0.1);
+      width: 100%;
+      background: var(--bg);
     }
-    .price-plan {
-      font-size: 1.1rem;
-      font-weight: bold;
+    .price-label {
+      font-size: 12px;
+      font-weight: 700;
       color: var(--red);
-      margin-bottom: 12px;
+      letter-spacing: 2.4px;
+      line-height: 1.15;
+      margin-bottom: var(--sp-sm);
     }
     .price-amount {
-      font-size: 3.5rem;
-      font-weight: 900;
+      font-size: 56px;
+      font-weight: 700;
       color: var(--text);
       line-height: 1;
+      margin-bottom: 4px;
     }
-    .price-amount sup { font-size: 1.5rem; }
-    .price-amount sub { font-size: 1rem; }
+    .price-amount sup { font-size: 24px; vertical-align: top; margin-top: 12px; display: inline-block; }
+    .price-amount sub { font-size: 20px; }
     .price-note {
-      color: var(--gray);
-      font-size: 0.85rem;
-      margin: 8px 0 20px;
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: var(--sp-m);
     }
-    .price-features {
+    .price-list {
       list-style: none;
-      text-align: left;
+      border-top: 1px solid var(--border-lt);
     }
-    .price-features li {
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
+    .price-list li {
+      font-size: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-lt);
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 0.95rem;
+      gap: 12px;
+      color: var(--text);
     }
-    .price-features li:last-child { border-bottom: none; }
-    .check {
-      width: 22px; height: 22px;
+    .price-list li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
       background: var(--red);
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 0.75rem;
       flex-shrink: 0;
     }
 
     /* ===== BENEFITS ===== */
-    .benefits {
-      padding: 60px 20px;
-      max-width: 960px;
-      margin: 0 auto;
-    }
     .benefits-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-      margin-top: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--border-lt);
+      border: 1px solid var(--border-lt);
     }
-    .benefit-card {
-      border: 2px solid var(--border);
-      border-radius: 16px;
-      padding: 28px 24px;
-      transition: border-color 0.2s, box-shadow 0.2s;
+    .benefit-item {
+      background: var(--bg);
+      padding: var(--sp-ml) var(--sp-m);
     }
-    .benefit-card:hover {
-      border-color: var(--red);
-      box-shadow: 0 4px 20px rgba(204,0,0,0.1);
-    }
-    .benefit-icon {
-      font-size: 2.5rem;
-      margin-bottom: 14px;
+    .benefit-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: 2.4px;
+      line-height: 1.15;
+      margin-bottom: var(--sp-xs);
     }
     .benefit-title {
-      font-size: 1.1rem;
-      font-weight: bold;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
       margin-bottom: 8px;
-      color: var(--red);
     }
     .benefit-desc {
-      font-size: 0.9rem;
-      color: var(--gray);
+      font-size: 12px;
+      color: var(--text-sub);
+      line-height: 1.6;
     }
 
     /* ===== VOICE ===== */
-    .voice {
-      background: var(--bg);
-      padding: 60px 20px;
-    }
-    .voice-inner {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .voice-cards {
+    .voice-grid {
       display: grid;
-      gap: 20px;
-      margin-top: 40px;
+      gap: var(--sp-sm);
     }
-    .voice-card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    .voice-item {
+      border: 1px solid var(--border-lt);
+      padding: var(--sp-m);
+      background: var(--bg);
+    }
+    .voice-meta {
       display: flex;
-      gap: 16px;
-      align-items: flex-start;
+      align-items: center;
+      gap: var(--sp-xs);
+      margin-bottom: var(--sp-xs);
     }
     .voice-avatar {
-      width: 50px; height: 50px;
-      background: linear-gradient(135deg, var(--red), var(--red-light));
-      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      background: var(--bg-beige);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
-      font-weight: bold;
-      font-size: 1.1rem;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
       flex-shrink: 0;
     }
-    .voice-name { font-weight: bold; font-size: 0.9rem; color: var(--red); margin-bottom: 4px; }
-    .voice-text { font-size: 0.95rem; }
-    .stars { color: #ffbb00; font-size: 1rem; margin-bottom: 4px; }
+    .voice-name { font-size: 14px; font-weight: 700; color: var(--text); }
+    .voice-stars { font-size: 12px; color: var(--red); }
+    .voice-text { font-size: 14px; color: var(--text-sub); line-height: 1.6; }
 
-    /* ===== CTA ===== */
-    .cta {
-      background: linear-gradient(135deg, #cc0000, #ff4444);
-      padding: 70px 20px;
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      background: var(--bg-kinari);
+      padding: var(--sp-xxxl) var(--sp-m);
       text-align: center;
-      color: #fff;
     }
-    .cta h2 {
-      font-size: clamp(1.4rem, 4vw, 2rem);
-      font-weight: 900;
-      margin-bottom: 16px;
+    .cta-section h2 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: var(--sp-xs);
     }
-    .cta p {
-      font-size: 1rem;
-      opacity: 0.9;
-      margin-bottom: 36px;
+    .cta-section p {
+      font-size: 14px;
+      color: var(--text-sub);
+      margin-bottom: var(--sp-ml);
     }
 
     /* ===== FAQ ===== */
-    .faq {
-      padding: 60px 20px;
-      max-width: 720px;
-      margin: 0 auto;
-    }
-    .faq-list { margin-top: 40px; }
+    .faq-list { border-top: 1px solid var(--border); }
     details {
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 12px;
-      overflow: hidden;
+      border-bottom: 1px solid var(--border);
     }
     summary {
-      padding: 18px 20px;
-      font-weight: bold;
+      padding: var(--sp-s) 0;
+      font-size: 14px;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
-      align-items: center;
-      gap: 12px;
+      align-items: flex-start;
+      gap: var(--sp-xs);
       list-style: none;
-      font-size: 0.95rem;
+      color: var(--text);
     }
     summary::-webkit-details-marker { display: none; }
     summary::before {
       content: 'Q';
-      background: var(--red);
-      color: #fff;
-      width: 26px; height: 26px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 0.85rem;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--red);
+      letter-spacing: 0;
       flex-shrink: 0;
+      margin-top: 2px;
     }
-    details[open] summary { border-bottom: 2px solid var(--border); }
     .faq-answer {
-      padding: 16px 20px 16px 58px;
-      font-size: 0.9rem;
-      color: var(--gray);
-      line-height: 1.8;
+      padding: 0 0 var(--sp-s) var(--sp-ml);
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.6;
     }
 
     /* ===== FOOTER ===== */
-    footer {
-      background: #1a1a1a;
-      color: #999;
-      padding: 30px 20px;
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: var(--sp-ml) var(--sp-m);
       text-align: center;
-      font-size: 0.8rem;
-      line-height: 2;
     }
-    footer a { color: #ccc; }
+    .site-footer p {
+      font-size: 12px;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    .site-footer a { color: var(--text-sub); }
 
-    /* ===== FLOAT BTN ===== */
-    .float-btn {
+    /* ===== FLOAT ===== */
+    .float-cta {
       position: fixed;
-      bottom: 24px;
+      bottom: var(--sp-m);
       left: 50%;
       transform: translateX(-50%);
-      background: var(--red);
-      color: #fff;
-      padding: 16px 40px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 900;
-      font-size: 1rem;
-      box-shadow: 0 6px 24px rgba(204,0,0,0.5);
       z-index: 99;
       white-space: nowrap;
-      transition: transform 0.2s;
-      animation: pulse 2s infinite;
-    }
-    .float-btn:hover { transform: translateX(-50%) translateY(-2px); }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 6px 24px rgba(204,0,0,0.5); }
-      50% { box-shadow: 0 6px 32px rgba(204,0,0,0.8); }
     }
 
-    @media (max-width: 480px) {
-      .hero { padding: 40px 16px 60px; }
-      .btn-main { padding: 16px 32px; font-size: 1.05rem; }
-      .float-btn { font-size: 0.9rem; padding: 14px 28px; }
+    @media (max-width: 767px) {
+      .site-nav { display: none; }
+      .hero h1 { font-size: 26px; }
+      .section-heading { font-size: 26px; }
+      .price-amount { font-size: 44px; }
+      .btn-lg { padding: 14px 32px; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <p>楽天社員が直接ご紹介 ｜ 専用リンクからのお申し込みで特典あり</p>
+<header class="site-header">
+  <span class="site-logo">楽天モバイルで節約生活</span>
+  <nav class="site-nav">
+    <a href="/blog/">ブログ</a>
+  </nav>
 </header>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">楽天社員おすすめ</div>
-  <h1>スマホ代、<span>もったいない</span><br>と思っていませんか？</h1>
-  <p class="hero-sub">楽天モバイルなら<strong>データ無制限で月3,278円</strong>。<br>今すぐ乗り換えてスマホ代をゼロに近づけよう。</p>
-  <a href="https://r10.to/henTIE" class="btn-main" target="_blank" rel="noopener">今すぐ申し込む（無料）</a>
-  <span class="btn-note">このリンクからのお申し込みで社員紹介特典が適用されます</span>
+  <p class="hero-eyebrow">楽天社員からのご紹介</p>
+  <h1>スマホ代を、<br>もっとシンプルに。</h1>
+  <p class="hero-sub">データ無制限で月3,278円。<br>楽天モバイルで、毎月の通信費を見直しましょう。</p>
+  <a href="https://r10.to/henTIE" class="btn btn-accent btn-lg" target="_blank" rel="noopener">今すぐ申し込む</a>
+  <p class="hero-note">社員紹介リンクからのお申し込みで紹介特典が適用されます</p>
 </section>
 
 <!-- PRICE -->
-<section class="price-section">
-  <h2 class="section-title">シンプルな料金、驚きの内容</h2>
-  <p class="section-sub">難しいプラン選びは不要。これ一つでOK。</p>
-  <div class="price-card">
-    <div class="price-plan">Rakuten 最強プラン</div>
-    <div class="price-amount"><sup>月</sup>3,278<sub>円</sub></div>
-    <p class="price-note">（税込）データ無制限</p>
-    <ul class="price-features">
-      <li><span class="check">✓</span> データ通信 無制限（国内）</li>
-      <li><span class="check">✓</span> 国内通話 無制限（Rakuten Link使用時）</li>
-      <li><span class="check">✓</span> 海外ローミング 2GBまで無料</li>
-      <li><span class="check">✓</span> 楽天ポイント還元でさらにお得</li>
-      <li><span class="check">✓</span> 契約事務手数料 0円</li>
-    </ul>
+<div class="section-alt">
+  <div class="section" style="text-align:center">
+    <h2 class="section-heading">シンプルな料金</h2>
+    <p class="section-sub">プランは1つだけ。難しい選択は不要です。</p>
+    <div class="price-wrap">
+      <div class="price-card">
+        <p class="price-label">RAKUTEN 最強プラン</p>
+        <div class="price-amount"><sup>月</sup>3,278<sub>円</sub></div>
+        <p class="price-note">税込 / データ無制限</p>
+        <ul class="price-list">
+          <li>データ通信 無制限（国内）</li>
+          <li>国内通話 無制限（Rakuten Link使用時）</li>
+          <li>海外ローミング 2GBまで無料</li>
+          <li>楽天ポイント還元</li>
+          <li>契約事務手数料 0円</li>
+        </ul>
+      </div>
+    </div>
   </div>
-</section>
+</div>
 
 <!-- BENEFITS -->
-<section class="benefits">
-  <h2 class="section-title" style="text-align:center">楽天モバイルを選ぶ理由</h2>
-  <p class="section-sub" style="text-align:center">大手キャリアと比べてここが違う</p>
+<div class="section">
+  <h2 class="section-heading">選ばれる理由</h2>
+  <p class="section-sub">大手キャリアと比べて、ここが違います。</p>
   <div class="benefits-grid">
-    <div class="benefit-card">
-      <div class="benefit-icon">💰</div>
-      <div class="benefit-title">圧倒的なコスパ</div>
-      <p class="benefit-desc">大手キャリアの半額以下。年間で5万円以上の節約になる方も。楽天市場でのお買い物ポイントも+1倍に。</p>
+    <div class="benefit-item">
+      <p class="benefit-num">01</p>
+      <p class="benefit-title">圧倒的なコスパ</p>
+      <p class="benefit-desc">大手キャリアの半額以下。年間で5万円以上節約できる方も少なくありません。</p>
     </div>
-    <div class="benefit-card">
-      <div class="benefit-icon">📶</div>
-      <div class="benefit-title">データ無制限で安心</div>
-      <p class="benefit-desc">動画・ゲーム・テレワークも追加料金なし。月末にデータを気にする必要がありません。</p>
+    <div class="benefit-item">
+      <p class="benefit-num">02</p>
+      <p class="benefit-title">データ無制限</p>
+      <p class="benefit-desc">月末のデータ残量を気にする必要はありません。動画もテレワークも安心して使えます。</p>
     </div>
-    <div class="benefit-card">
-      <div class="benefit-icon">📞</div>
-      <div class="benefit-title">通話も無制限</div>
-      <p class="benefit-desc">Rakuten Linkアプリを使えば国内通話が何分でも0円。仕事の電話が多い方にも最適。</p>
+    <div class="benefit-item">
+      <p class="benefit-num">03</p>
+      <p class="benefit-title">通話も無制限</p>
+      <p class="benefit-desc">Rakuten Linkアプリで国内通話が何分でも0円。仕事の電話が多い方にも最適です。</p>
     </div>
-    <div class="benefit-card">
-      <div class="benefit-icon">✈️</div>
-      <div class="benefit-title">海外でもそのまま使える</div>
-      <p class="benefit-desc">海外ローミングが月2GBまで無料。出張・旅行でSIMを差し替える手間がなくなります。</p>
+    <div class="benefit-item">
+      <p class="benefit-num">04</p>
+      <p class="benefit-title">海外でもそのまま</p>
+      <p class="benefit-desc">ローミングが月2GBまで無料。出張・旅行でSIMを差し替える手間がなくなります。</p>
     </div>
-    <div class="benefit-card">
-      <div class="benefit-icon">🎯</div>
-      <div class="benefit-title">楽天経済圏と相性抜群</div>
-      <p class="benefit-desc">楽天市場・楽天カードと組み合わせることでポイント還元率が大幅アップ。生活費全体がお得に。</p>
+    <div class="benefit-item">
+      <p class="benefit-num">05</p>
+      <p class="benefit-title">楽天経済圏と連携</p>
+      <p class="benefit-desc">楽天市場・楽天カードと組み合わせるとポイント還元率がアップ。生活費全体がお得に。</p>
     </div>
-    <div class="benefit-card">
-      <div class="benefit-icon">⚡</div>
-      <div class="benefit-title">最短3分で申し込み完了</div>
-      <p class="benefit-desc">来店不要、オンラインで完結。本人確認もスマホで簡単。今日中に手続きができます。</p>
+    <div class="benefit-item">
+      <p class="benefit-num">06</p>
+      <p class="benefit-title">オンラインで完結</p>
+      <p class="benefit-desc">来店不要。本人確認もスマホで完了。最短当日中に手続きができます。</p>
     </div>
   </div>
-</section>
+</div>
 
 <!-- VOICE -->
-<section class="voice">
-  <div class="voice-inner">
-    <h2 class="section-title" style="text-align:center">乗り換えた方の声</h2>
-    <p class="section-sub" style="text-align:center">実際に使っている方のリアルな感想</p>
-    <div class="voice-cards">
-      <div class="voice-card">
-        <div class="voice-avatar">山</div>
-        <div>
-          <div class="stars">★★★★★</div>
-          <div class="voice-name">山田さん（30代・会社員）</div>
-          <p class="voice-text">ドコモから乗り換えて月7,000円の節約に。楽天市場でのポイントも増えてW得です。通信速度も全く問題なし！</p>
+<div class="section-alt">
+  <div class="section">
+    <h2 class="section-heading">お使いの方の声</h2>
+    <p class="section-sub">実際に乗り換えた方のリアルな感想です。</p>
+    <div class="voice-grid">
+      <div class="voice-item">
+        <div class="voice-meta">
+          <div class="voice-avatar">山</div>
+          <div>
+            <p class="voice-stars">★★★★★</p>
+            <p class="voice-name">山田さん（30代・会社員）</p>
+          </div>
         </div>
+        <p class="voice-text">ドコモから乗り換えて月7,000円の節約になりました。楽天市場でのポイントも増えて二重にお得。通信速度も全く問題ありません。</p>
       </div>
-      <div class="voice-card">
-        <div class="voice-avatar">佐</div>
-        <div>
-          <div class="stars">★★★★★</div>
-          <div class="voice-name">佐藤さん（20代・フリーランス）</div>
-          <p class="voice-text">テザリングで仕事してますがデータ制限を気にしなくていいのが最高。カフェ代が浮くくらい使い倒してます笑</p>
+      <div class="voice-item">
+        <div class="voice-meta">
+          <div class="voice-avatar">佐</div>
+          <div>
+            <p class="voice-stars">★★★★★</p>
+            <p class="voice-name">佐藤さん（20代・フリーランス）</p>
+          </div>
         </div>
+        <p class="voice-text">テザリングで仕事をしていますが、データ制限を気にしなくていいのが本当に助かります。カフェ代も浮くようになりました。</p>
       </div>
-      <div class="voice-card">
-        <div class="voice-avatar">田</div>
-        <div>
-          <div class="stars">★★★★☆</div>
-          <div class="voice-name">田中さん（40代・主婦）</div>
-          <p class="voice-text">子どもの分も含めて家族全員で乗り換えました。月の通信費が半分以下になって家計が助かっています。</p>
+      <div class="voice-item">
+        <div class="voice-meta">
+          <div class="voice-avatar">田</div>
+          <div>
+            <p class="voice-stars">★★★★☆</p>
+            <p class="voice-name">田中さん（40代・主婦）</p>
+          </div>
         </div>
+        <p class="voice-text">家族全員で乗り換えました。月の通信費が半分以下になって家計が助かっています。手続きもオンラインで思ったより簡単でした。</p>
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- CTA -->
-<section class="cta">
+<section class="cta-section">
   <h2>あとは申し込むだけ</h2>
-  <p>このページを経由すると社員紹介特典が自動で適用されます。<br>オンライン完結、最短3分で手続き完了。</p>
-  <a href="https://r10.to/henTIE" class="btn-main" target="_blank" rel="noopener">無料で申し込む</a>
+  <p>このページを経由すると社員紹介特典が自動で適用されます。<br>オンライン完結、最短当日で手続き完了。</p>
+  <a href="https://r10.to/henTIE" class="btn btn-accent btn-lg" target="_blank" rel="noopener">無料で申し込む</a>
 </section>
 
 <!-- FAQ -->
-<section class="faq">
-  <h2 class="section-title" style="text-align:center">よくある質問</h2>
+<div class="section">
+  <h2 class="section-heading">よくある質問</h2>
   <div class="faq-list">
     <details>
       <summary>今使っている番号はそのまま使えますか？</summary>
-      <div class="faq-answer">はい、MNP（番号ポータビリティ）で今お使いの番号をそのまま楽天モバイルに移行できます。手続きもオンラインで完結します。</div>
+      <p class="faq-answer">はい、MNP（番号ポータビリティ）で今お使いの番号をそのまま楽天モバイルに移行できます。手続きはオンラインで完結します。</p>
     </details>
     <details>
       <summary>解約金・違約金はかかりますか？</summary>
-      <div class="faq-answer">楽天モバイルは最低利用期間・解約金が一切ありません。いつでも解約・他社への乗り換えが無料でできます。</div>
+      <p class="faq-answer">楽天モバイルは最低利用期間・解約金が一切ありません。いつでも解約・他社への乗り換えが無料でできます。</p>
     </details>
     <details>
       <summary>今のスマホのまま使えますか？</summary>
-      <div class="faq-answer">SIMロック解除済みの端末であればほとんどの機種でご利用可能です。対応端末一覧は楽天モバイル公式サイトでご確認いただけます。</div>
+      <p class="faq-answer">SIMロック解除済みの端末であればほとんどの機種でご利用可能です。対応端末一覧は楽天モバイル公式サイトでご確認ください。</p>
     </details>
     <details>
       <summary>通信エリアは大丈夫ですか？</summary>
-      <div class="faq-answer">楽天モバイルエリア外では自動的にパートナー回線（AU）に接続されます。人口カバー率は99%以上で、日常生活ではほぼ問題ありません。</div>
+      <p class="faq-answer">楽天モバイルエリア外では自動的にパートナー回線（AU）に接続されます。人口カバー率は99%以上で、日常生活ではほぼ問題ありません。</p>
     </details>
     <details>
-      <summary>申し込みにはどんなものが必要ですか？</summary>
-      <div class="faq-answer">本人確認書類（運転免許証・マイナンバーカードなど）、クレジットカードまたは口座情報、メールアドレスがあれば申し込み可能です。</div>
+      <summary>申し込みに必要なものは何ですか？</summary>
+      <p class="faq-answer">本人確認書類（運転免許証・マイナンバーカードなど）、クレジットカードまたは口座情報、メールアドレスがあれば申し込み可能です。</p>
     </details>
   </div>
-</section>
+</div>
 
-<footer>
+<footer class="site-footer">
   <p>このサイトは楽天社員による個人的な紹介サイトです。</p>
   <p>掲載情報は作成時点のものです。最新情報は<a href="https://network.mobile.rakuten.co.jp/" target="_blank" rel="noopener">楽天モバイル公式サイト</a>をご確認ください。</p>
 </footer>
 
-<!-- フローティングボタン -->
-<a href="https://r10.to/henTIE" class="float-btn" target="_blank" rel="noopener">今すぐ無料で申し込む →</a>
+<div class="float-cta">
+  <a href="https://r10.to/henTIE" class="btn btn-accent" target="_blank" rel="noopener">今すぐ無料で申し込む</a>
+</div>
 
 </body>
 </html>

@@ -4,39 +4,62 @@ title: ブログ一覧
 description: 楽天モバイルの活用法・乗り換え情報・節約術に関する記事一覧
 ---
 <style>
-  .blog-header { margin-bottom: 36px; }
-  .blog-header h1 { font-size: 1.8rem; font-weight: 900; color: #cc0000; margin-bottom: 8px; }
-  .blog-header p { color: #666; }
-  .post-list { display: grid; gap: 20px; }
-  .post-card {
-    border: 2px solid #e8d0d0;
-    border-radius: 14px;
-    padding: 24px;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    transition: border-color 0.2s, box-shadow 0.2s;
+  .blog-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 32px;
+    margin-bottom: 48px;
   }
-  .post-card:hover { border-color: #cc0000; box-shadow: 0 4px 16px rgba(204,0,0,0.1); }
-  .post-card-date { font-size: 0.8rem; color: #999; margin-bottom: 8px; }
-  .post-card-title { font-size: 1.1rem; font-weight: bold; color: #cc0000; margin-bottom: 8px; }
-  .post-card-desc { font-size: 0.9rem; color: #666; }
-  .empty { color: #999; text-align: center; padding: 60px 0; }
+  .blog-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--red);
+    letter-spacing: 2.4px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .blog-title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .blog-sub { font-size: 14px; color: var(--text-sub); }
+
+  .post-list {
+    display: grid;
+    border-top: 1px solid var(--border-lt);
+  }
+  .post-card {
+    display: block;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border-lt);
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.1s;
+  }
+  .post-card:hover { background: var(--bg-gray); text-decoration: none; }
+  .post-card-date { font-size: 12px; color: var(--text-light); margin-bottom: 6px; }
+  .post-card-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .post-card-desc { font-size: 12px; color: var(--text-sub); }
+
+  .empty { font-size: 14px; color: var(--text-light); padding: 64px 0; text-align: center; }
 </style>
 
-<div class="blog-header">
-  <h1>ブログ記事一覧</h1>
-  <p>楽天モバイルの活用法・乗り換え情報・節約術を定期的に更新しています</p>
-</div>
+<header class="blog-header">
+  <p class="blog-eyebrow">BLOG</p>
+  <h1 class="blog-title">記事一覧</h1>
+  <p class="blog-sub">楽天モバイルの活用法・乗り換え情報・節約術を定期的に更新しています。</p>
+</header>
 
 {% if site.posts.size > 0 %}
   <div class="post-list">
     {% for post in site.posts %}
       <a href="{{ post.url }}" class="post-card">
-        <div class="post-card-date">{{ post.date | date: "%Y年%-m月%-d日" }}</div>
-        <div class="post-card-title">{{ post.title }}</div>
+        <p class="post-card-date">{{ post.date | date: "%Y年%-m月%-d日" }}</p>
+        <p class="post-card-title">{{ post.title }}</p>
         {% if post.description %}
-          <div class="post-card-desc">{{ post.description }}</div>
+          <p class="post-card-desc">{{ post.description }}</p>
         {% endif %}
       </a>
     {% endfor %}
