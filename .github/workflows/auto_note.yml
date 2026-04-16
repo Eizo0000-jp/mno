@@ -44,3 +44,11 @@ jobs:
           else
             python post_note.py
           fi
+
+      - name: デバッグ用スクリーンショットをアップロード
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-screenshots
+          path: automation/debug_screenshots/
+          retention-days: 3

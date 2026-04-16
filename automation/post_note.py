@@ -83,34 +83,59 @@ def post_to_note(title: str, body: str) -> None:
         page = context.new_page()
 
         try:
+            os.makedirs("debug_screenshots", exist_ok=True)
+
             # ログイン
             print("ログイン中...")
             page.goto("https://note.com/login", wait_until="domcontentloaded")
             page.wait_for_timeout(3000)
+            page.screenshot(path="debug_screenshots/01_login_page.png", full_page=True)
+            print(f"現在URL: {page.url}")
+            print(f"ページタイトル: {page.title()}")
 
-            # メールアドレス入力（複数セレクターを試みる）
+            # 全inputを列挙してデバッグ
+            inputs = page.locator("input").all()
+            print(f"inputの数: {len(inputs)}")
+            for i, inp in enumerate(inputs):
+                try:
+                    print(f"  input[{i}]: type={inp.get_attribute('type')} name={inp.get_attribute('name')} placeholder={inp.get_attribute('placeholder')}")
+                except Exception:
+                    pass
+
+            # メールアドレス入力
             email_selectors = [
                 'input[type="email"]',
                 'input[name="email"]',
                 'input[placeholder*="メール"]',
                 'input[placeholder*="mail"]',
+                'input[placeholder*="Mail"]',
             ]
+            email_filled = False
             for sel in email_selectors:
                 if page.locator(sel).count() > 0:
                     page.fill(sel, email)
                     print(f"メール入力完了（セレクター: {sel}）")
+                    email_filled = True
                     break
+            if not email_filled:
+                print("警告: メール入力欄が見つかりませんでした")
 
             # パスワード入力
             password_selectors = [
                 'input[type="password"]',
                 'input[name="password"]',
             ]
+            password_filled = False
             for sel in password_selectors:
                 if page.locator(sel).count() > 0:
                     page.fill(sel, password)
                     print("パスワード入力完了")
+                    password_filled = True
                     break
+            if not password_filled:
+                print("警告: パスワード入力欄が見つかりませんでした")
+
+            page.screenshot(path="debug_screenshots/02_login_filled.png", full_page=True)
 
             # ログインボタンをクリック
             login_selectors = [
@@ -121,15 +146,20 @@ def post_to_note(title: str, body: str) -> None:
             for sel in login_selectors:
                 if page.locator(sel).count() > 0:
                     page.click(sel)
+                    print(f"ログインボタンクリック（セレクター: {sel}）")
                     break
 
             page.wait_for_timeout(5000)
-            print("ログイン完了")
+            page.screenshot(path="debug_screenshots/03_after_login.png", full_page=True)
+            print(f"ログイン後URL: {page.url}")
+            print(f"ログイン後タイトル: {page.title()}")
 
             # 新規記事作成画面へ
             print("記事作成画面へ移動中...")
             page.goto("https://note.com/notes/new", wait_until="domcontentloaded")
             page.wait_for_timeout(4000)
+            page.screenshot(path="debug_screenshots/04_new_article.png", full_page=True)
+            print(f"記事作成URL: {page.url}")
 
             # タイトル入力
             title_selectors = [
@@ -137,19 +167,26 @@ def post_to_note(title: str, body: str) -> None:
                 'textarea[placeholder*="タイトル"]',
                 '.title-input',
                 'div.title',
+                '[placeholder*="タイトル"]',
             ]
+            title_filled = False
             for sel in title_selectors:
                 if page.locator(sel).count() > 0:
                     page.click(sel)
                     page.keyboard.type(title)
-                    print(f"タイトル入力完了")
+                    print(f"タイトル入力完了（セレクター: {sel}）")
+                    title_filled = True
                     break
+            if not title_filled:
+                print("警告: タイトル入力欄が見つかりませんでした")
 
-            # 本文入力（Tabキーで本文エリアへ移動）
+            # 本文入力
             page.keyboard.press("Tab")
             page.wait_for_timeout(1000)
             page.keyboard.type(body)
             print("本文入力完了")
+
+            page.screenshot(path="debug_screenshots/05_article_filled.png", full_page=True)
 
             # 公開ボタンをクリック
             page.wait_for_timeout(2000)
@@ -157,11 +194,18 @@ def post_to_note(title: str, body: str) -> None:
                 'button:has-text("公開")',
                 'button:has-text("投稿")',
             ]
+            publish_clicked = False
             for sel in publish_selectors:
                 if page.locator(sel).count() > 0:
                     page.click(sel)
+                    print(f"公開ボタンクリック（セレクター: {sel}）")
+                    publish_clicked = True
                     break
+            if not publish_clicked:
+                print("警告: 公開ボタンが見つかりませんでした")
+
             page.wait_for_timeout(3000)
+            page.screenshot(path="debug_screenshots/06_publish_dialog.png", full_page=True)
 
             # 公開確認ダイアログ
             confirm_selectors = [
@@ -171,9 +215,12 @@ def post_to_note(title: str, body: str) -> None:
             for sel in confirm_selectors:
                 if page.locator(sel).count() > 0:
                     page.click(sel)
+                    print(f"公開確認クリック（セレクター: {sel}）")
                     break
-            page.wait_for_timeout(4000)
 
+            page.wait_for_timeout(4000)
+            page.screenshot(path="debug_screenshots/07_after_publish.png", full_page=True)
+            print(f"最終URL: {page.url}")
             print(f"投稿完了: {title}")
 
         except PlaywrightTimeoutError as e:
