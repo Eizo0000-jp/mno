@@ -14,6 +14,7 @@ import sys
 import random
 import anthropic
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
+from playwright_stealth import stealth_sync
 
 LP_URL = "https://mobile-friend.com"
 
@@ -76,11 +77,20 @@ def post_to_note(title: str, body: str) -> None:
     password = os.environ["NOTE_PASSWORD"]
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(
+            headless=True,
+            args=[
+                "--no-sandbox",
+                "--disable-blink-features=AutomationControlled",
+            ]
+        )
         context = browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            viewport={"width": 1280, "height": 800},
+            locale="ja-JP",
         )
         page = context.new_page()
+        stealth_sync(page)  # bot検知を回避
 
         try:
             os.makedirs("debug_screenshots", exist_ok=True)
