@@ -85,41 +85,94 @@ def post_to_note(title: str, body: str) -> None:
         try:
             # ログイン
             print("ログイン中...")
-            page.goto("https://note.com/login?redirectPath=%2F")
-            page.wait_for_load_state("networkidle")
+            page.goto("https://note.com/login", wait_until="domcontentloaded")
+            page.wait_for_timeout(3000)
 
-            page.fill('input[name="email"]', email)
-            page.fill('input[name="password"]', password)
-            page.click('button[type="submit"]')
-            page.wait_for_url("https://note.com/", timeout=15000)
+            # メールアドレス入力（複数セレクターを試みる）
+            email_selectors = [
+                'input[type="email"]',
+                'input[name="email"]',
+                'input[placeholder*="メール"]',
+                'input[placeholder*="mail"]',
+            ]
+            for sel in email_selectors:
+                if page.locator(sel).count() > 0:
+                    page.fill(sel, email)
+                    print(f"メール入力完了（セレクター: {sel}）")
+                    break
+
+            # パスワード入力
+            password_selectors = [
+                'input[type="password"]',
+                'input[name="password"]',
+            ]
+            for sel in password_selectors:
+                if page.locator(sel).count() > 0:
+                    page.fill(sel, password)
+                    print("パスワード入力完了")
+                    break
+
+            # ログインボタンをクリック
+            login_selectors = [
+                'button[type="submit"]',
+                'button:has-text("ログイン")',
+                'input[type="submit"]',
+            ]
+            for sel in login_selectors:
+                if page.locator(sel).count() > 0:
+                    page.click(sel)
+                    break
+
+            page.wait_for_timeout(5000)
             print("ログイン完了")
 
             # 新規記事作成画面へ
             print("記事作成画面へ移動中...")
-            page.goto("https://note.com/notes/new")
-            page.wait_for_load_state("networkidle")
-            page.wait_for_timeout(2000)
+            page.goto("https://note.com/notes/new", wait_until="domcontentloaded")
+            page.wait_for_timeout(4000)
 
             # タイトル入力
-            title_selector = 'div[data-placeholder="記事タイトル"], textarea[placeholder*="タイトル"], .title-input'
-            page.click(title_selector)
-            page.keyboard.type(title)
-            print(f"タイトル入力: {title}")
+            title_selectors = [
+                'div[data-placeholder="記事タイトル"]',
+                'textarea[placeholder*="タイトル"]',
+                '.title-input',
+                'div.title',
+            ]
+            for sel in title_selectors:
+                if page.locator(sel).count() > 0:
+                    page.click(sel)
+                    page.keyboard.type(title)
+                    print(f"タイトル入力完了")
+                    break
 
             # 本文入力（Tabキーで本文エリアへ移動）
             page.keyboard.press("Tab")
-            page.wait_for_timeout(500)
+            page.wait_for_timeout(1000)
             page.keyboard.type(body)
             print("本文入力完了")
 
             # 公開ボタンをクリック
-            page.wait_for_timeout(1000)
-            page.click('button:has-text("公開")')
             page.wait_for_timeout(2000)
+            publish_selectors = [
+                'button:has-text("公開")',
+                'button:has-text("投稿")',
+            ]
+            for sel in publish_selectors:
+                if page.locator(sel).count() > 0:
+                    page.click(sel)
+                    break
+            page.wait_for_timeout(3000)
 
             # 公開確認ダイアログ
-            page.click('button:has-text("公開する")')
-            page.wait_for_timeout(3000)
+            confirm_selectors = [
+                'button:has-text("公開する")',
+                'button:has-text("投稿する")',
+            ]
+            for sel in confirm_selectors:
+                if page.locator(sel).count() > 0:
+                    page.click(sel)
+                    break
+            page.wait_for_timeout(4000)
 
             print(f"投稿完了: {title}")
 
