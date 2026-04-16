@@ -13,17 +13,17 @@ REFERRAL_URL = "https://r10.to/henTIE"
 REPO_ROOT = Path(__file__).parent.parent
 
 TOPICS = [
-    ("楽天モバイル 乗り換え メリット デメリット 徹底解説", "rakuten-mobile-merits-demerits"),
-    ("スマホ代 月3000円台 節約 実現する方法", "smartphone-cost-3000yen"),
+    ("楽天モバイル 社員紹介キャンペーン 14000ポイント もらい方", "employee-referral-14000pt"),
+    ("楽天モバイル 社員紹介 通常申込み 違い ポイント比較", "referral-vs-normal-points"),
+    ("楽天モバイル 紹介リンク 申込み 手順 わかりやすく", "referral-link-how-to"),
+    ("楽天ポイント 14000 使い道 お得な活用法", "rakuten-point-14000-usage"),
+    ("楽天モバイル 社員紹介 よくある質問 まとめ", "employee-referral-faq"),
+    ("楽天モバイル 乗り換え 社員紹介 タイミング いつがお得", "referral-best-timing"),
+    ("楽天ポイント スマホ代 節約 二重取り 方法", "rakuten-point-double"),
     ("楽天モバイル ドコモ au ソフトバンク 料金 比較", "rakuten-vs-major-carriers"),
-    ("楽天ポイント スマホ代 二重取り 方法", "rakuten-point-double"),
-    ("楽天モバイル 海外ローミング 設定 使い方", "rakuten-overseas-roaming"),
-    ("楽天モバイル テザリング 速度 使い方", "rakuten-tethering-guide"),
-    ("楽天モバイル 家族 全員 乗り換え 節約額", "rakuten-family-switch"),
-    ("楽天モバイル 繋がらない 対策 エリア確認", "rakuten-connection-tips"),
     ("楽天モバイル MNP 乗り換え 手順 わかりやすく", "rakuten-mnp-step-by-step"),
     ("楽天経済圏 最大化 スマホ 活用術", "rakuten-ecosystem-maximize"),
-    ("格安SIM 楽天モバイル 比較 どっちがお得", "rakuten-vs-mvno"),
+    ("楽天モバイル 家族 全員 乗り換え 節約額", "rakuten-family-switch"),
     ("楽天モバイル 口コミ 評判 実際に使ってみた", "rakuten-review-honest"),
 ]
 
@@ -50,13 +50,19 @@ def generate_article(keyword: str) -> tuple[str, str]:
 メインキーワード: {keyword}
 楽天モバイル社員紹介URL: {REFERRAL_URL}
 
+前提知識:
+- 楽天モバイルには社員紹介キャンペーンがある
+- 社員紹介リンク経由で申し込むと、通常申込みより多くのポイントが付与される
+- 最大で合計14,000ポイント獲得できる（社員紹介特典＋新規申込み特典＋その他）
+- 料金は通常と同じ月3,278円（税込）、データ無制限
+
 要件:
 - 最初の行を「title: 記事タイトル」の形式にする
 - ## と ### の見出しで構造化する
 - 文字数: 1200〜1800字
-- 読者が実際に得をする具体的な情報・数字を入れる
+- 「社員紹介経由だとポイントが多い」という価値を具体的な数字で伝える
 - 自然な文章で、押しつけがましくない
-- 記事の最後のセクションで、自然な流れで紹介リンクに誘導する
+- 記事の最後のセクションで紹介リンクへ自然に誘導する
 - ハッシュタグや広告表記は不要
 
 出力は記事本文のみ（説明文不要）。"""

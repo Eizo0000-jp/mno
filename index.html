@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>楽天モバイル｜社員おすすめ！乗り換えるなら今がチャンス</title>
-  <meta name="description" content="楽天社員が本気でおすすめする楽天モバイル。データ無制限で月3,278円、Rakuten最強プランで賢くスマホ代を節約しよう。">
-  <meta property="og:title" content="楽天モバイル｜社員おすすめ！乗り換えるなら今がチャンス">
-  <meta property="og:description" content="楽天社員が本気でおすすめする楽天モバイル。データ無制限で月3,278円。">
+  <title>楽天モバイル社員紹介キャンペーン｜最大14,000ポイントもらえる</title>
+  <meta name="description" content="楽天モバイルへの乗り換えは社員紹介経由がお得。通常申込みより最大14,000ポイント多くもらえます。楽天社員の紹介リンクから申し込もう。">
+  <meta property="og:title" content="楽天モバイル社員紹介キャンペーン｜最大14,000ポイントもらえる">
+  <meta property="og:description" content="社員紹介経由で最大14,000ポイント獲得。通常申込みとの違いをわかりやすく解説。">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,16 +25,6 @@
       --bg-gray:    #f5f5f5;
       --border:     #d8d8d9;
       --border-lt:  #ebebec;
-
-      --sp-xs:  16px;
-      --sp-s:   20px;
-      --sp-sm:  24px;
-      --sp-m:   32px;
-      --sp-ml:  40px;
-      --sp-l:   48px;
-      --sp-xl:  56px;
-      --sp-xxl: 64px;
-      --sp-xxxl: 80px;
     }
 
     body {
@@ -50,58 +40,39 @@
     a { color: var(--red); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* ===== HEADER ===== */
+    /* HEADER */
     .site-header {
       border-bottom: 1px solid var(--border);
-      padding: 0 var(--sp-m);
+      padding: 0 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       height: 56px;
     }
-    .site-logo {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: 0.05em;
-    }
-    .site-nav { display: flex; gap: var(--sp-m); }
+    .site-logo { font-size: 14px; font-weight: 700; color: var(--text); }
+    .site-nav { display: flex; gap: 32px; }
     .site-nav a { font-size: 14px; color: var(--text-sub); }
 
-    /* ===== BUTTONS ===== */
+    /* BUTTONS */
     .btn {
       display: inline-block;
       font-size: 12px;
       font-weight: 700;
       padding: 12px 32px;
       border-radius: 4px;
-      cursor: pointer;
       text-decoration: none;
       transition: opacity 0.15s;
     }
     .btn:hover { opacity: 0.8; text-decoration: none; }
-    .btn-primary {
-      background: var(--text);
-      color: #fff;
-    }
-    .btn-accent {
-      background: var(--red);
-      color: #fff;
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-lg {
-      font-size: 14px;
-      padding: 16px 48px;
-    }
+    .btn-accent { background: var(--red); color: #fff; }
+    .btn-primary { background: var(--text); color: #fff; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-lg { font-size: 14px; padding: 16px 48px; }
 
-    /* ===== HERO ===== */
+    /* HERO */
     .hero {
       background: var(--bg-kinari);
-      padding: var(--sp-xxxl) var(--sp-m);
+      padding: 80px 32px;
       text-align: center;
     }
     .hero-eyebrow {
@@ -110,102 +81,207 @@
       color: var(--red);
       letter-spacing: 2.4px;
       line-height: 1.15;
-      margin-bottom: var(--sp-s);
+      margin-bottom: 20px;
     }
     .hero h1 {
-      font-size: clamp(26px, 5vw, 40px);
+      font-size: clamp(26px, 5vw, 44px);
       font-weight: 700;
       line-height: 1.6;
       color: var(--text);
-      margin-bottom: var(--sp-s);
+      margin-bottom: 16px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--red);
     }
     .hero-sub {
       font-size: 16px;
       color: var(--text-sub);
-      margin-bottom: var(--sp-ml);
-      max-width: 480px;
+      margin-bottom: 40px;
+      max-width: 520px;
       margin-left: auto;
       margin-right: auto;
     }
-    .hero-note {
-      font-size: 12px;
-      color: var(--text-light);
-      margin-top: var(--sp-xs);
-    }
+    .hero-note { font-size: 12px; color: var(--text-light); margin-top: 12px; }
 
-    /* ===== SECTION ===== */
-    .section {
-      padding: var(--sp-xxxl) var(--sp-m);
+    /* COMPARE */
+    .compare-wrap {
       max-width: 1120px;
       margin: 0 auto;
+      padding: 80px 32px;
     }
-    .section-alt {
-      background: var(--bg-gray);
-    }
-    .section-alt .section {
-      background: transparent;
+    .section-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--red);
+      letter-spacing: 2.4px;
+      line-height: 1.15;
+      margin-bottom: 16px;
     }
     .section-heading {
       font-size: 32px;
       font-weight: 700;
       line-height: 1.6;
       color: var(--text);
-      margin-bottom: var(--sp-xs);
+      margin-bottom: 8px;
     }
     .section-sub {
       font-size: 14px;
       color: var(--text-sub);
-      margin-bottom: var(--sp-ml);
+      margin-bottom: 40px;
     }
-
-    /* ===== PRICE ===== */
-    .price-wrap {
-      display: flex;
-      justify-content: center;
-    }
-    .price-card {
-      border: 1px solid var(--border);
-      padding: var(--sp-ml);
-      max-width: 400px;
+    .compare-table {
       width: 100%;
-      background: var(--bg);
+      border-collapse: collapse;
+      font-size: 14px;
     }
-    .price-label {
+    .compare-table th, .compare-table td {
+      padding: 16px 20px;
+      border: 1px solid var(--border-lt);
+      text-align: center;
+      vertical-align: middle;
+    }
+    .compare-table thead th {
+      background: var(--bg-gray);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .compare-table thead th.col-highlight {
+      background: var(--red);
+      color: #fff;
+    }
+    .compare-table td:first-child {
+      text-align: left;
+      color: var(--text-sub);
+      background: var(--bg-gray);
+      font-weight: 700;
+      width: 40%;
+    }
+    .compare-table .val-highlight {
+      color: var(--red);
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .compare-table .val-plain { color: var(--text-light); }
+
+    /* POINTS */
+    .points-section { background: var(--bg-kinari); }
+    .points-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    .points-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--bg-beige);
+      border: 1px solid var(--bg-beige);
+      margin-bottom: 40px;
+    }
+    .points-item {
+      background: var(--bg-kinari);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .points-label { font-size: 12px; color: var(--text-sub); margin-bottom: 8px; }
+    .points-num {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .points-num span { font-size: 16px; }
+    .points-desc { font-size: 12px; color: var(--text-sub); margin-top: 8px; }
+    .points-total {
+      border: 2px solid var(--red);
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .points-total-label { font-size: 14px; font-weight: 700; color: var(--text); }
+    .points-total-num {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--red);
+      line-height: 1;
+    }
+    .points-total-num span { font-size: 20px; }
+
+    /* HOW */
+    .how-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border-lt);
+      border: 1px solid var(--border-lt);
+      margin-bottom: 40px;
+    }
+    .how-step {
+      background: var(--bg);
+      padding: 32px 24px;
+    }
+    .how-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: 2.4px;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .how-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .how-desc { font-size: 12px; color: var(--text-sub); line-height: 1.6; }
+
+    /* PLAN */
+    .plan-section { background: var(--bg-gray); }
+    .plan-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    .plan-card {
+      border: 1px solid var(--border);
+      background: var(--bg);
+      padding: 40px;
+      max-width: 440px;
+    }
+    .plan-label {
       font-size: 12px;
       font-weight: 700;
       color: var(--red);
       letter-spacing: 2.4px;
       line-height: 1.15;
-      margin-bottom: var(--sp-sm);
+      margin-bottom: 20px;
     }
-    .price-amount {
+    .plan-price {
       font-size: 56px;
       font-weight: 700;
       color: var(--text);
       line-height: 1;
       margin-bottom: 4px;
     }
-    .price-amount sup { font-size: 24px; vertical-align: top; margin-top: 12px; display: inline-block; }
-    .price-amount sub { font-size: 20px; }
-    .price-note {
-      font-size: 12px;
-      color: var(--text-light);
-      margin-bottom: var(--sp-m);
-    }
-    .price-list {
-      list-style: none;
-      border-top: 1px solid var(--border-lt);
-    }
-    .price-list li {
+    .plan-price sup { font-size: 24px; vertical-align: top; margin-top: 12px; display: inline-block; }
+    .plan-price sub { font-size: 20px; }
+    .plan-note { font-size: 12px; color: var(--text-light); margin-bottom: 24px; }
+    .plan-list { list-style: none; border-top: 1px solid var(--border-lt); }
+    .plan-list li {
       font-size: 14px;
       padding: 12px 0;
       border-bottom: 1px solid var(--border-lt);
       display: flex;
       align-items: center;
       gap: 12px;
-      color: var(--text);
     }
-    .price-list li::before {
+    .plan-list li::before {
       content: '';
       width: 6px;
       height: 6px;
@@ -214,102 +290,27 @@
       flex-shrink: 0;
     }
 
-    /* ===== BENEFITS ===== */
-    .benefits-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1px;
-      background: var(--border-lt);
-      border: 1px solid var(--border-lt);
-    }
-    .benefit-item {
-      background: var(--bg);
-      padding: var(--sp-ml) var(--sp-m);
-    }
-    .benefit-num {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-light);
-      letter-spacing: 2.4px;
-      line-height: 1.15;
-      margin-bottom: var(--sp-xs);
-    }
-    .benefit-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-    .benefit-desc {
-      font-size: 12px;
-      color: var(--text-sub);
-      line-height: 1.6;
-    }
-
-    /* ===== VOICE ===== */
-    .voice-grid {
-      display: grid;
-      gap: var(--sp-sm);
-    }
-    .voice-item {
-      border: 1px solid var(--border-lt);
-      padding: var(--sp-m);
-      background: var(--bg);
-    }
-    .voice-meta {
-      display: flex;
-      align-items: center;
-      gap: var(--sp-xs);
-      margin-bottom: var(--sp-xs);
-    }
-    .voice-avatar {
-      width: 40px;
-      height: 40px;
-      background: var(--bg-beige);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-      flex-shrink: 0;
-    }
-    .voice-name { font-size: 14px; font-weight: 700; color: var(--text); }
-    .voice-stars { font-size: 12px; color: var(--red); }
-    .voice-text { font-size: 14px; color: var(--text-sub); line-height: 1.6; }
-
-    /* ===== CTA SECTION ===== */
+    /* CTA */
     .cta-section {
       background: var(--bg-kinari);
-      padding: var(--sp-xxxl) var(--sp-m);
+      padding: 80px 32px;
       text-align: center;
     }
-    .cta-section h2 {
-      font-size: 32px;
-      font-weight: 700;
-      line-height: 1.6;
-      color: var(--text);
-      margin-bottom: var(--sp-xs);
-    }
-    .cta-section p {
-      font-size: 14px;
-      color: var(--text-sub);
-      margin-bottom: var(--sp-ml);
-    }
+    .cta-section h2 { font-size: 32px; font-weight: 700; line-height: 1.6; color: var(--text); margin-bottom: 12px; }
+    .cta-section p { font-size: 14px; color: var(--text-sub); margin-bottom: 40px; }
 
-    /* ===== FAQ ===== */
+    /* FAQ */
+    .faq-wrap { max-width: 1120px; margin: 0 auto; padding: 80px 32px; }
     .faq-list { border-top: 1px solid var(--border); }
-    details {
-      border-bottom: 1px solid var(--border);
-    }
+    details { border-bottom: 1px solid var(--border); }
     summary {
-      padding: var(--sp-s) 0;
+      padding: 20px 0;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: flex-start;
-      gap: var(--sp-xs);
+      gap: 16px;
       list-style: none;
       color: var(--text);
     }
@@ -319,34 +320,20 @@
       font-size: 12px;
       font-weight: 700;
       color: var(--red);
-      letter-spacing: 0;
       flex-shrink: 0;
       margin-top: 2px;
     }
-    .faq-answer {
-      padding: 0 0 var(--sp-s) var(--sp-ml);
-      font-size: 14px;
-      color: var(--text-sub);
-      line-height: 1.6;
-    }
+    .faq-answer { padding: 0 0 20px 32px; font-size: 14px; color: var(--text-sub); line-height: 1.6; }
 
-    /* ===== FOOTER ===== */
-    .site-footer {
-      border-top: 1px solid var(--border);
-      padding: var(--sp-ml) var(--sp-m);
-      text-align: center;
-    }
-    .site-footer p {
-      font-size: 12px;
-      color: var(--text-light);
-      line-height: 1.6;
-    }
+    /* FOOTER */
+    .site-footer { border-top: 1px solid var(--border); padding: 40px 32px; text-align: center; }
+    .site-footer p { font-size: 12px; color: var(--text-light); line-height: 1.6; }
     .site-footer a { color: var(--text-sub); }
 
-    /* ===== FLOAT ===== */
+    /* FLOAT */
     .float-cta {
       position: fixed;
-      bottom: var(--sp-m);
+      bottom: 32px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 99;
@@ -354,18 +341,24 @@
     }
 
     @media (max-width: 767px) {
+      .site-header { padding: 0 16px; }
       .site-nav { display: none; }
+      .hero { padding: 56px 16px; }
       .hero h1 { font-size: 26px; }
+      .compare-wrap, .points-wrap, .how-wrap, .plan-wrap, .faq-wrap { padding: 56px 16px; }
+      .cta-section { padding: 56px 16px; }
       .section-heading { font-size: 26px; }
-      .price-amount { font-size: 44px; }
-      .btn-lg { padding: 14px 32px; }
+      .points-total { flex-direction: column; text-align: center; }
+      .plan-price { font-size: 44px; }
+      .compare-table { font-size: 12px; }
+      .compare-table th, .compare-table td { padding: 10px 12px; }
     }
   </style>
 </head>
 <body>
 
 <header class="site-header">
-  <span class="site-logo">楽天モバイルで節約生活</span>
+  <span class="site-logo">楽天モバイル 社員紹介キャンペーン</span>
   <nav class="site-nav">
     <a href="/blog/">ブログ</a>
   </nav>
@@ -373,124 +366,151 @@
 
 <!-- HERO -->
 <section class="hero">
-  <p class="hero-eyebrow">楽天社員からのご紹介</p>
-  <h1>スマホ代を、<br>もっとシンプルに。</h1>
-  <p class="hero-sub">データ無制限で月3,278円。<br>楽天モバイルで、毎月の通信費を見直しましょう。</p>
-  <a href="https://r10.to/henTIE" class="btn btn-accent btn-lg" target="_blank" rel="noopener">今すぐ申し込む</a>
-  <p class="hero-note">社員紹介リンクからのお申し込みで紹介特典が適用されます</p>
+  <p class="hero-eyebrow">EMPLOYEE REFERRAL CAMPAIGN</p>
+  <h1>社員紹介経由なら、<br>最大<em>14,000ポイント</em>もらえる。</h1>
+  <p class="hero-sub">楽天モバイルへの乗り換えを考えているなら、社員紹介リンクからの申し込みが断然お得です。通常申込みでは受け取れないポイントが付与されます。</p>
+  <a href="https://r10.to/henTIE" class="btn btn-accent btn-lg" target="_blank" rel="noopener">社員紹介リンクから申し込む</a>
+  <p class="hero-note">このリンクが社員紹介リンクです。クリック後にログインして申し込むと特典が適用されます。</p>
 </section>
 
-<!-- PRICE -->
-<div class="section-alt">
-  <div class="section" style="text-align:center">
-    <h2 class="section-heading">シンプルな料金</h2>
-    <p class="section-sub">プランは1つだけ。難しい選択は不要です。</p>
-    <div class="price-wrap">
-      <div class="price-card">
-        <p class="price-label">RAKUTEN 最強プラン</p>
-        <div class="price-amount"><sup>月</sup>3,278<sub>円</sub></div>
-        <p class="price-note">税込 / データ無制限</p>
-        <ul class="price-list">
-          <li>データ通信 無制限（国内）</li>
-          <li>国内通話 無制限（Rakuten Link使用時）</li>
-          <li>海外ローミング 2GBまで無料</li>
-          <li>楽天ポイント還元</li>
-          <li>契約事務手数料 0円</li>
-        </ul>
+<!-- COMPARE -->
+<div class="compare-wrap">
+  <p class="section-eyebrow">COMPARISON</p>
+  <h2 class="section-heading">通常申込みとの違い</h2>
+  <p class="section-sub">同じ楽天モバイルでも、申込み経路によって受け取れるポイントが大きく異なります。</p>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>通常申込み</th>
+        <th class="col-highlight">社員紹介経由（このリンク）</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>新規申込みポイント</td>
+        <td class="val-plain">通常特典のみ</td>
+        <td class="val-highlight">＋社員紹介特典</td>
+      </tr>
+      <tr>
+        <td>獲得できる最大ポイント</td>
+        <td class="val-plain">キャンペーン次第</td>
+        <td class="val-highlight">最大 14,000ポイント</td>
+      </tr>
+      <tr>
+        <td>申込み手順</td>
+        <td>公式サイトから申込み</td>
+        <td class="val-highlight">紹介リンクをクリック後に申込み</td>
+      </tr>
+      <tr>
+        <td>月額料金</td>
+        <td>3,278円（税込）</td>
+        <td>3,278円（税込）</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- POINTS -->
+<div class="points-section">
+  <div class="points-wrap">
+    <p class="section-eyebrow">POINT BREAKDOWN</p>
+    <h2 class="section-heading">最大14,000ポイントの内訳</h2>
+    <p class="section-sub">複数の特典が重なることで、大きなポイントを獲得できます。</p>
+    <div class="points-grid">
+      <div class="points-item">
+        <p class="points-label">社員紹介特典</p>
+        <p class="points-num">7,000<span>pt</span></p>
+        <p class="points-desc">社員紹介リンク経由での申込みで付与</p>
+      </div>
+      <div class="points-item">
+        <p class="points-label">新規申込み特典</p>
+        <p class="points-num">6,000<span>pt</span></p>
+        <p class="points-desc">楽天モバイル新規契約で付与</p>
+      </div>
+      <div class="points-item">
+        <p class="points-label">その他キャンペーン</p>
+        <p class="points-num">1,000<span>pt</span></p>
+        <p class="points-desc">時期により変動あり</p>
       </div>
     </div>
+    <div class="points-total">
+      <p class="points-total-label">合計獲得ポイント（最大）</p>
+      <p class="points-total-num">14,000<span>ポイント</span></p>
+    </div>
+    <p style="font-size:12px; color:var(--text-light); margin-top:12px;">※ポイント付与条件・上限はキャンペーン内容により変動します。最新情報は申込み時にご確認ください。</p>
   </div>
 </div>
 
-<!-- BENEFITS -->
-<div class="section">
-  <h2 class="section-heading">選ばれる理由</h2>
-  <p class="section-sub">大手キャリアと比べて、ここが違います。</p>
-  <div class="benefits-grid">
-    <div class="benefit-item">
-      <p class="benefit-num">01</p>
-      <p class="benefit-title">圧倒的なコスパ</p>
-      <p class="benefit-desc">大手キャリアの半額以下。年間で5万円以上節約できる方も少なくありません。</p>
+<!-- HOW -->
+<div class="how-wrap">
+  <p class="section-eyebrow">HOW TO APPLY</p>
+  <h2 class="section-heading">申込み手順</h2>
+  <p class="section-sub">社員紹介特典を受け取るには、紹介リンクから申し込む必要があります。</p>
+  <div class="how-steps">
+    <div class="how-step">
+      <p class="how-num">STEP 01</p>
+      <p class="how-title">紹介リンクをクリック</p>
+      <p class="how-desc">このページのボタンから楽天モバイルのページへ進みます。通常の公式サイトからではなく、必ずこのリンクを使ってください。</p>
     </div>
-    <div class="benefit-item">
-      <p class="benefit-num">02</p>
-      <p class="benefit-title">データ無制限</p>
-      <p class="benefit-desc">月末のデータ残量を気にする必要はありません。動画もテレワークも安心して使えます。</p>
+    <div class="how-step">
+      <p class="how-num">STEP 02</p>
+      <p class="how-title">楽天IDでログイン</p>
+      <p class="how-desc">楽天アカウントでログインします。アカウントをお持ちでない方は新規作成してください。</p>
     </div>
-    <div class="benefit-item">
-      <p class="benefit-num">03</p>
-      <p class="benefit-title">通話も無制限</p>
-      <p class="benefit-desc">Rakuten Linkアプリで国内通話が何分でも0円。仕事の電話が多い方にも最適です。</p>
+    <div class="how-step">
+      <p class="how-num">STEP 03</p>
+      <p class="how-title">プランを選んで申込み</p>
+      <p class="how-desc">Rakuten 最強プランを選択して申込み手続きを完了してください。本人確認書類が必要です。</p>
     </div>
-    <div class="benefit-item">
-      <p class="benefit-num">04</p>
-      <p class="benefit-title">海外でもそのまま</p>
-      <p class="benefit-desc">ローミングが月2GBまで無料。出張・旅行でSIMを差し替える手間がなくなります。</p>
+    <div class="how-step">
+      <p class="how-num">STEP 04</p>
+      <p class="how-title">ポイント付与を確認</p>
+      <p class="how-desc">条件達成後、楽天ポイントが付与されます。楽天市場など楽天サービス全般でご利用いただけます。</p>
     </div>
-    <div class="benefit-item">
-      <p class="benefit-num">05</p>
-      <p class="benefit-title">楽天経済圏と連携</p>
-      <p class="benefit-desc">楽天市場・楽天カードと組み合わせるとポイント還元率がアップ。生活費全体がお得に。</p>
-    </div>
-    <div class="benefit-item">
-      <p class="benefit-num">06</p>
-      <p class="benefit-title">オンラインで完結</p>
-      <p class="benefit-desc">来店不要。本人確認もスマホで完了。最短当日中に手続きができます。</p>
-    </div>
+  </div>
+  <div style="text-align:center">
+    <a href="https://r10.to/henTIE" class="btn btn-accent btn-lg" target="_blank" rel="noopener">社員紹介リンクから申し込む</a>
   </div>
 </div>
 
-<!-- VOICE -->
-<div class="section-alt">
-  <div class="section">
-    <h2 class="section-heading">お使いの方の声</h2>
-    <p class="section-sub">実際に乗り換えた方のリアルな感想です。</p>
-    <div class="voice-grid">
-      <div class="voice-item">
-        <div class="voice-meta">
-          <div class="voice-avatar">山</div>
-          <div>
-            <p class="voice-stars">★★★★★</p>
-            <p class="voice-name">山田さん（30代・会社員）</p>
-          </div>
-        </div>
-        <p class="voice-text">ドコモから乗り換えて月7,000円の節約になりました。楽天市場でのポイントも増えて二重にお得。通信速度も全く問題ありません。</p>
-      </div>
-      <div class="voice-item">
-        <div class="voice-meta">
-          <div class="voice-avatar">佐</div>
-          <div>
-            <p class="voice-stars">★★★★★</p>
-            <p class="voice-name">佐藤さん（20代・フリーランス）</p>
-          </div>
-        </div>
-        <p class="voice-text">テザリングで仕事をしていますが、データ制限を気にしなくていいのが本当に助かります。カフェ代も浮くようになりました。</p>
-      </div>
-      <div class="voice-item">
-        <div class="voice-meta">
-          <div class="voice-avatar">田</div>
-          <div>
-            <p class="voice-stars">★★★★☆</p>
-            <p class="voice-name">田中さん（40代・主婦）</p>
-          </div>
-        </div>
-        <p class="voice-text">家族全員で乗り換えました。月の通信費が半分以下になって家計が助かっています。手続きもオンラインで思ったより簡単でした。</p>
-      </div>
+<!-- PLAN -->
+<div class="plan-section">
+  <div class="plan-wrap">
+    <p class="section-eyebrow">PLAN</p>
+    <h2 class="section-heading">料金プラン</h2>
+    <p class="section-sub">プランは1つだけ。月3,278円でデータ無制限。</p>
+    <div class="plan-card">
+      <p class="plan-label">RAKUTEN 最強プラン</p>
+      <div class="plan-price"><sup>月</sup>3,278<sub>円</sub></div>
+      <p class="plan-note">税込 / データ無制限</p>
+      <ul class="plan-list">
+        <li>データ通信 無制限（国内）</li>
+        <li>国内通話 無制限（Rakuten Link使用時）</li>
+        <li>海外ローミング 2GBまで無料</li>
+        <li>楽天ポイント還元</li>
+        <li>契約事務手数料 0円・解約金なし</li>
+      </ul>
     </div>
   </div>
 </div>
 
 <!-- CTA -->
 <section class="cta-section">
-  <h2>あとは申し込むだけ</h2>
-  <p>このページを経由すると社員紹介特典が自動で適用されます。<br>オンライン完結、最短当日で手続き完了。</p>
-  <a href="https://r10.to/henTIE" class="btn btn-accent btn-lg" target="_blank" rel="noopener">無料で申し込む</a>
+  <h2>社員紹介リンクから申し込もう</h2>
+  <p>通常申込みでは受け取れない最大14,000ポイントを、<br>このリンクから申し込むだけで獲得できます。</p>
+  <a href="https://r10.to/henTIE" class="btn btn-accent btn-lg" target="_blank" rel="noopener">今すぐ申し込む（無料）</a>
 </section>
 
 <!-- FAQ -->
-<div class="section">
+<div class="faq-wrap">
+  <p class="section-eyebrow">FAQ</p>
   <h2 class="section-heading">よくある質問</h2>
   <div class="faq-list">
+    <details>
+      <summary>なぜ社員紹介リンクから申し込むとポイントが多いのですか？</summary>
+      <p class="faq-answer">楽天モバイルには社員紹介キャンペーンがあり、社員の紹介リンク経由で申し込んだ方に追加のポイントが付与される仕組みになっています。同じプランでも申込み経路によって獲得ポイントが異なります。</p>
+    </details>
     <details>
       <summary>今使っている番号はそのまま使えますか？</summary>
       <p class="faq-answer">はい、MNP（番号ポータビリティ）で今お使いの番号をそのまま楽天モバイルに移行できます。手続きはオンラインで完結します。</p>
@@ -504,12 +524,8 @@
       <p class="faq-answer">SIMロック解除済みの端末であればほとんどの機種でご利用可能です。対応端末一覧は楽天モバイル公式サイトでご確認ください。</p>
     </details>
     <details>
-      <summary>通信エリアは大丈夫ですか？</summary>
-      <p class="faq-answer">楽天モバイルエリア外では自動的にパートナー回線（AU）に接続されます。人口カバー率は99%以上で、日常生活ではほぼ問題ありません。</p>
-    </details>
-    <details>
       <summary>申し込みに必要なものは何ですか？</summary>
-      <p class="faq-answer">本人確認書類（運転免許証・マイナンバーカードなど）、クレジットカードまたは口座情報、メールアドレスがあれば申し込み可能です。</p>
+      <p class="faq-answer">本人確認書類（運転免許証・マイナンバーカードなど）、クレジットカードまたは口座情報、楽天IDがあれば申し込み可能です。</p>
     </details>
   </div>
 </div>
@@ -520,7 +536,7 @@
 </footer>
 
 <div class="float-cta">
-  <a href="https://r10.to/henTIE" class="btn btn-accent" target="_blank" rel="noopener">今すぐ無料で申し込む</a>
+  <a href="https://r10.to/henTIE" class="btn btn-accent" target="_blank" rel="noopener">社員紹介リンクから申し込む</a>
 </div>
 
 </body>
