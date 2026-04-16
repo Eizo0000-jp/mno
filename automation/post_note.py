@@ -137,25 +137,48 @@ def post_to_note(title: str, body: str) -> None:
 
             page.screenshot(path="debug_screenshots/03_article_filled.png", full_page=False)
 
-            # 公開ボタン
+            # 公開ボタン（ヘッダー右上）
             page.wait_for_timeout(2000)
             for sel in ['button:has-text("公開")', 'button:has-text("投稿")']:
                 if page.locator(sel).count() > 0:
                     page.click(sel)
-                    print("公開ボタンクリック")
+                    print(f"公開ボタンクリック（{sel}）")
                     break
 
-            page.wait_for_timeout(3000)
+            # ダイアログが開くのを待つ
+            page.wait_for_timeout(4000)
             page.screenshot(path="debug_screenshots/04_publish_dialog.png", full_page=False)
 
-            # 公開確認
-            for sel in ['button:has-text("公開する")', 'button:has-text("投稿する")']:
-                if page.locator(sel).count() > 0:
-                    page.click(sel)
-                    print("公開確認クリック")
+            # ダイアログ内のボタンを全列挙してデバッグ
+            buttons = page.locator("button").all()
+            print(f"ボタン数: {len(buttons)}")
+            for i, btn in enumerate(buttons):
+                try:
+                    print(f"  button[{i}]: '{btn.inner_text().strip()}'")
+                except Exception:
+                    pass
+
+            # 公開確認ボタン（複数パターン試行）
+            confirm_selectors = [
+                'button:has-text("投稿する")',
+                'button:has-text("公開する")',
+                'button:has-text("無料公開")',
+                'button:has-text("公開")',
+            ]
+            confirmed = False
+            for sel in confirm_selectors:
+                locator = page.locator(sel)
+                if locator.count() > 0:
+                    # 最後に表示されているボタンをクリック（ダイアログ内のものを優先）
+                    locator.last.click()
+                    print(f"公開確認クリック（{sel}）")
+                    confirmed = True
                     break
 
-            page.wait_for_timeout(4000)
+            if not confirmed:
+                print("警告: 公開確認ボタンが見つかりませんでした")
+
+            page.wait_for_timeout(5000)
             page.screenshot(path="debug_screenshots/05_after_publish.png", full_page=False)
             print(f"最終URL: {page.url}")
             print(f"投稿完了: {title}")
