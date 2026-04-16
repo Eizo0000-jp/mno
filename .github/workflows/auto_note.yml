@@ -1,0 +1,46 @@
+name: note.com 自動投稿
+
+on:
+  schedule:
+    # 毎週火・金 JST 12:00（UTC 03:00）
+    - cron: "0 3 * * 2"
+    - cron: "0 3 * * 5"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "投稿せずテストのみ (true/false)"
+        required: false
+        default: "false"
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: 依存関係インストール
+        run: pip install -r automation/requirements.txt
+
+      - name: Playwright ブラウザインストール
+        run: playwright install chromium --with-deps
+
+      - name: note.com に投稿
+        working-directory: automation
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NOTE_EMAIL: ${{ secrets.NOTE_EMAIL }}
+          NOTE_PASSWORD: ${{ secrets.NOTE_PASSWORD }}
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            python post_note.py --dry-run
+          else
+            python post_note.py
+          fi
