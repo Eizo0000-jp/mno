@@ -14,7 +14,6 @@ import sys
 import random
 import anthropic
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
-from playwright_stealth import stealth_sync
 
 LP_URL = "https://mobile-friend.com"
 
@@ -90,7 +89,14 @@ def post_to_note(title: str, body: str) -> None:
             locale="ja-JP",
         )
         page = context.new_page()
-        stealth_sync(page)  # bot検知を回避
+
+        # bot検知を回避（webdriverフラグを隠す）
+        page.add_init_script("""
+            Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+            Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3] });
+            Object.defineProperty(navigator, 'languages', { get: () => ['ja-JP', 'ja'] });
+            window.chrome = { runtime: {} };
+        """)
 
         try:
             os.makedirs("debug_screenshots", exist_ok=True)
