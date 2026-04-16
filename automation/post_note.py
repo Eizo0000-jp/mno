@@ -1,11 +1,11 @@
 """
 note.com 自動投稿スクリプト
-Playwrightでnote.comにログインし、Claude APIで生成した記事を投稿する
+セッションクッキーでnote.comに認証し、Claude APIで生成した記事を投稿する
 
 必要な環境変数:
-  NOTE_EMAIL        - note.comのメールアドレス
-  NOTE_PASSWORD     - note.comのパスワード
-  ANTHROPIC_API_KEY - Claude API Key
+  NOTE_SESSION_V5    - _note_session_v5 クッキーの値
+  NOTE_GQL_AUTH_TOKEN - note_gql_auth_token クッキーの値
+  ANTHROPIC_API_KEY  - Claude API Key
 """
 
 import os
@@ -71,130 +71,63 @@ def generate_article() -> tuple[str, str]:
 
 
 def post_to_note(title: str, body: str) -> None:
-    """Playwrightでnote.comに記事を投稿"""
-    email = os.environ["NOTE_EMAIL"]
-    password = os.environ["NOTE_PASSWORD"]
+    """クッキー認証でnote.comに記事を投稿"""
+    session_v5 = os.environ["NOTE_SESSION_V5"]
+    gql_auth_token = os.environ["NOTE_GQL_AUTH_TOKEN"]
 
     with sync_playwright() as p:
         browser = p.chromium.launch(
             headless=True,
-            args=[
-                "--no-sandbox",
-                "--disable-blink-features=AutomationControlled",
-            ]
+            args=["--no-sandbox"]
         )
         context = browser.new_context(
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
             viewport={"width": 1280, "height": 800},
             locale="ja-JP",
         )
-        page = context.new_page()
 
-        # bot検知を回避（webdriverフラグを隠す）
-        page.add_init_script("""
-            Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
-            Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3] });
-            Object.defineProperty(navigator, 'languages', { get: () => ['ja-JP', 'ja'] });
-            window.chrome = { runtime: {} };
-        """)
+        # クッキーをセットしてログインをスキップ
+        context.add_cookies([
+            {"name": "_note_session_v5",   "value": session_v5,      "domain": ".note.com", "path": "/"},
+            {"name": "note_gql_auth_token", "value": gql_auth_token,  "domain": ".note.com", "path": "/"},
+        ])
+
+        page = context.new_page()
 
         try:
             os.makedirs("debug_screenshots", exist_ok=True)
 
-            # ログイン
-            print("ログイン中...")
-            page.goto("https://note.com/login", wait_until="domcontentloaded")
+            # ログイン確認
+            print("認証状態を確認中...")
+            page.goto("https://note.com/", wait_until="domcontentloaded")
             page.wait_for_timeout(3000)
-            page.screenshot(path="debug_screenshots/01_login_page.png", full_page=True)
-            print(f"現在URL: {page.url}")
-            print(f"ページタイトル: {page.title()}")
+            page.screenshot(path="debug_screenshots/01_top.png", full_page=False)
+            print(f"URL: {page.url}")
 
-            # 全inputを列挙してデバッグ
-            inputs = page.locator("input").all()
-            print(f"inputの数: {len(inputs)}")
-            for i, inp in enumerate(inputs):
-                try:
-                    print(f"  input[{i}]: type={inp.get_attribute('type')} name={inp.get_attribute('name')} placeholder={inp.get_attribute('placeholder')}")
-                except Exception:
-                    pass
-
-            # メールアドレス入力
-            email_selectors = [
-                'input[type="email"]',
-                'input[name="email"]',
-                'input[placeholder*="メール"]',
-                'input[placeholder*="mail"]',
-                'input[placeholder*="Mail"]',
-            ]
-            email_filled = False
-            for sel in email_selectors:
-                if page.locator(sel).count() > 0:
-                    page.fill(sel, email)
-                    print(f"メール入力完了（セレクター: {sel}）")
-                    email_filled = True
-                    break
-            if not email_filled:
-                print("警告: メール入力欄が見つかりませんでした")
-
-            # パスワード入力
-            password_selectors = [
-                'input[type="password"]',
-                'input[name="password"]',
-            ]
-            password_filled = False
-            for sel in password_selectors:
-                if page.locator(sel).count() > 0:
-                    page.fill(sel, password)
-                    print("パスワード入力完了")
-                    password_filled = True
-                    break
-            if not password_filled:
-                print("警告: パスワード入力欄が見つかりませんでした")
-
-            page.screenshot(path="debug_screenshots/02_login_filled.png", full_page=True)
-
-            # ログインボタンをクリック
-            login_selectors = [
-                'button[type="submit"]',
-                'button:has-text("ログイン")',
-                'input[type="submit"]',
-            ]
-            for sel in login_selectors:
-                if page.locator(sel).count() > 0:
-                    page.click(sel)
-                    print(f"ログインボタンクリック（セレクター: {sel}）")
-                    break
-
-            page.wait_for_timeout(5000)
-            page.screenshot(path="debug_screenshots/03_after_login.png", full_page=True)
-            print(f"ログイン後URL: {page.url}")
-            print(f"ログイン後タイトル: {page.title()}")
+            # ログインできているか確認（ログインボタンがなければOK）
+            if page.locator('a:has-text("ログイン")').count() > 0:
+                raise RuntimeError("クッキー認証失敗。セッションが期限切れの可能性があります。")
+            print("認証OK")
 
             # 新規記事作成画面へ
             print("記事作成画面へ移動中...")
             page.goto("https://note.com/notes/new", wait_until="domcontentloaded")
             page.wait_for_timeout(4000)
-            page.screenshot(path="debug_screenshots/04_new_article.png", full_page=True)
-            print(f"記事作成URL: {page.url}")
+            page.screenshot(path="debug_screenshots/02_new_article.png", full_page=False)
+            print(f"URL: {page.url}")
 
             # タイトル入力
             title_selectors = [
                 'div[data-placeholder="記事タイトル"]',
-                'textarea[placeholder*="タイトル"]',
-                '.title-input',
-                'div.title',
                 '[placeholder*="タイトル"]',
+                'textarea[placeholder*="タイトル"]',
             ]
-            title_filled = False
             for sel in title_selectors:
                 if page.locator(sel).count() > 0:
                     page.click(sel)
                     page.keyboard.type(title)
-                    print(f"タイトル入力完了（セレクター: {sel}）")
-                    title_filled = True
+                    print(f"タイトル入力完了")
                     break
-            if not title_filled:
-                print("警告: タイトル入力欄が見つかりませんでした")
 
             # 本文入力
             page.keyboard.press("Tab")
@@ -202,40 +135,28 @@ def post_to_note(title: str, body: str) -> None:
             page.keyboard.type(body)
             print("本文入力完了")
 
-            page.screenshot(path="debug_screenshots/05_article_filled.png", full_page=True)
+            page.screenshot(path="debug_screenshots/03_article_filled.png", full_page=False)
 
-            # 公開ボタンをクリック
+            # 公開ボタン
             page.wait_for_timeout(2000)
-            publish_selectors = [
-                'button:has-text("公開")',
-                'button:has-text("投稿")',
-            ]
-            publish_clicked = False
-            for sel in publish_selectors:
+            for sel in ['button:has-text("公開")', 'button:has-text("投稿")']:
                 if page.locator(sel).count() > 0:
                     page.click(sel)
-                    print(f"公開ボタンクリック（セレクター: {sel}）")
-                    publish_clicked = True
+                    print("公開ボタンクリック")
                     break
-            if not publish_clicked:
-                print("警告: 公開ボタンが見つかりませんでした")
 
             page.wait_for_timeout(3000)
-            page.screenshot(path="debug_screenshots/06_publish_dialog.png", full_page=True)
+            page.screenshot(path="debug_screenshots/04_publish_dialog.png", full_page=False)
 
-            # 公開確認ダイアログ
-            confirm_selectors = [
-                'button:has-text("公開する")',
-                'button:has-text("投稿する")',
-            ]
-            for sel in confirm_selectors:
+            # 公開確認
+            for sel in ['button:has-text("公開する")', 'button:has-text("投稿する")']:
                 if page.locator(sel).count() > 0:
                     page.click(sel)
-                    print(f"公開確認クリック（セレクター: {sel}）")
+                    print("公開確認クリック")
                     break
 
             page.wait_for_timeout(4000)
-            page.screenshot(path="debug_screenshots/07_after_publish.png", full_page=True)
+            page.screenshot(path="debug_screenshots/05_after_publish.png", full_page=False)
             print(f"最終URL: {page.url}")
             print(f"投稿完了: {title}")
 
