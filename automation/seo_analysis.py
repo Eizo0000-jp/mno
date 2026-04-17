@@ -102,8 +102,37 @@ def get_search_console_data(credentials) -> dict:
     end_date = date.today() - timedelta(days=3)  # Search Consoleは3日遅延
     start_date = end_date - timedelta(days=28)
 
+    # アクセス可能なサイト一覧から対象URLを特定
+    sites_response = service.sites().list().execute()
+    available_sites = [s["siteUrl"] for s in sites_response.get("siteEntry", [])]
+    print(f"  利用可能なSearch Consoleプロパティ: {available_sites}")
+
+    # SITE_URL に一致するものを探す（末尾スラッシュ有無・sc-domain形式も考慮）
+    domain = "mobile-friend.com"
+    candidates = [
+        SITE_URL,
+        SITE_URL.rstrip("/"),
+        f"sc-domain:{domain}",
+        f"http://{domain}/",
+        f"http://{domain}",
+    ]
+    site_url = None
+    for candidate in candidates:
+        if candidate in available_sites:
+            site_url = candidate
+            break
+    if site_url is None:
+        # フォールバック: 利用可能な最初のサイト
+        if available_sites:
+            site_url = available_sites[0]
+            print(f"  警告: {SITE_URL} が見つからないため {site_url} を使用します")
+        else:
+            raise RuntimeError("Search Consoleにアクセス可能なプロパティがありません。サービスアカウントの権限を確認してください。")
+
+    print(f"  使用するプロパティ: {site_url}")
+
     response = service.searchanalytics().query(
-        siteUrl=SITE_URL,
+        siteUrl=site_url,
         body={
             "startDate": start_date.isoformat(),
             "endDate": end_date.isoformat(),
