@@ -118,26 +118,18 @@
     a { color: var(--red); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    .lang-bar {
-      background: var(--bg-gray);
-      border-bottom: 1px solid var(--border-lt);
-      padding: 5px 32px;
-      display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .lang-bar::-webkit-scrollbar { display: none; }
-    .lang-bar a {
-      font-size: 11px;
+    .lang-select {
+      font-size: 12px;
       font-weight: 700;
-      color: var(--text-light);
-      white-space: nowrap;
-      text-decoration: none;
-      padding: 2px 0;
+      font-family: inherit;
+      color: var(--text-sub);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 8px;
+      cursor: pointer;
     }
-    .lang-bar a.active { color: var(--red); }
-    .lang-bar a:hover { color: var(--text-sub); text-decoration: none; }
+    .lang-select:focus { outline: none; border-color: var(--red); }
 
     .site-header {
       border-bottom: 1px solid var(--border);
@@ -200,21 +192,20 @@
 </head>
 <body>
 
-<div class="lang-bar">
-  <a href="/" {% if pl == "ja" %}class="active"{% endif %}>日本語</a>
-  <a href="/en/" {% if pl == "en" %}class="active"{% endif %}>English</a>
-  <a href="/ko/" {% if pl == "ko" %}class="active"{% endif %}>한국어</a>
-  <a href="/zh-cn/" {% if pl == "zh-cn" %}class="active"{% endif %}>简体中文</a>
-  <a href="/zh-tw/" {% if pl == "zh-tw" %}class="active"{% endif %}>繁體中文</a>
-  <a href="/tl/" {% if pl == "tl" %}class="active"{% endif %}>Filipino</a>
-  <a href="/vi/" {% if pl == "vi" %}class="active"{% endif %}>Tiếng Việt</a>
-</div>
-
 <header class="site-header">
   <a href="{{ t_home_url }}" class="site-logo">{{ t_logo }}</a>
   <nav class="site-nav">
     <a href="{{ t_home_url }}">{{ t_home }}</a>
     <a href="{{ t_blog_url }}">{{ t_blog }}</a>
+    <select class="lang-select" onchange="location.href=this.value" aria-label="Language">
+      <option value="/" {% if pl == "ja" %}selected{% endif %}>🌐 日本語</option>
+      <option value="/en/" {% if pl == "en" %}selected{% endif %}>English</option>
+      <option value="/ko/" {% if pl == "ko" %}selected{% endif %}>한국어</option>
+      <option value="/zh-cn/" {% if pl == "zh-cn" %}selected{% endif %}>简体中文</option>
+      <option value="/zh-tw/" {% if pl == "zh-tw" %}selected{% endif %}>繁體中文</option>
+      <option value="/tl/" {% if pl == "tl" %}selected{% endif %}>Filipino</option>
+      <option value="/vi/" {% if pl == "vi" %}selected{% endif %}>Tiếng Việt</option>
+    </select>
   </nav>
 </header>
 
