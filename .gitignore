@@ -10,4 +10,3 @@ _site/
 __pycache__/
 *.pyc
 .env
-seo_reports/
