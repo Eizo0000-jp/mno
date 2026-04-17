@@ -8,6 +8,14 @@
   <meta property="og:title" content="楽天モバイル社員紹介キャンペーン｜最大14,000ポイントもらえる">
   <meta property="og:description" content="社員紹介経由で最大14,000ポイント獲得。通常申込みとの違いをわかりやすく解説。">
   <meta property="og:type" content="website">
+  <link rel="alternate" hreflang="ja" href="https://mobile-friend.com/">
+  <link rel="alternate" hreflang="en" href="https://mobile-friend.com/en/">
+  <link rel="alternate" hreflang="ko" href="https://mobile-friend.com/ko/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://mobile-friend.com/zh-cn/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://mobile-friend.com/zh-tw/">
+  <link rel="alternate" hreflang="tl" href="https://mobile-friend.com/tl/">
+  <link rel="alternate" hreflang="vi" href="https://mobile-friend.com/vi/">
+  <link rel="alternate" hreflang="x-default" href="https://mobile-friend.com/">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ETZGTWCXDQ"></script>
   <script>
@@ -60,6 +68,27 @@
     .site-logo { font-size: 14px; font-weight: 700; color: var(--text); }
     .site-nav { display: flex; gap: 32px; }
     .site-nav a { font-size: 14px; color: var(--text-sub); }
+
+    .lang-bar {
+      background: var(--bg-gray);
+      border-bottom: 1px solid var(--border-lt);
+      padding: 5px 32px;
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .lang-bar::-webkit-scrollbar { display: none; }
+    .lang-bar a {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-light);
+      white-space: nowrap;
+      text-decoration: none;
+      padding: 2px 0;
+    }
+    .lang-bar a.active { color: var(--red); }
+    .lang-bar a:hover { color: var(--text-sub); text-decoration: none; }
 
     /* BUTTONS */
     .btn {
@@ -363,6 +392,16 @@
   </style>
 </head>
 <body>
+
+<div class="lang-bar">
+  <a href="/" class="active">日本語</a>
+  <a href="/en/">English</a>
+  <a href="/ko/">한국어</a>
+  <a href="/zh-cn/">简体中文</a>
+  <a href="/zh-tw/">繁體中文</a>
+  <a href="/tl/">Filipino</a>
+  <a href="/vi/">Tiếng Việt</a>
+</div>
 
 <header class="site-header">
   <span class="site-logo">楽天モバイル 社員紹介キャンペーン</span>

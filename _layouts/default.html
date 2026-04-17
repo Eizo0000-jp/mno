@@ -1,14 +1,80 @@
+{% assign pl = page.lang | default: "ja" %}
+{% if pl == "en" %}
+  {% assign t_logo = "Save with Rakuten Mobile" %}
+  {% assign t_home = "Home" %}
+  {% assign t_blog = "Blog" %}
+  {% assign t_footer1 = "This is a personal referral site by a Rakuten employee." %}
+  {% assign t_html_lang = "en" %}
+  {% assign t_home_url = "/en/" %}
+  {% assign t_blog_url = "/en/blog/" %}
+{% elsif pl == "ko" %}
+  {% assign t_logo = "라쿠텐 모바일로 절약하기" %}
+  {% assign t_home = "홈" %}
+  {% assign t_blog = "블로그" %}
+  {% assign t_footer1 = "이 사이트는 라쿠텐 직원의 개인 소개 사이트입니다." %}
+  {% assign t_html_lang = "ko" %}
+  {% assign t_home_url = "/ko/" %}
+  {% assign t_blog_url = "/ko/blog/" %}
+{% elsif pl == "zh-cn" %}
+  {% assign t_logo = "用乐天手机省钱" %}
+  {% assign t_home = "首页" %}
+  {% assign t_blog = "博客" %}
+  {% assign t_footer1 = "本站是乐天员工的个人介绍网站。" %}
+  {% assign t_html_lang = "zh-Hans" %}
+  {% assign t_home_url = "/zh-cn/" %}
+  {% assign t_blog_url = "/zh-cn/blog/" %}
+{% elsif pl == "zh-tw" %}
+  {% assign t_logo = "用樂天手機省錢" %}
+  {% assign t_home = "首頁" %}
+  {% assign t_blog = "部落格" %}
+  {% assign t_footer1 = "本站是樂天員工的個人介紹網站。" %}
+  {% assign t_html_lang = "zh-Hant" %}
+  {% assign t_home_url = "/zh-tw/" %}
+  {% assign t_blog_url = "/zh-tw/blog/" %}
+{% elsif pl == "tl" %}
+  {% assign t_logo = "Makatipid sa Rakuten Mobile" %}
+  {% assign t_home = "Tahanan" %}
+  {% assign t_blog = "Blog" %}
+  {% assign t_footer1 = "Ito ay isang personal na referral site ng isang empleyado ng Rakuten." %}
+  {% assign t_html_lang = "tl" %}
+  {% assign t_home_url = "/tl/" %}
+  {% assign t_blog_url = "/tl/blog/" %}
+{% elsif pl == "vi" %}
+  {% assign t_logo = "Tiết kiệm với Rakuten Mobile" %}
+  {% assign t_home = "Trang chủ" %}
+  {% assign t_blog = "Blog" %}
+  {% assign t_footer1 = "Đây là trang web giới thiệu cá nhân của nhân viên Rakuten." %}
+  {% assign t_html_lang = "vi" %}
+  {% assign t_home_url = "/vi/" %}
+  {% assign t_blog_url = "/vi/blog/" %}
+{% else %}
+  {% assign t_logo = "楽天モバイルで節約生活" %}
+  {% assign t_home = "トップ" %}
+  {% assign t_blog = "ブログ" %}
+  {% assign t_footer1 = "このサイトは楽天社員による個人的な紹介サイトです。" %}
+  {% assign t_html_lang = "ja" %}
+  {% assign t_home_url = "/" %}
+  {% assign t_blog_url = "/blog/" %}
+{% endif %}
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="{{ t_html_lang }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} | 楽天モバイルで節約生活</title>
+  <title>{{ page.title }} | {{ t_logo }}</title>
   <meta name="description" content="{{ page.description | default: site.description }}">
   <meta property="og:title" content="{{ page.title }}">
   <meta property="og:description" content="{{ page.description | default: site.description }}">
   <meta property="og:type" content="website">
-  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale" content="{{ t_html_lang }}">
+  <link rel="alternate" hreflang="ja" href="https://mobile-friend.com/">
+  <link rel="alternate" hreflang="en" href="https://mobile-friend.com/en/">
+  <link rel="alternate" hreflang="ko" href="https://mobile-friend.com/ko/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://mobile-friend.com/zh-cn/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://mobile-friend.com/zh-tw/">
+  <link rel="alternate" hreflang="tl" href="https://mobile-friend.com/tl/">
+  <link rel="alternate" hreflang="vi" href="https://mobile-friend.com/vi/">
+  <link rel="alternate" hreflang="x-default" href="https://mobile-friend.com/">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ETZGTWCXDQ"></script>
   <script>
@@ -51,6 +117,27 @@
 
     a { color: var(--red); text-decoration: none; }
     a:hover { text-decoration: underline; }
+
+    .lang-bar {
+      background: var(--bg-gray);
+      border-bottom: 1px solid var(--border-lt);
+      padding: 5px 32px;
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .lang-bar::-webkit-scrollbar { display: none; }
+    .lang-bar a {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-light);
+      white-space: nowrap;
+      text-decoration: none;
+      padding: 2px 0;
+    }
+    .lang-bar a.active { color: var(--red); }
+    .lang-bar a:hover { color: var(--text-sub); text-decoration: none; }
 
     .site-header {
       border-bottom: 1px solid var(--border);
@@ -104,6 +191,7 @@
     .cta-banner a:hover { opacity: 0.8; text-decoration: none; }
 
     @media (max-width: 767px) {
+      .lang-bar { padding: 5px 16px; }
       .site-header { padding: 0 16px; }
       .site-main { padding: 40px 16px 64px; }
       .site-footer { padding: 32px 16px; }
@@ -112,11 +200,21 @@
 </head>
 <body>
 
+<div class="lang-bar">
+  <a href="/" {% if pl == "ja" %}class="active"{% endif %}>日本語</a>
+  <a href="/en/" {% if pl == "en" %}class="active"{% endif %}>English</a>
+  <a href="/ko/" {% if pl == "ko" %}class="active"{% endif %}>한국어</a>
+  <a href="/zh-cn/" {% if pl == "zh-cn" %}class="active"{% endif %}>简体中文</a>
+  <a href="/zh-tw/" {% if pl == "zh-tw" %}class="active"{% endif %}>繁體中文</a>
+  <a href="/tl/" {% if pl == "tl" %}class="active"{% endif %}>Filipino</a>
+  <a href="/vi/" {% if pl == "vi" %}class="active"{% endif %}>Tiếng Việt</a>
+</div>
+
 <header class="site-header">
-  <a href="/" class="site-logo">楽天モバイルで節約生活</a>
+  <a href="{{ t_home_url }}" class="site-logo">{{ t_logo }}</a>
   <nav class="site-nav">
-    <a href="/">トップ</a>
-    <a href="/blog/">ブログ</a>
+    <a href="{{ t_home_url }}">{{ t_home }}</a>
+    <a href="{{ t_blog_url }}">{{ t_blog }}</a>
   </nav>
 </header>
 
@@ -125,8 +223,24 @@
 </main>
 
 <footer class="site-footer">
-  <p>このサイトは楽天社員による個人的な紹介サイトです。</p>
-  <p>掲載情報は作成時点のものです。最新情報は<a href="https://network.mobile.rakuten.co.jp/" target="_blank" rel="noopener">楽天モバイル公式サイト</a>をご確認ください。</p>
+  <p>{{ t_footer1 }}</p>
+  <p>
+    {% if pl == "en" %}
+      Please check the <a href="https://network.mobile.rakuten.co.jp/" target="_blank" rel="noopener">official Rakuten Mobile website</a> for the latest information.
+    {% elsif pl == "ko" %}
+      최신 정보는 <a href="https://network.mobile.rakuten.co.jp/" target="_blank" rel="noopener">라쿠텐 모바일 공식 사이트</a>에서 확인하세요.
+    {% elsif pl == "zh-cn" %}
+      请查看<a href="https://network.mobile.rakuten.co.jp/" target="_blank" rel="noopener">乐天手机官网</a>获取最新信息。
+    {% elsif pl == "zh-tw" %}
+      請查看<a href="https://network.mobile.rakuten.co.jp/" target="_blank" rel="noopener">樂天手機官網</a>獲取最新資訊。
+    {% elsif pl == "tl" %}
+      Mangyaring bisitahin ang <a href="https://network.mobile.rakuten.co.jp/" target="_blank" rel="noopener">opisyal na website ng Rakuten Mobile</a> para sa pinakabagong impormasyon.
+    {% elsif pl == "vi" %}
+      Vui lòng kiểm tra <a href="https://network.mobile.rakuten.co.jp/" target="_blank" rel="noopener">trang web chính thức của Rakuten Mobile</a> để biết thông tin mới nhất.
+    {% else %}
+      掲載情報は作成時点のものです。最新情報は<a href="https://network.mobile.rakuten.co.jp/" target="_blank" rel="noopener">楽天モバイル公式サイト</a>をご確認ください。
+    {% endif %}
+  </p>
 </footer>
 
 </body>

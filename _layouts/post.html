@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+{% assign pl = page.lang | default: "ja" %}
 <style>
   .post-header {
     border-bottom: 1px solid var(--border);
@@ -63,7 +64,7 @@ layout: default
   <header class="post-header">
     <p class="post-eyebrow">BLOG</p>
     <h1 class="post-title">{{ page.title }}</h1>
-    <p class="post-meta">{{ page.date | date: "%Y年%-m月%-d日" }}</p>
+    <p class="post-meta">{{ page.date | date: "%Y-%m-%d" }}</p>
   </header>
 
   <div class="post-body">
@@ -71,8 +72,28 @@ layout: default
   </div>
 
   <div class="cta-banner">
-    <p>この記事を読んで楽天モバイルに興味を持ったら、社員紹介リンクからお申し込みください。</p>
-    <a href="https://r10.to/henTIE" target="_blank" rel="noopener">今すぐ無料で申し込む</a>
+    {% if pl == "en" %}
+      <p>If this article inspired you, apply via the employee referral link for up to 14,000 points.</p>
+      <a href="https://r10.to/henTIE" target="_blank" rel="noopener">Apply for Free Now</a>
+    {% elsif pl == "ko" %}
+      <p>이 기사를 읽고 관심이 생기셨다면, 직원 소개 링크를 통해 신청하고 최대 14,000포인트를 받으세요.</p>
+      <a href="https://r10.to/henTIE" target="_blank" rel="noopener">지금 무료로 신청하기</a>
+    {% elsif pl == "zh-cn" %}
+      <p>如果这篇文章让您感兴趣，请通过员工介绍链接申请，最高可获得14,000积分。</p>
+      <a href="https://r10.to/henTIE" target="_blank" rel="noopener">立即免费申请</a>
+    {% elsif pl == "zh-tw" %}
+      <p>如果這篇文章讓您感興趣，請透過員工介紹連結申請，最高可獲得14,000點數。</p>
+      <a href="https://r10.to/henTIE" target="_blank" rel="noopener">立即免費申請</a>
+    {% elsif pl == "tl" %}
+      <p>Kung interesado ka pagkatapos basahin ito, mag-apply sa pamamagitan ng employee referral link at makakuha ng hanggang 14,000 puntos.</p>
+      <a href="https://r10.to/henTIE" target="_blank" rel="noopener">Mag-apply Ngayon Nang Libre</a>
+    {% elsif pl == "vi" %}
+      <p>Nếu bài viết này khiến bạn quan tâm, hãy đăng ký qua link giới thiệu nhân viên để nhận tối đa 14,000 điểm.</p>
+      <a href="https://r10.to/henTIE" target="_blank" rel="noopener">Đăng ký miễn phí ngay</a>
+    {% else %}
+      <p>この記事を読んで楽天モバイルに興味を持ったら、社員紹介リンクからお申し込みください。</p>
+      <a href="https://r10.to/henTIE" target="_blank" rel="noopener">今すぐ無料で申し込む</a>
+    {% endif %}
   </div>
 
   <nav class="post-nav">
