@@ -117,95 +117,82 @@ def post_to_ameblo(title: str, body: str) -> None:
         try:
             os.makedirs("debug_screenshots", exist_ok=True)
 
-            # ── 1. ログインページへ ──────────────────────────────────
-            print("ログインページへ移動中...")
-            page.goto("https://www.ameba.jp/", wait_until="domcontentloaded")
-            page.wait_for_timeout(2000)
-            page.screenshot(path="debug_screenshots/01_top.png")
+            ENTRY_URL = "https://blog.ameba.jp/ucs/entry/srventryinsertinput.do"
 
-            # ログインリンクをクリック
-            login_selectors = [
-                'a:has-text("ログイン")',
-                'a[href*="login"]',
-                'a[href*="accounts.ameba"]',
-            ]
-            for sel in login_selectors:
-                if page.locator(sel).first.is_visible():
-                    page.locator(sel).first.click()
-                    break
-            page.wait_for_load_state("domcontentloaded")
-            page.wait_for_timeout(2000)
-            page.screenshot(path="debug_screenshots/02_login_page.png")
-            print(f"ログインページURL: {page.url}")
+            # ── 1. 記事作成URLへ直接アクセス（SSOリダイレクト待ち） ──
+            print("記事作成ページへ直接アクセス（SSOフロー開始）...")
+            page.goto(ENTRY_URL, wait_until="domcontentloaded")
+            page.wait_for_timeout(3000)
+            page.screenshot(path="debug_screenshots/01_initial.png")
+            print(f"初期URL: {page.url}")
 
-            # ── 2. メールアドレス入力 ──────────────────────────────
-            email_selectors = [
-                'input[type="email"]',
-                'input[name="email"]',
-                'input[placeholder*="メール"]',
-                'input[id*="email"]',
-            ]
-            for sel in email_selectors:
-                if page.locator(sel).count() > 0:
-                    page.fill(sel, email)
-                    print("メールアドレス入力完了")
-                    break
+            # ── 2. ログインページが表示された場合に認証する ──────────
+            def fill_login_if_needed() -> bool:
+                """ログインフォームが表示されていたら入力してTrueを返す"""
+                # メールアドレス欄
+                email_sel = None
+                for s in ['input[type="email"]', 'input[name="email"]', 'input[name="ameba_id"]']:
+                    if page.locator(s).count() > 0:
+                        email_sel = s
+                        break
+                if email_sel is None:
+                    return False
 
-            # メール入力後に「次へ」ボタンがある場合はクリック
-            next_btn_selectors = [
-                'button:has-text("次へ")',
-                'button[type="submit"]:has-text("次")',
-                'input[type="submit"]',
-            ]
-            for sel in next_btn_selectors:
-                if page.locator(sel).count() > 0:
-                    page.click(sel)
-                    page.wait_for_load_state("domcontentloaded")
-                    page.wait_for_timeout(2000)
-                    break
+                page.fill(email_sel, email)
+                print("メールアドレス入力完了")
 
-            page.screenshot(path="debug_screenshots/03_after_email.png")
+                # 「次へ」ボタンがある場合（メール→パスワードの2段階）
+                for s in ['button:has-text("次へ")', 'button[type="submit"]']:
+                    if page.locator(s).count() > 0:
+                        # パスワード欄がまだなければ「次へ」を押す
+                        if page.locator('input[type="password"]').count() == 0:
+                            page.click(s)
+                            page.wait_for_load_state("domcontentloaded")
+                            page.wait_for_timeout(2000)
+                        break
 
-            # ── 3. パスワード入力 ──────────────────────────────────
-            password_selectors = [
-                'input[type="password"]',
-                'input[name="password"]',
-                'input[placeholder*="パスワード"]',
-            ]
-            for sel in password_selectors:
-                if page.locator(sel).count() > 0:
-                    page.fill(sel, password)
-                    print("パスワード入力完了")
-                    break
+                page.screenshot(path="debug_screenshots/02_after_email.png")
 
-            # ログインボタンをクリック
-            submit_selectors = [
-                'button[type="submit"]',
-                'button:has-text("ログイン")',
-                'input[type="submit"]',
-            ]
-            for sel in submit_selectors:
-                if page.locator(sel).count() > 0:
-                    page.click(sel)
-                    break
+                # パスワード欄
+                for s in ['input[type="password"]', 'input[name="password"]']:
+                    if page.locator(s).count() > 0:
+                        page.fill(s, password)
+                        print("パスワード入力完了")
+                        break
 
-            page.wait_for_load_state("domcontentloaded")
-            page.wait_for_timeout(4000)
-            page.screenshot(path="debug_screenshots/04_after_login.png")
+                # ログインボタン
+                for s in ['button[type="submit"]', 'button:has-text("ログイン")', 'input[type="submit"]']:
+                    if page.locator(s).count() > 0:
+                        page.click(s)
+                        break
+
+                return True
+
+            # ログインフォームが出ていれば入力
+            if fill_login_if_needed():
+                print("ログイン処理中...")
+                # SSO コールバック → blog.ameba.jp へのリダイレクトを待つ
+                try:
+                    page.wait_for_url("**/blog.ameba.jp/**", timeout=20000)
+                except Exception:
+                    pass
+                page.wait_for_timeout(3000)
+
+            page.screenshot(path="debug_screenshots/03_after_login.png")
             print(f"ログイン後URL: {page.url}")
 
-            # ログイン成功確認
-            if "login" in page.url or "accounts.ameba" in page.url:
-                raise RuntimeError(f"ログイン失敗。現在のURL: {page.url}")
-            print("ログイン成功")
+            # まだ auth ドメインにいる場合はログイン失敗
+            if any(d in page.url for d in ["auth.user.ameba", "accounts.ameba", "signin"]):
+                raise RuntimeError(f"ログイン失敗 / SSO未完了。現在のURL: {page.url}")
+            print("ログイン・SSO完了")
 
-            # ── 4. 新規記事作成ページへ ────────────────────────────
-            print("記事作成ページへ移動中...")
-            page.goto(
-                "https://blog.ameba.jp/ucs/entry/srventryinsertinput.do",
-                wait_until="domcontentloaded",
-            )
-            page.wait_for_timeout(5000)
+            # ── 4. 記事作成ページへ（まだそこにいなければ移動） ────
+            if "srventryinsertinput" not in page.url:
+                print("記事作成ページへ移動中...")
+                page.goto(ENTRY_URL, wait_until="domcontentloaded")
+                page.wait_for_timeout(5000)
+            else:
+                print("すでに記事作成ページにいます")
             page.screenshot(path="debug_screenshots/05_new_entry.png")
             print(f"記事作成ページURL: {page.url}")
 
