@@ -126,59 +126,99 @@ def post_to_ameblo(title: str, body: str) -> None:
             page.screenshot(path="debug_screenshots/01_initial.png")
             print(f"初期URL: {page.url}")
 
-            # ── 2. ログインページが表示された場合に認証する ──────────
-            def fill_login_if_needed() -> bool:
-                """ログインフォームが表示されていたら入力してTrueを返す"""
-                # メールアドレス欄
+            # ── 2. ログイン処理（auth.user.ameba.jp のSPA対応） ────────
+            # SPAなのでJSレンダリングを待ってからフォームを探す
+            print(f"現在のURL: {page.url}")
+
+            # auth ドメインにいる＝ログインが必要
+            if any(d in page.url for d in ["auth.user.ameba", "accounts.ameba", "signin"]):
+                print("ログインフォームを待機中...")
+
+                # SPAのレンダリングを待つ（最大15秒）
+                try:
+                    page.wait_for_selector("input", timeout=15000)
+                except Exception:
+                    pass
+                page.wait_for_timeout(2000)
+                page.screenshot(path="debug_screenshots/02_login_form.png")
+
+                # ページ上の全inputを列挙してデバッグ
+                inputs = page.locator("input").all()
+                print(f"input要素数: {len(inputs)}")
+                for i, inp in enumerate(inputs):
+                    try:
+                        print(f"  input[{i}] type={inp.get_attribute('type')} name={inp.get_attribute('name')} id={inp.get_attribute('id')} placeholder={inp.get_attribute('placeholder')}")
+                    except Exception:
+                        pass
+
+                # メールアドレス入力（幅広くセレクタを試す）
                 email_sel = None
-                for s in ['input[type="email"]', 'input[name="email"]', 'input[name="ameba_id"]']:
-                    if page.locator(s).count() > 0:
+                for s in [
+                    'input[type="email"]',
+                    'input[name="email"]',
+                    'input[name="signin_id"]',
+                    'input[name="ameba_id"]',
+                    'input[name="username"]',
+                    'input[name="userId"]',
+                    'input[autocomplete="email"]',
+                    'input[autocomplete="username"]',
+                    'input[type="text"]',  # 最終フォールバック
+                ]:
+                    if page.locator(s).count() > 0 and page.locator(s).first.is_visible():
                         email_sel = s
                         break
+
                 if email_sel is None:
-                    return False
+                    raise RuntimeError("メールアドレス入力欄が見つかりません。スクリーンショットを確認してください。")
 
                 page.fill(email_sel, email)
-                print("メールアドレス入力完了")
+                print(f"メールアドレス入力完了（{email_sel}）")
 
-                # 「次へ」ボタンがある場合（メール→パスワードの2段階）
-                for s in ['button:has-text("次へ")', 'button[type="submit"]']:
-                    if page.locator(s).count() > 0:
-                        # パスワード欄がまだなければ「次へ」を押す
-                        if page.locator('input[type="password"]').count() == 0:
+                # パスワード欄がなければ「次へ」で進む
+                if page.locator('input[type="password"]').count() == 0:
+                    for s in ['button:has-text("次へ")', 'button:has-text("続ける")', 'button[type="submit"]', 'input[type="submit"]']:
+                        if page.locator(s).count() > 0 and page.locator(s).first.is_visible():
                             page.click(s)
-                            page.wait_for_load_state("domcontentloaded")
-                            page.wait_for_timeout(2000)
-                        break
+                            print(f"次へボタンクリック: {s}")
+                            page.wait_for_timeout(3000)
+                            break
 
-                page.screenshot(path="debug_screenshots/02_after_email.png")
+                page.screenshot(path="debug_screenshots/03_after_email.png")
 
-                # パスワード欄
+                # パスワード入力（最大10秒待機）
+                try:
+                    page.wait_for_selector('input[type="password"]', timeout=10000)
+                except Exception:
+                    pass
+
+                pw_sel = None
                 for s in ['input[type="password"]', 'input[name="password"]']:
-                    if page.locator(s).count() > 0:
-                        page.fill(s, password)
-                        print("パスワード入力完了")
+                    if page.locator(s).count() > 0 and page.locator(s).first.is_visible():
+                        pw_sel = s
                         break
+
+                if pw_sel is None:
+                    raise RuntimeError("パスワード入力欄が見つかりません。")
+
+                page.fill(pw_sel, password)
+                print(f"パスワード入力完了（{pw_sel}）")
 
                 # ログインボタン
-                for s in ['button[type="submit"]', 'button:has-text("ログイン")', 'input[type="submit"]']:
-                    if page.locator(s).count() > 0:
+                for s in ['button[type="submit"]', 'button:has-text("ログイン")', 'button:has-text("サインイン")', 'input[type="submit"]']:
+                    if page.locator(s).count() > 0 and page.locator(s).first.is_visible():
                         page.click(s)
+                        print(f"ログインボタンクリック: {s}")
                         break
 
-                return True
-
-            # ログインフォームが出ていれば入力
-            if fill_login_if_needed():
-                print("ログイン処理中...")
-                # SSO コールバック → blog.ameba.jp へのリダイレクトを待つ
+                # SSO完了 → blog.ameba.jp へのリダイレクトを待つ
+                print("SSOリダイレクト待機中...")
                 try:
-                    page.wait_for_url("**/blog.ameba.jp/**", timeout=20000)
+                    page.wait_for_url("**/blog.ameba.jp/**", timeout=30000)
                 except Exception:
                     pass
                 page.wait_for_timeout(3000)
 
-            page.screenshot(path="debug_screenshots/03_after_login.png")
+            page.screenshot(path="debug_screenshots/04_after_login.png")
             print(f"ログイン後URL: {page.url}")
 
             # まだ auth ドメインにいる場合はログイン失敗
