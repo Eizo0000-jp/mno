@@ -183,6 +183,7 @@ def post_to_ameblo(title: str, body: str) -> None:
             # まず「テキスト」「HTML」モードへの切り替えボタンを探す
             # 旧エディタはFCKeditor（iframe内）か、テキストモード用textarea
             text_mode_selectors = [
+                'span.entryDesignSidePanelHeaderTab__label:has-text("テキスト")',
                 'a:has-text("テキスト")',
                 'a:has-text("HTML")',
                 'input[value="テキスト"]',
@@ -192,12 +193,22 @@ def post_to_ameblo(title: str, body: str) -> None:
             ]
             for sel in text_mode_selectors:
                 if page.locator(sel).count() > 0:
-                    page.click(sel)
+                    # 非表示要素でも強制クリック
+                    page.locator(sel).first.click(force=True)
                     page.wait_for_timeout(1500)
                     print(f"テキストモードに切り替え: {sel}")
                     break
 
             page.screenshot(path="debug_screenshots/06_text_mode.png")
+
+            # デバッグ: textarea一覧を出力
+            textareas = page.locator("textarea").all()
+            print(f"textarea数: {len(textareas)}")
+            for i, ta in enumerate(textareas):
+                try:
+                    print(f"  textarea[{i}] name={ta.get_attribute('name')} id={ta.get_attribute('id')} visible={ta.is_visible()}")
+                except Exception:
+                    pass
 
             body_filled = False
 
