@@ -182,22 +182,26 @@ def post_to_ameblo(title: str, body: str) -> None:
             # ── 6. 本文入力 ───────────────────────────────────────
             # まず「テキスト」「HTML」モードへの切り替えボタンを探す
             # 旧エディタはFCKeditor（iframe内）か、テキストモード用textarea
-            text_mode_selectors = [
-                'span.entryDesignSidePanelHeaderTab__label:has-text("テキスト")',
-                'a:has-text("テキスト")',
-                'a:has-text("HTML")',
-                'input[value="テキスト"]',
-                'span:has-text("テキスト")',
-                '#tabText',
-                '.tab-text',
-            ]
-            for sel in text_mode_selectors:
-                if page.locator(sel).count() > 0:
-                    # 非表示要素でも強制クリック
-                    page.locator(sel).first.click(force=True)
-                    page.wait_for_timeout(1500)
-                    print(f"テキストモードに切り替え: {sel}")
-                    break
+            # テキストモードタブをJavaScriptで直接クリック（visibility無視）
+            text_mode_switched = page.evaluate("""() => {
+                const candidates = [
+                    ...document.querySelectorAll('span.entryDesignSidePanelHeaderTab__label'),
+                    ...document.querySelectorAll('a, span, input, div'),
+                ];
+                for (const el of candidates) {
+                    const text = (el.textContent || el.value || '').trim();
+                    if (text === 'テキスト' || text === 'HTML') {
+                        el.click();
+                        return text;
+                    }
+                }
+                return null;
+            }""")
+            if text_mode_switched:
+                print(f"テキストモードに切り替え（JS click）: {text_mode_switched}")
+                page.wait_for_timeout(1500)
+            else:
+                print("テキストモード切替ボタンが見つかりませんでした（スキップ）")
 
             page.screenshot(path="debug_screenshots/06_text_mode.png")
 
