@@ -182,133 +182,66 @@ def post_to_ameblo(title: str, body: str) -> None:
             # ── 6. 本文入力 ───────────────────────────────────────
             # まず「テキスト」「HTML」モードへの切り替えボタンを探す
             # 旧エディタはFCKeditor（iframe内）か、テキストモード用textarea
-            # テキストモードタブをJavaScriptで直接クリック（visibility無視）
-            text_mode_switched = page.evaluate("""() => {
-                const candidates = [
-                    ...document.querySelectorAll('span.entryDesignSidePanelHeaderTab__label'),
-                    ...document.querySelectorAll('a, span, input, div'),
-                ];
-                for (const el of candidates) {
-                    const text = (el.textContent || el.value || '').trim();
-                    if (text === 'テキスト' || text === 'HTML') {
-                        el.click();
-                        return text;
-                    }
-                }
-                return null;
-            }""")
-            if text_mode_switched:
-                print(f"テキストモードに切り替え（JS click）: {text_mode_switched}")
-                page.wait_for_timeout(1500)
+            page.screenshot(path="debug_screenshots/06_editor.png")
+
+            # ── 本文入力（新WYSIWYGエディタ対応） ────────────────
+            # タイトル以外の大きい contenteditable に本文を書き込む
+            body_filled = page.evaluate("""(text) => {
+                const editables = Array.from(
+                    document.querySelectorAll('[contenteditable="true"]')
+                );
+                // 高さ100px以上の要素を本文エリアとみなす（タイトルを除外）
+                const bodyEl = editables.find(el => {
+                    const rect = el.getBoundingClientRect();
+                    return rect.height > 100;
+                });
+                if (!bodyEl) return false;
+                bodyEl.focus();
+                // 既存内容をクリアしてテキストをセット
+                bodyEl.innerText = text;
+                bodyEl.dispatchEvent(new Event('input', { bubbles: true }));
+                bodyEl.dispatchEvent(new Event('change', { bubbles: true }));
+                return true;
+            }""", body)
+
+            if body_filled:
+                print("本文入力完了（JS innerText）")
             else:
-                print("テキストモード切替ボタンが見つかりませんでした（スキップ）")
-
-            page.screenshot(path="debug_screenshots/06_text_mode.png")
-
-            # デバッグ: textarea一覧を出力
-            textareas = page.locator("textarea").all()
-            print(f"textarea数: {len(textareas)}")
-            for i, ta in enumerate(textareas):
-                try:
-                    print(f"  textarea[{i}] name={ta.get_attribute('name')} id={ta.get_attribute('id')} visible={ta.is_visible()}")
-                except Exception:
-                    pass
-
-            body_filled = False
-
-            # パターンA: テキストモードの textarea に直接書き込む
-            textarea_selectors = [
-                'textarea[name="entry_body"]',
-                'textarea[id="bodyText"]',
-                'textarea[id*="body"]',
-                'textarea[name*="body"]',
-                'textarea[placeholder*="本文"]',
-            ]
-            for sel in textarea_selectors:
-                if page.locator(sel).count() > 0 and page.locator(sel).first.is_visible():
-                    page.fill(sel, html_body)
-                    print(f"本文入力完了（textarea: {sel}）")
-                    body_filled = True
-                    break
-
-            # パターンB: FCKeditor iframe内の contenteditable
-            if not body_filled:
-                frames = page.frames
-                print(f"フレーム数: {len(frames)}")
-                for frame in frames:
-                    try:
-                        editable = frame.locator('[contenteditable="true"]')
-                        if editable.count() > 0 and editable.first.is_visible():
-                            editable.first.click()
-                            frame.evaluate(
-                                "(el, html) => { el.innerHTML = html; }",
-                                [editable.first.element_handle(), html_body],
-                            )
-                            print("本文入力完了（FCKeditor iframe）")
-                            body_filled = True
-                            break
-                    except Exception as e:
-                        print(f"フレーム試行スキップ: {e}")
-
-            # パターンC: メインページの contenteditable
-            if not body_filled:
-                for sel in ['[contenteditable="true"]', '.ql-editor', '[role="textbox"]']:
-                    locs = page.locator(sel).all()
-                    for loc in locs:
-                        if loc.is_visible():
-                            loc.click()
-                            page.wait_for_timeout(500)
-                            page.keyboard.type(body, delay=3)
-                            print(f"本文入力完了（contenteditable: {sel}）")
-                            body_filled = True
-                            break
-                    if body_filled:
-                        break
-
-            if not body_filled:
-                print("警告: 本文入力フィールドが見つかりませんでした")
+                print("警告: 本文エリアが見つかりませんでした")
 
             page.wait_for_timeout(2000)
             page.screenshot(path="debug_screenshots/07_article_filled.png")
 
             # ── 7. 公開（投稿）ボタンをクリック ─────────────────
-            # 旧エディタは input[type=submit] が多い
+            # 新エディタ: button要素を優先、input[type=submit]もフォールバック
             published = False
-            submit_input_selectors = [
+            publish_selectors = [
+                'button:has-text("投稿する")',
+                'button:has-text("公開する")',
+                'button:has-text("投稿")',
+                'button:has-text("公開")',
                 'input[type="submit"][value*="投稿"]',
                 'input[type="submit"][value*="公開"]',
-                'input[type="submit"][value*="保存"]',
                 'input[type="submit"]',
             ]
-            for sel in submit_input_selectors:
-                if page.locator(sel).count() > 0 and page.locator(sel).first.is_visible():
-                    page.locator(sel).first.click()
+            for sel in publish_selectors:
+                locs = page.locator(sel)
+                if locs.count() > 0 and locs.first.is_visible():
+                    locs.first.click()
                     print(f"投稿ボタンクリック: {sel}")
                     published = True
                     break
 
             if not published:
-                # button 形式もフォールバックで試す
-                for sel in ['button:has-text("投稿")', 'button:has-text("公開")']:
-                    if page.locator(sel).count() > 0:
-                        page.locator(sel).first.click()
-                        print(f"投稿ボタンクリック（button）: {sel}")
-                        published = True
-                        break
-
-            if not published:
-                # デバッグ: 全 submit 要素を出力
-                for el in page.locator('input[type="submit"]').all():
-                    print(f"  submit: value='{el.get_attribute('value')}'")
+                # デバッグ: 全ボタンを出力
                 for el in page.locator("button").all():
                     try:
-                        print(f"  button: '{el.inner_text().strip()}'")
+                        print(f"  button: '{el.inner_text().strip()}' visible={el.is_visible()}")
                     except Exception:
                         pass
+                for el in page.locator('input[type="submit"]').all():
+                    print(f"  submit: value='{el.get_attribute('value')}'")
                 raise RuntimeError("投稿ボタンが見つかりませんでした")
-
-            page.wait_for_timeout(5000)
-            page.screenshot(path="debug_screenshots/08_after_publish.png")
 
             page.wait_for_timeout(5000)
             page.screenshot(path="debug_screenshots/08_after_publish.png")
