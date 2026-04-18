@@ -136,16 +136,23 @@ ARTICLE_TEMPLATES = [
 ]
 
 
-def get_todays_ja_posts() -> list[dict]:
-    """当日生成された日本語記事（langプレフィックスなし）を取得"""
+def get_todays_ja_posts(lookback_days: int = 7) -> list[dict]:
+    """直近 lookback_days 日以内に生成された日本語記事（langプレフィックスなし）を取得"""
     posts_dir = REPO_ROOT / "_posts"
     if not posts_dir.exists():
         return []
-    today_str = date.today().strftime("%Y-%m-%d")
+    cutoff = date.today() - timedelta(days=lookback_days - 1)
     results = []
-    for p in sorted(posts_dir.glob(f"{today_str}-*.md")):
+    for p in sorted(posts_dir.glob("*.md")):
         # 英語・韓国語等はスキップ（ja以外のlangプレフィックスが含まれるファイル）
         stem = p.stem  # e.g. "2026-04-18-employee-referral-14000pt"
+        # ファイル名から日付を取得してカットオフ判定
+        try:
+            post_date = date.fromisoformat(stem[:10])
+        except ValueError:
+            continue
+        if post_date < cutoff:
+            continue
         slug_part = stem.split("-", 3)[-1]  # e.g. "employee-referral-14000pt"
         # 言語コードで始まるものをスキップ（en-, ko-, zh-cn-, zh-tw-, tl-, vi-）
         if re.match(r"^(en|ko|zh-cn|zh-tw|tl|vi)-", slug_part):
