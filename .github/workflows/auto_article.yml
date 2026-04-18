@@ -30,10 +30,13 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python automation/generate_article.py
 
+      - name: Threads投稿CSVを生成
+        run: python automation/generate_threads_csv.py
+
       - name: コミット & プッシュ
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add _posts/
-          git diff --staged --quiet || git commit -m "auto: SEO記事を追加 $(date +'%Y-%m-%d')"
+          git add _posts/ assets/posts.csv
+          git diff --staged --quiet || git commit -m "auto: SEO記事＋Threads投稿CSV追加 $(date +'%Y-%m-%d')"
           git push

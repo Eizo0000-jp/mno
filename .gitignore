@@ -1,4 +1,9 @@
-assets/
+assets/*.png
+assets/*.jpg
+assets/*.jpeg
+assets/*.gif
+assets/*.bmp
+assets/*.pptx
 *.png
 *.jpg
 *.jpeg
