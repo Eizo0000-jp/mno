@@ -1,10 +1,11 @@
 """
 アメブロ 自動投稿スクリプト
-Playwrightでアメブロにログインし、Claude APIで生成した記事を投稿する
+Cookie認証でアメブロにアクセスし、Claude APIで生成した記事を投稿する
 
 必要な環境変数:
-  AMEBLO_EMAIL      - アメブロのログインメールアドレス
-  AMEBLO_PASSWORD   - アメブロのパスワード
+  AMEBLO_AT         - blog.ameba.jp の Cookie "AT" の値
+  AMEBLO_JSESSIONID - blog.ameba.jp の Cookie "JSESSIONID" の値
+  AMEBLO_P          - blog.ameba.jp の Cookie "p" の値
   ANTHROPIC_API_KEY - Claude API Key
 """
 
@@ -97,10 +98,13 @@ def markdown_to_ameblo_html(body: str) -> str:
 
 
 def post_to_ameblo(title: str, body: str) -> None:
-    """Playwrightでアメブロにログインして記事を投稿"""
-    email = os.environ["AMEBLO_EMAIL"]
-    password = os.environ["AMEBLO_PASSWORD"]
+    """Cookie認証でアメブロに記事を投稿"""
+    at_cookie      = os.environ["AMEBLO_AT"]
+    jsessionid     = os.environ["AMEBLO_JSESSIONID"]
+    p_cookie       = os.environ["AMEBLO_P"]
     html_body = markdown_to_ameblo_html(body)
+
+    ENTRY_URL = "https://blog.ameba.jp/ucs/entry/srventryinsertinput.do"
 
     with sync_playwright() as p:
         browser = p.chromium.launch(
@@ -112,121 +116,37 @@ def post_to_ameblo(title: str, body: str) -> None:
             viewport={"width": 1280, "height": 900},
             locale="ja-JP",
         )
+
+        # ── 1. Cookie をセット ───────────────────────────────────────
+        context.add_cookies([
+            {"name": "AT",         "value": at_cookie,  "domain": "blog.ameba.jp", "path": "/"},
+            {"name": "JSESSIONID", "value": jsessionid, "domain": "blog.ameba.jp", "path": "/"},
+            {"name": "p",          "value": p_cookie,   "domain": "blog.ameba.jp", "path": "/"},
+            # 親ドメインにも AT を設定（SSO連携用）
+            {"name": "AT",         "value": at_cookie,  "domain": ".ameba.jp",     "path": "/"},
+            {"name": "p",          "value": p_cookie,   "domain": ".ameba.jp",     "path": "/"},
+        ])
+
         page = context.new_page()
 
         try:
             os.makedirs("debug_screenshots", exist_ok=True)
 
-            ENTRY_URL = "https://blog.ameba.jp/ucs/entry/srventryinsertinput.do"
-
-            # ── 1. 記事作成URLへ直接アクセス（SSOリダイレクト待ち） ──
-            print("記事作成ページへ直接アクセス（SSOフロー開始）...")
+            # ── 2. 記事作成ページへ直接アクセス ────────────────────
+            print("記事作成ページへアクセス中...")
             page.goto(ENTRY_URL, wait_until="domcontentloaded")
-            page.wait_for_timeout(3000)
+            page.wait_for_timeout(4000)
             page.screenshot(path="debug_screenshots/01_initial.png")
             print(f"初期URL: {page.url}")
 
-            # ── 2. ログイン処理（auth.user.ameba.jp のSPA対応） ────────
-            # SPAなのでJSレンダリングを待ってからフォームを探す
-            print(f"現在のURL: {page.url}")
-
-            # auth ドメインにいる＝ログインが必要
+            # Cookie切れ等でログイン画面にリダイレクトされた場合
             if any(d in page.url for d in ["auth.user.ameba", "accounts.ameba", "signin"]):
-                print("ログインフォームを待機中...")
-
-                # SPAのレンダリングを待つ（最大15秒）
-                try:
-                    page.wait_for_selector("input", timeout=15000)
-                except Exception:
-                    pass
-                page.wait_for_timeout(2000)
-                page.screenshot(path="debug_screenshots/02_login_form.png")
-
-                # ページ上の全inputを列挙してデバッグ
-                inputs = page.locator("input").all()
-                print(f"input要素数: {len(inputs)}")
-                for i, inp in enumerate(inputs):
-                    try:
-                        print(f"  input[{i}] type={inp.get_attribute('type')} name={inp.get_attribute('name')} id={inp.get_attribute('id')} placeholder={inp.get_attribute('placeholder')}")
-                    except Exception:
-                        pass
-
-                # メールアドレス入力
-                # スクリーンショットで確認: type="text", placeholder="メールアドレスまたはアメーバIDを入力"
-                email_sel = None
-                for s in [
-                    'input[placeholder*="アメーバID"]',
-                    'input[placeholder*="メールアドレス"]',
-                    'input[type="email"]',
-                    'input[name="email"]',
-                    'input[name="signin_id"]',
-                    'input[name="ameba_id"]',
-                    'input[name="username"]',
-                    'input[autocomplete="email"]',
-                    'input[autocomplete="username"]',
-                    'input[type="text"]',  # 最終フォールバック
-                ]:
-                    if page.locator(s).count() > 0 and page.locator(s).first.is_visible():
-                        email_sel = s
-                        break
-
-                if email_sel is None:
-                    raise RuntimeError("メールアドレス入力欄が見つかりません。スクリーンショットを確認してください。")
-
-                page.fill(email_sel, email)
-                print(f"メールアドレス入力完了（{email_sel}）")
-
-                # パスワード欄が同一ページにある（1段階フォーム）ので「次へ」は不要
-                # ただし念のため、パスワード欄がなければ「次へ」を試みる
-                if page.locator('input[type="password"]').count() == 0:
-                    for s in ['button:has-text("次へ")', 'button:has-text("続ける")', 'button[type="submit"]']:
-                        if page.locator(s).count() > 0 and page.locator(s).first.is_visible():
-                            page.click(s)
-                            print(f"次へボタンクリック: {s}")
-                            page.wait_for_timeout(3000)
-                            break
-
-                page.screenshot(path="debug_screenshots/03_after_email.png")
-
-                # パスワード入力
-                pw_sel = None
-                for s in [
-                    'input[placeholder*="パスワード"]',
-                    'input[type="password"]',
-                    'input[name="password"]',
-                ]:
-                    if page.locator(s).count() > 0 and page.locator(s).first.is_visible():
-                        pw_sel = s
-                        break
-
-                if pw_sel is None:
-                    raise RuntimeError("パスワード入力欄が見つかりません。")
-
-                page.fill(pw_sel, password)
-                print(f"パスワード入力完了（{pw_sel}）")
-
-                # ログインボタン（緑の「ログイン」ボタン）
-                for s in ['button:has-text("ログイン")', 'button[type="submit"]', 'button:has-text("サインイン")', 'input[type="submit"]']:
-                    if page.locator(s).count() > 0 and page.locator(s).first.is_visible():
-                        page.click(s)
-                        print(f"ログインボタンクリック: {s}")
-                        break
-
-                # SSO完了 → blog.ameba.jp へのリダイレクトを待つ
-                print("SSOリダイレクト待機中...")
-                try:
-                    page.wait_for_url("**/blog.ameba.jp/**", timeout=30000)
-                except Exception:
-                    pass
-                page.wait_for_timeout(3000)
-
-            page.screenshot(path="debug_screenshots/04_after_login.png")
-            print(f"ログイン後URL: {page.url}")
-
-            # まだ auth ドメインにいる場合はログイン失敗
-            if any(d in page.url for d in ["auth.user.ameba", "accounts.ameba", "signin"]):
-                raise RuntimeError(f"ログイン失敗 / SSO未完了。現在のURL: {page.url}")
-            print("ログイン・SSO完了")
+                raise RuntimeError(
+                    "Cookie認証失敗。セッションが期限切れの可能性があります。\n"
+                    "ブラウザで blog.ameba.jp にログインし直して "
+                    "AT・JSESSIONID・p Cookie を再取得してください。"
+                )
+            print("Cookie認証OK")
 
             # ── 4. 記事作成ページへ（まだそこにいなければ移動） ────
             if "srventryinsertinput" not in page.url:

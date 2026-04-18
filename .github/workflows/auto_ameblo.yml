@@ -36,8 +36,9 @@ jobs:
         working-directory: automation
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          AMEBLO_EMAIL: ${{ secrets.AMEBLO_EMAIL }}
-          AMEBLO_PASSWORD: ${{ secrets.AMEBLO_PASSWORD }}
+          AMEBLO_AT: ${{ secrets.AMEBLO_AT }}
+          AMEBLO_JSESSIONID: ${{ secrets.AMEBLO_JSESSIONID }}
+          AMEBLO_P: ${{ secrets.AMEBLO_P }}
         run: |
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
             python post_ameblo.py --dry-run
