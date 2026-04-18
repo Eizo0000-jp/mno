@@ -151,15 +151,17 @@ def post_to_ameblo(title: str, body: str) -> None:
                     except Exception:
                         pass
 
-                # メールアドレス入力（幅広くセレクタを試す）
+                # メールアドレス入力
+                # スクリーンショットで確認: type="text", placeholder="メールアドレスまたはアメーバIDを入力"
                 email_sel = None
                 for s in [
+                    'input[placeholder*="アメーバID"]',
+                    'input[placeholder*="メールアドレス"]',
                     'input[type="email"]',
                     'input[name="email"]',
                     'input[name="signin_id"]',
                     'input[name="ameba_id"]',
                     'input[name="username"]',
-                    'input[name="userId"]',
                     'input[autocomplete="email"]',
                     'input[autocomplete="username"]',
                     'input[type="text"]',  # 最終フォールバック
@@ -174,9 +176,10 @@ def post_to_ameblo(title: str, body: str) -> None:
                 page.fill(email_sel, email)
                 print(f"メールアドレス入力完了（{email_sel}）")
 
-                # パスワード欄がなければ「次へ」で進む
+                # パスワード欄が同一ページにある（1段階フォーム）ので「次へ」は不要
+                # ただし念のため、パスワード欄がなければ「次へ」を試みる
                 if page.locator('input[type="password"]').count() == 0:
-                    for s in ['button:has-text("次へ")', 'button:has-text("続ける")', 'button[type="submit"]', 'input[type="submit"]']:
+                    for s in ['button:has-text("次へ")', 'button:has-text("続ける")', 'button[type="submit"]']:
                         if page.locator(s).count() > 0 and page.locator(s).first.is_visible():
                             page.click(s)
                             print(f"次へボタンクリック: {s}")
@@ -185,14 +188,13 @@ def post_to_ameblo(title: str, body: str) -> None:
 
                 page.screenshot(path="debug_screenshots/03_after_email.png")
 
-                # パスワード入力（最大10秒待機）
-                try:
-                    page.wait_for_selector('input[type="password"]', timeout=10000)
-                except Exception:
-                    pass
-
+                # パスワード入力
                 pw_sel = None
-                for s in ['input[type="password"]', 'input[name="password"]']:
+                for s in [
+                    'input[placeholder*="パスワード"]',
+                    'input[type="password"]',
+                    'input[name="password"]',
+                ]:
                     if page.locator(s).count() > 0 and page.locator(s).first.is_visible():
                         pw_sel = s
                         break
@@ -203,8 +205,8 @@ def post_to_ameblo(title: str, body: str) -> None:
                 page.fill(pw_sel, password)
                 print(f"パスワード入力完了（{pw_sel}）")
 
-                # ログインボタン
-                for s in ['button[type="submit"]', 'button:has-text("ログイン")', 'button:has-text("サインイン")', 'input[type="submit"]']:
+                # ログインボタン（緑の「ログイン」ボタン）
+                for s in ['button:has-text("ログイン")', 'button[type="submit"]', 'button:has-text("サインイン")', 'input[type="submit"]']:
                     if page.locator(s).count() > 0 and page.locator(s).first.is_visible():
                         page.click(s)
                         print(f"ログインボタンクリック: {s}")
