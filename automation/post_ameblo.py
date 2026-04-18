@@ -201,23 +201,25 @@ def post_to_ameblo(title: str, body: str) -> None:
 
             # ── 4. 新規記事作成ページへ ────────────────────────────
             print("記事作成ページへ移動中...")
-            page.goto("https://blog.ameba.jp/entries/new", wait_until="domcontentloaded")
+            page.goto(
+                "https://blog.ameba.jp/ucs/entry/srventryinsertinput.do",
+                wait_until="domcontentloaded",
+            )
             page.wait_for_timeout(5000)
             page.screenshot(path="debug_screenshots/05_new_entry.png")
             print(f"記事作成ページURL: {page.url}")
 
             # ── 5. タイトル入力 ───────────────────────────────────
+            # 旧アメブロエディタのタイトルフィールド
             title_selectors = [
+                'input[name="entry_title"]',
+                'input[id="entryTitle"]',
                 'input[placeholder*="タイトル"]',
                 'input[name="title"]',
-                'input[id*="title"]',
-                'textarea[placeholder*="タイトル"]',
-                '[data-testid="title-input"]',
             ]
             title_filled = False
             for sel in title_selectors:
                 if page.locator(sel).count() > 0:
-                    page.click(sel)
                     page.fill(sel, title)
                     print(f"タイトル入力完了: {title}")
                     title_filled = True
@@ -228,61 +230,72 @@ def post_to_ameblo(title: str, body: str) -> None:
 
             page.wait_for_timeout(1000)
 
-            # ── 6. 本文入力（HTMLエディタ経由） ──────────────────
-            # まずHTMLモードに切り替えを試みる
-            html_mode_selectors = [
-                'button:has-text("HTML")',
-                '[data-testid="html-mode"]',
-                'button:has-text("ソース")',
-                'label:has-text("HTML")',
+            # ── 6. 本文入力 ───────────────────────────────────────
+            # まず「テキスト」「HTML」モードへの切り替えボタンを探す
+            # 旧エディタはFCKeditor（iframe内）か、テキストモード用textarea
+            text_mode_selectors = [
+                'a:has-text("テキスト")',
+                'a:has-text("HTML")',
+                'input[value="テキスト"]',
+                'span:has-text("テキスト")',
+                '#tabText',
+                '.tab-text',
             ]
-            html_mode_switched = False
-            for sel in html_mode_selectors:
+            for sel in text_mode_selectors:
                 if page.locator(sel).count() > 0:
                     page.click(sel)
-                    page.wait_for_timeout(1000)
-                    html_mode_switched = True
-                    print("HTMLモードに切り替え")
+                    page.wait_for_timeout(1500)
+                    print(f"テキストモードに切り替え: {sel}")
                     break
 
-            if html_mode_switched:
-                # HTMLモード: textarea に直接書き込む
-                textarea_selectors = [
-                    'textarea[name="body"]',
-                    'textarea[id*="body"]',
-                    'textarea[placeholder*="本文"]',
-                    '.html-editor textarea',
-                    'textarea',
-                ]
-                body_filled = False
-                for sel in textarea_selectors:
-                    if page.locator(sel).count() > 0:
-                        page.fill(sel, html_body)
-                        print("本文入力完了（HTMLモード）")
-                        body_filled = True
-                        break
-            else:
-                body_filled = False
+            page.screenshot(path="debug_screenshots/06_text_mode.png")
 
+            body_filled = False
+
+            # パターンA: テキストモードの textarea に直接書き込む
+            textarea_selectors = [
+                'textarea[name="entry_body"]',
+                'textarea[id="bodyText"]',
+                'textarea[id*="body"]',
+                'textarea[name*="body"]',
+                'textarea[placeholder*="本文"]',
+            ]
+            for sel in textarea_selectors:
+                if page.locator(sel).count() > 0 and page.locator(sel).first.is_visible():
+                    page.fill(sel, html_body)
+                    print(f"本文入力完了（textarea: {sel}）")
+                    body_filled = True
+                    break
+
+            # パターンB: FCKeditor iframe内の contenteditable
             if not body_filled:
-                # リッチテキストエディタ（contenteditable）にキー入力
-                body_selectors = [
-                    '[contenteditable="true"]',
-                    '.ProseMirror',
-                    '[data-testid="body-editor"]',
-                    '.ql-editor',
-                    '[role="textbox"]',
-                ]
-                for sel in body_selectors:
-                    locators = page.locator(sel).all()
-                    # タイトル以外の最初のeditableを使用
-                    for loc in locators:
+                frames = page.frames
+                print(f"フレーム数: {len(frames)}")
+                for frame in frames:
+                    try:
+                        editable = frame.locator('[contenteditable="true"]')
+                        if editable.count() > 0 and editable.first.is_visible():
+                            editable.first.click()
+                            frame.evaluate(
+                                "(el, html) => { el.innerHTML = html; }",
+                                [editable.first.element_handle(), html_body],
+                            )
+                            print("本文入力完了（FCKeditor iframe）")
+                            body_filled = True
+                            break
+                    except Exception as e:
+                        print(f"フレーム試行スキップ: {e}")
+
+            # パターンC: メインページの contenteditable
+            if not body_filled:
+                for sel in ['[contenteditable="true"]', '.ql-editor', '[role="textbox"]']:
+                    locs = page.locator(sel).all()
+                    for loc in locs:
                         if loc.is_visible():
                             loc.click()
                             page.wait_for_timeout(500)
-                            # プレーンテキストとして入力（Markdownのまま）
-                            page.keyboard.type(body, delay=5)
-                            print("本文入力完了（リッチテキストエディタ）")
+                            page.keyboard.type(body, delay=3)
+                            print(f"本文入力完了（contenteditable: {sel}）")
                             body_filled = True
                             break
                     if body_filled:
@@ -292,50 +305,46 @@ def post_to_ameblo(title: str, body: str) -> None:
                 print("警告: 本文入力フィールドが見つかりませんでした")
 
             page.wait_for_timeout(2000)
-            page.screenshot(path="debug_screenshots/06_article_filled.png")
+            page.screenshot(path="debug_screenshots/07_article_filled.png")
 
-            # ── 7. 公開ボタンをクリック ────────────────────────────
-            publish_selectors = [
-                'button:has-text("公開する")',
-                'button:has-text("投稿する")',
-                'button:has-text("公開")',
-                'button:has-text("投稿")',
-                '[data-testid="publish-button"]',
-            ]
+            # ── 7. 公開（投稿）ボタンをクリック ─────────────────
+            # 旧エディタは input[type=submit] が多い
             published = False
-            for sel in publish_selectors:
-                if page.locator(sel).count() > 0:
+            submit_input_selectors = [
+                'input[type="submit"][value*="投稿"]',
+                'input[type="submit"][value*="公開"]',
+                'input[type="submit"][value*="保存"]',
+                'input[type="submit"]',
+            ]
+            for sel in submit_input_selectors:
+                if page.locator(sel).count() > 0 and page.locator(sel).first.is_visible():
                     page.locator(sel).first.click()
-                    print(f"公開ボタンクリック: {sel}")
+                    print(f"投稿ボタンクリック: {sel}")
                     published = True
                     break
 
             if not published:
-                # ボタン一覧をデバッグ出力
-                buttons = page.locator("button").all()
-                print(f"ボタン一覧（{len(buttons)}件）:")
-                for i, btn in enumerate(buttons):
+                # button 形式もフォールバックで試す
+                for sel in ['button:has-text("投稿")', 'button:has-text("公開")']:
+                    if page.locator(sel).count() > 0:
+                        page.locator(sel).first.click()
+                        print(f"投稿ボタンクリック（button）: {sel}")
+                        published = True
+                        break
+
+            if not published:
+                # デバッグ: 全 submit 要素を出力
+                for el in page.locator('input[type="submit"]').all():
+                    print(f"  submit: value='{el.get_attribute('value')}'")
+                for el in page.locator("button").all():
                     try:
-                        print(f"  [{i}] '{btn.inner_text().strip()}'")
+                        print(f"  button: '{el.inner_text().strip()}'")
                     except Exception:
                         pass
-                raise RuntimeError("公開ボタンが見つかりませんでした")
+                raise RuntimeError("投稿ボタンが見つかりませんでした")
 
-            page.wait_for_timeout(4000)
-            page.screenshot(path="debug_screenshots/07_publish_dialog.png")
-
-            # 確認ダイアログがある場合
-            confirm_selectors = [
-                'button:has-text("公開する")',
-                'button:has-text("投稿する")',
-                'button:has-text("OK")',
-                'button:has-text("確認")',
-            ]
-            for sel in confirm_selectors:
-                if page.locator(sel).count() > 0:
-                    page.locator(sel).last.click()
-                    print(f"確認ダイアログクリック: {sel}")
-                    break
+            page.wait_for_timeout(5000)
+            page.screenshot(path="debug_screenshots/08_after_publish.png")
 
             page.wait_for_timeout(5000)
             page.screenshot(path="debug_screenshots/08_after_publish.png")
