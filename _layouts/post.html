@@ -311,15 +311,31 @@ layout: default
     </div>
   </div>
 
-  <!-- 前後ナビ -->
+  <!-- 前後ナビ（同言語の記事のみ） -->
+  {% assign lang_posts = site.posts | where: "lang", pl %}
+  {% assign prev_lang_post = nil %}
+  {% assign next_lang_post = nil %}
+  {% for p in lang_posts %}
+    {% if p.url == page.url %}
+      {% unless forloop.first %}
+        {% assign pidx = forloop.index0 | minus: 1 %}
+        {% assign next_lang_post = lang_posts[pidx] %}
+      {% endunless %}
+      {% unless forloop.last %}
+        {% assign nidx = forloop.index0 | plus: 1 %}
+        {% assign prev_lang_post = lang_posts[nidx] %}
+      {% endunless %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
   <nav class="post-nav" aria-label="前後の記事">
-    {% if page.previous.url %}
-      <a href="{{ page.previous.url }}">← {{ page.previous.title | truncate: 36 }}</a>
+    {% if prev_lang_post %}
+      <a href="{{ prev_lang_post.url }}">← {{ prev_lang_post.title | truncate: 36 }}</a>
     {% else %}
       <span></span>
     {% endif %}
-    {% if page.next.url %}
-      <a href="{{ page.next.url }}">{{ page.next.title | truncate: 36 }} →</a>
+    {% if next_lang_post %}
+      <a href="{{ next_lang_post.url }}">{{ next_lang_post.title | truncate: 36 }} →</a>
     {% endif %}
   </nav>
 </article>
