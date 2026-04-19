@@ -63,10 +63,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | {{ t_logo }}</title>
   <meta name="description" content="{{ page.description | default: site.description }}">
+
+  <!-- OGP -->
+  {% if page.layout == "post" %}
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+  {% else %}
+    <meta property="og:type" content="website">
+  {% endif %}
   <meta property="og:title" content="{{ page.title }}">
   <meta property="og:description" content="{{ page.description | default: site.description }}">
-  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ page.url | prepend: site.url }}">
+  <meta property="og:site_name" content="{{ t_logo }}">
+  <meta property="og:image" content="{{ site.url }}/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:locale" content="{{ t_html_lang }}">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title }}">
+  <meta name="twitter:description" content="{{ page.description | default: site.description }}">
+  <meta name="twitter:image" content="{{ site.url }}/assets/og-image.png">
+
+  <!-- hreflang -->
   <link rel="alternate" hreflang="ja" href="https://mobile-friend.com/">
   <link rel="alternate" hreflang="en" href="https://mobile-friend.com/en/">
   <link rel="alternate" hreflang="ko" href="https://mobile-friend.com/ko/">

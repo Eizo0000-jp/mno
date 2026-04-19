@@ -1,4 +1,5 @@
 assets/*.png
+!assets/og-image.png
 assets/*.jpg
 assets/*.jpeg
 assets/*.gif

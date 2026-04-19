@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    background: #f4eede;
+    position: relative;
+  }
+
+  /* 左の赤いアクセントバー */
+  .bar {
+    position: absolute;
+    left: 0; top: 0;
+    width: 12px;
+    height: 100%;
+    background: #7f0019;
+  }
+
+  /* 右上の装飾円 */
+  .circle-lg {
+    position: absolute;
+    right: -80px; top: -80px;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    background: rgba(127,0,25,0.08);
+  }
+  .circle-sm {
+    position: absolute;
+    right: 60px; bottom: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(127,0,25,0.05);
+  }
+
+  /* メインコンテンツ */
+  .content {
+    position: absolute;
+    left: 72px; top: 0;
+    right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 80px;
+  }
+
+  .tag {
+    display: inline-block;
+    background: #7f0019;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 6px 18px;
+    border-radius: 3px;
+    margin-bottom: 28px;
+    width: fit-content;
+  }
+
+  .title {
+    font-size: 52px;
+    font-weight: 700;
+    color: #3c3c43;
+    line-height: 1.45;
+    margin-bottom: 32px;
+    letter-spacing: -0.5px;
+  }
+
+  .highlight {
+    color: #7f0019;
+  }
+
+  .points-row {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 40px;
+  }
+  .point-item {
+    background: #fff;
+    border: 1.5px solid #e0ceaa;
+    border-radius: 10px;
+    padding: 14px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .point-label {
+    font-size: 13px;
+    color: #6d6d72;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .point-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #7f0019;
+    letter-spacing: -0.5px;
+  }
+
+  .url {
+    font-size: 20px;
+    color: #9d9da0;
+    letter-spacing: 1px;
+    font-weight: 400;
+  }
+
+  /* 下部ライン */
+  .bottom-line {
+    position: absolute;
+    left: 72px; right: 0;
+    bottom: 48px;
+    height: 1px;
+    background: #e0ceaa;
+  }
+</style>
+</head>
+<body>
+  <div class="bar"></div>
+  <div class="circle-lg"></div>
+  <div class="circle-sm"></div>
+
+  <div class="content">
+    <span class="tag">楽天モバイル 社員紹介</span>
+    <h1 class="title">
+      スマホ代を<span class="highlight">月3,278円</span>に。<br>
+      社員紹介で<span class="highlight">最大14,000pt</span>プレゼント
+    </h1>
+    <div class="points-row">
+      <div class="point-item">
+        <span class="point-label">MNP乗り換え</span>
+        <span class="point-value">14,000 pt</span>
+      </div>
+      <div class="point-item">
+        <span class="point-label">新規申込み</span>
+        <span class="point-value">11,000 pt</span>
+      </div>
+      <div class="point-item">
+        <span class="point-label">月額料金</span>
+        <span class="point-value">¥3,278</span>
+      </div>
+    </div>
+    <span class="url">mobile-friend.com</span>
+  </div>
+
+  <div class="bottom-line"></div>
+</body>
+</html>
