@@ -26,6 +26,16 @@
   <link rel="alternate" hreflang="tl" href="https://mobile-friend.com/tl/">
   <link rel="alternate" hreflang="vi" href="https://mobile-friend.com/vi/">
   <link rel="alternate" hreflang="x-default" href="https://mobile-friend.com/">
+  <!-- Microsoft Clarity - プロジェクトID取得後に CLARITY_PROJECT_ID を置き換えてください -->
+  <!-- https://clarity.microsoft.com/ でプロジェクトを作成してIDを確認 -->
+  <!--
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/CLARITY_PROJECT_ID";
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "CLARITY_PROJECT_ID");
+  </script>
+  -->
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ETZGTWCXDQ"></script>
   <script>
@@ -467,6 +477,43 @@
     .site-footer p { font-size: 12px; color: var(--text-light); line-height: 1.6; }
     .site-footer a { color: var(--text-sub); }
 
+    /* CARRIERS */
+    .carriers-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 80px 32px;
+    }
+    .carriers-table-wrap { overflow-x: auto; }
+    .carriers-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      min-width: 560px;
+    }
+    .carriers-table th, .carriers-table td {
+      padding: 14px 18px;
+      border: 1px solid var(--border-lt);
+      text-align: center;
+      vertical-align: middle;
+    }
+    .carriers-table thead th {
+      background: var(--bg-gray);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .carriers-table thead th.col-rakuten {
+      background: var(--red);
+      color: #fff;
+    }
+    .carriers-table td:first-child {
+      text-align: left;
+      background: var(--bg-gray);
+      font-weight: 700;
+      color: var(--text-sub);
+    }
+    .carriers-table .val-rakuten { color: var(--red); font-weight: 700; }
+    .carriers-table .val-save { font-size: 12px; color: var(--text-light); }
+
     /* FLOAT */
     .float-cta {
       position: fixed;
@@ -476,6 +523,13 @@
       z-index: 99;
       white-space: nowrap;
       filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .float-cta--visible {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     @media (max-width: 767px) {
@@ -483,7 +537,7 @@
       .site-nav { padding-right: 12px; margin-right: 12px; }
       .hero { padding: 56px 16px; }
       .hero h1 { font-size: 26px; }
-      .compare-wrap, .points-wrap, .how-wrap, .plan-wrap, .faq-wrap { padding: 56px 16px; }
+      .compare-wrap, .points-wrap, .how-wrap, .plan-wrap, .faq-wrap, .carriers-wrap { padding: 56px 16px; }
       .cta-section { padding: 56px 16px; }
       .section { padding: 56px 16px; }
       .section-heading { font-size: 26px; }
@@ -657,11 +711,78 @@
   </div>
 </div>
 
+<!-- CARRIERS -->
+<div class="carriers-wrap">
+  <p class="section-eyebrow">PRICE COMPARISON</p>
+  <h2 class="section-heading">他社との料金比較</h2>
+  <p class="section-sub">無制限プランで比べると、楽天モバイルが圧倒的に安い。社員紹介でさらにポイントがもらえる。</p>
+  <div class="carriers-table-wrap">
+    <table class="carriers-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="col-rakuten">楽天モバイル<br><small>（このリンク）</small></th>
+          <th>docomo</th>
+          <th>au</th>
+          <th>SoftBank</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>データ無制限プラン</td>
+          <td class="val-rakuten">¥3,278</td>
+          <td>約¥7,315</td>
+          <td>約¥7,238</td>
+          <td>約¥8,580</td>
+        </tr>
+        <tr>
+          <td>楽天より安くなる額（月）</td>
+          <td class="val-rakuten">ー</td>
+          <td class="val-save">約¥4,037お得</td>
+          <td class="val-save">約¥3,960お得</td>
+          <td class="val-save">約¥5,302お得</td>
+        </tr>
+        <tr>
+          <td>年間節約額</td>
+          <td class="val-rakuten">ー</td>
+          <td class="val-save">約¥48,400</td>
+          <td class="val-save">約¥47,500</td>
+          <td class="val-save">約¥63,600</td>
+        </tr>
+        <tr>
+          <td>解約金・契約縛り</td>
+          <td class="val-rakuten">なし</td>
+          <td>あり</td>
+          <td>あり</td>
+          <td>あり</td>
+        </tr>
+        <tr>
+          <td>社員紹介ポイント</td>
+          <td class="val-rakuten">最大14,000pt</td>
+          <td>ー</td>
+          <td>ー</td>
+          <td>ー</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:12px; color:var(--text-light); margin-top:12px;">※各社の料金は代表的な無制限プランの目安です（2026年4月時点）。実際の料金・条件は各社公式サイトでご確認ください。</p>
+</div>
+
 <!-- CTA -->
 <section class="cta-section">
   <h2>社員紹介リンクから申し込もう</h2>
   <p>通常申込みでは受け取れない最大14,000ポイントを、<br>このリンクから申し込むだけで獲得できます。</p>
   <a href="https://r10.to/henTIE" class="btn btn-accent btn-lg" target="_blank" rel="noopener">今すぐ申し込む（無料）</a>
+  <!-- LINE公式アカウント - アカウント作成後に LINE_ACCOUNT_URL を置き換えてください -->
+  <!-- https://www.linebiz.com/jp/entry/ でLINE公式アカウントを作成 -->
+  <!--
+  <p style="margin-top:24px; font-size:13px; color:var(--text-sub);">LINEでキャンペーン情報を受け取る</p>
+  <a href="https://lin.ee/LINE_ACCOUNT_URL" class="btn btn-outline" style="margin-top:8px; display:inline-flex; align-items:center; gap:8px;" target="_blank" rel="noopener">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#06c755"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    LINE公式アカウントを友だち追加
+  </a>
+  -->
 </section>
 
 <!-- BLOG LINK -->
@@ -733,6 +854,14 @@ function switchLang(lang) {
   }
   location.href = homes[lang] || '/';
 }
+(function() {
+  var cta = document.querySelector('.float-cta');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 300) {
+      cta.classList.add('float-cta--visible');
+    }
+  }, { passive: true });
+})();
 </script>
 
 <div class="float-cta">

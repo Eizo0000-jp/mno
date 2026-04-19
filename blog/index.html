@@ -15,7 +15,6 @@ lang: ja
     font-weight: 700;
     color: var(--red);
     letter-spacing: 2.4px;
-    line-height: 1.15;
     margin-bottom: 16px;
   }
   .blog-title {
@@ -27,24 +26,72 @@ lang: ja
   }
   .blog-sub { font-size: 14px; color: var(--text-sub); }
 
-  .post-list {
+  .post-grid {
     display: grid;
-    border-top: 1px solid var(--border-lt);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border-lt);
+    border: 1px solid var(--border-lt);
   }
   .post-card {
-    display: block;
-    padding: 24px 0;
-    border-bottom: 1px solid var(--border-lt);
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    padding: 28px 24px;
     color: inherit;
     text-decoration: none;
-    transition: background 0.1s;
+    transition: background 0.12s;
   }
   .post-card:hover { background: var(--bg-gray); text-decoration: none; }
-  .post-card-date { font-size: 12px; color: var(--text-light); margin-bottom: 6px; }
-  .post-card-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-  .post-card-desc { font-size: 12px; color: var(--text-sub); }
+  .post-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .post-card-date {
+    font-size: 12px;
+    color: var(--text-light);
+  }
+  .post-card-new {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--red);
+    border: 1px solid var(--red);
+    border-radius: 3px;
+    padding: 1px 6px;
+    letter-spacing: 1px;
+  }
+  .post-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 10px;
+    flex: 1;
+  }
+  .post-card-desc {
+    font-size: 12px;
+    color: var(--text-sub);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .post-card-arrow {
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--red);
+    font-weight: 700;
+  }
 
   .empty { font-size: 14px; color: var(--text-light); padding: 64px 0; text-align: center; }
+
+  @media (max-width: 767px) {
+    .post-grid { grid-template-columns: 1fr; }
+    .blog-title { font-size: 26px; }
+  }
 </style>
 
 <header class="blog-header">
@@ -54,15 +101,23 @@ lang: ja
 </header>
 
 {% assign ja_posts = site.posts | where: "lang", "ja" %}
+{% assign seven_days_ago = 'now' | date: '%s' | minus: 604800 %}
 {% if ja_posts.size > 0 %}
-  <div class="post-list">
+  <div class="post-grid">
     {% for post in ja_posts %}
+      {% assign post_ts = post.date | date: '%s' | plus: 0 %}
       <a href="{{ post.url }}" class="post-card">
-        <p class="post-card-date">{{ post.date | date: "%Y年%-m月%-d日" }}</p>
+        <div class="post-card-meta">
+          <span class="post-card-date">{{ post.date | date: "%Y年%-m月%-d日" }}</span>
+          {% if post_ts >= seven_days_ago %}
+            <span class="post-card-new">NEW</span>
+          {% endif %}
+        </div>
         <p class="post-card-title">{{ post.title }}</p>
         {% if post.description %}
           <p class="post-card-desc">{{ post.description }}</p>
         {% endif %}
+        <p class="post-card-arrow">続きを読む →</p>
       </a>
     {% endfor %}
   </div>

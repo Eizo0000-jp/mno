@@ -7,6 +7,13 @@ layout: default
 {% assign encoded_title = page.title | url_encode %}
 {% assign char_count = content | strip_html | size %}
 {% assign read_min = char_count | divided_by: 400 | plus: 1 %}
+{% assign slug_parts = page.url | split: "/" %}
+{% assign post_slug = slug_parts[4] %}
+{% if page.ogp_image %}
+  {% assign article_ogp = site.url | append: page.ogp_image %}
+{% else %}
+  {% assign article_ogp = site.url | append: "/assets/og-image.png" %}
+{% endif %}
 
 <!-- JSON-LD 構造化データ -->
 <script type="application/ld+json">
@@ -19,7 +26,7 @@ layout: default
       "description": {{ page.description | default: site.description | jsonify }},
       "url": {{ abs_url | jsonify }},
       "datePublished": "{{ page.date | date_to_xmlschema }}",
-      "image": "{{ site.url }}/assets/og-image.png",
+      "image": "{{ article_ogp }}",
       "author": {
         "@type": "Person",
         "name": "楽天モバイル社員"
@@ -183,10 +190,44 @@ layout: default
   .post-nav a { font-size: 13px; color: var(--text-sub); max-width: 45%; }
   .post-nav a:hover { color: var(--red); text-decoration: none; }
 
+  /* ── 関連記事 ── */
+  .related-section {
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .related-heading {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--border-lt);
+    border: 1px solid var(--border-lt);
+  }
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: var(--bg);
+    padding: 20px 18px;
+    text-decoration: none;
+    transition: background 0.12s;
+  }
+  .related-card:hover { background: var(--bg-gray); text-decoration: none; }
+  .related-date { font-size: 11px; color: var(--text-light); }
+  .related-title { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.6; }
+
   @media (max-width: 767px) {
     .share-buttons { gap: 8px; }
     .share-btn { padding: 8px 14px; font-size: 12px; }
     .post-nav a { max-width: 100%; }
+    .related-grid { grid-template-columns: 1fr; }
   }
 </style>
 
@@ -310,6 +351,42 @@ layout: default
       </button>
     </div>
   </div>
+
+  <!-- 関連記事（同言語・直近4件） -->
+  {% assign lang_all = site.posts | where: "lang", pl %}
+  {% assign related_posts = "" | split: "" %}
+  {% for p in lang_all %}
+    {% if p.url != page.url and related_posts.size < 4 %}
+      {% assign related_posts = related_posts | push: p %}
+    {% endif %}
+  {% endfor %}
+  {% if related_posts.size > 0 %}
+  <section class="related-section">
+    {% if pl == "en" %}
+      <p class="related-heading">RELATED ARTICLES</p>
+    {% elsif pl == "ko" %}
+      <p class="related-heading">관련 기사</p>
+    {% elsif pl == "zh-cn" %}
+      <p class="related-heading">相关文章</p>
+    {% elsif pl == "zh-tw" %}
+      <p class="related-heading">相關文章</p>
+    {% elsif pl == "tl" %}
+      <p class="related-heading">MGA KAUGNAY NA ARTIKULO</p>
+    {% elsif pl == "vi" %}
+      <p class="related-heading">BÀI VIẾT LIÊN QUAN</p>
+    {% else %}
+      <p class="related-heading">関連記事</p>
+    {% endif %}
+    <div class="related-grid">
+      {% for p in related_posts %}
+        <a href="{{ p.url }}" class="related-card">
+          <span class="related-date">{{ p.date | date: "%Y年%-m月%-d日" }}</span>
+          <span class="related-title">{{ p.title | truncate: 52 }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
 
   <!-- 前後ナビ（同言語の記事のみ） -->
   {% assign lang_posts = site.posts | where: "lang", pl %}

@@ -164,7 +164,10 @@ def get_todays_ja_posts(lookback_days: int = 7) -> list[dict]:
         # URL 構築: /YYYY/MM/DD/slug/
         parts = stem.split("-", 3)
         url = f"{SITE_URL}/{parts[0]}/{parts[1]}/{parts[2]}/{parts[3]}/"
-        results.append({"title": title, "url": url})
+        # OGP画像パス (assets/ogp/ にあれば添付)
+        ogp_path = REPO_ROOT / "assets" / "ogp" / f"{stem[:10]}-{parts[3]}.png"
+        image_path = str(ogp_path) if ogp_path.exists() else ""
+        results.append({"title": title, "url": url, "image": image_path})
     return results
 
 
@@ -191,7 +194,7 @@ def build_schedule(start_date: date, article_posts: list[dict]) -> list[dict]:
             dt = datetime(day.year, day.month, day.day, hour, minute)
             content = casual_pool[pool_index % len(casual_pool)]
             pool_index += 1
-            schedule.append({"dt": dt, "content": content})
+            schedule.append({"dt": dt, "content": content, "image": ""})
 
     # 記事紹介投稿を差し込む（1〜3日目の昼ごろ）
     for i, ap in enumerate(article_posts):
@@ -201,7 +204,7 @@ def build_schedule(start_date: date, article_posts: list[dict]) -> list[dict]:
         dt = datetime(insert_day.year, insert_day.month, insert_day.day, insert_hour, insert_minute)
         template = rng.choice(ARTICLE_TEMPLATES)
         content = template.format(title=ap["title"], url=ap["url"])
-        schedule.append({"dt": dt, "content": content})
+        schedule.append({"dt": dt, "content": content, "image": ap.get("image", "")})
 
     return sorted(schedule, key=lambda x: x["dt"])
 
@@ -215,7 +218,8 @@ def write_csv(schedule: list[dict]) -> None:
         writer.writerow(header)
         for row in schedule:
             dt_str = row["dt"].strftime("%Y/%m/%d %H:%M")
-            writer.writerow([dt_str, row["content"]] + [""] * 10)
+            image = row.get("image", "")
+            writer.writerow([dt_str, row["content"], image] + [""] * 9)
     print(f"CSV生成完了: {OUTPUT_CSV} ({len(schedule)}件)")
 
 

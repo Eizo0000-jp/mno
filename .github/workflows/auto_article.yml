@@ -30,6 +30,9 @@ jobs:
       - name: 依存関係インストール
         run: pip install -r automation/requirements.txt
 
+      - name: Playwright ブラウザインストール
+        run: playwright install chromium --with-deps
+
       - name: 記事を生成
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -40,6 +43,9 @@ jobs:
           fi
           python automation/generate_article.py $DATE_ARG
 
+      - name: 記事別OGP画像を生成
+        run: python automation/generate_og_image_per_article.py
+
       - name: Threads投稿CSVを生成
         run: python automation/generate_threads_csv.py
 
@@ -47,6 +53,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add _posts/ assets/posts.csv
-          git diff --staged --quiet || git commit -m "auto: SEO記事＋Threads投稿CSV追加 $(date +'%Y-%m-%d')"
+          git add _posts/ assets/ogp/ assets/posts.csv
+          git diff --staged --quiet || git commit -m "auto: SEO記事＋OGP画像＋Threads投稿CSV追加 $(date +'%Y-%m-%d')"
           git push

@@ -4,7 +4,16 @@
       "WebFetch(domain:rmobile-referral.com)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(python:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(pip install:*)",
+      "Bash(playwright install:*)",
+      "Bash(python3 -m pip install playwright -q)",
+      "Bash(python3 -m playwright install chromium)",
+      "Bash(python3:*)",
+      "WebFetch(domain:mobile-friend.com)"
     ]
   }
 }

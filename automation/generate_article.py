@@ -135,6 +135,116 @@ TOPICS = [
         "tl": "Paano mag-double dip ng Rakuten points sa smartphone plan",
         "vi": "Cách kiếm điểm Rakuten gấp đôi từ gói cước điện thoại",
     },
+    {
+        "slug": "rakuten-esim-setup",
+        "ja": "楽天モバイル eSIM 設定方法 メリット デメリット",
+        "en": "Rakuten Mobile eSIM setup guide pros cons for foreign residents",
+        "ko": "라쿠텐 모바일 eSIM 설정 방법 장단점 완전 가이드",
+        "zh-cn": "乐天手机eSIM设置方法优缺点完整指南",
+        "zh-tw": "樂天手機eSIM設定方法優缺點完整指南",
+        "tl": "Rakuten Mobile eSIM setup gabay para sa mga dayuhan sa Japan",
+        "vi": "Hướng dẫn cài đặt eSIM Rakuten Mobile ưu nhược điểm",
+    },
+    {
+        "slug": "rakuten-link-app-guide",
+        "ja": "Rakuten Link アプリ 使い方 無料通話 活用術",
+        "en": "Rakuten Link app complete guide free calls for foreigners in Japan",
+        "ko": "Rakuten Link 앱 사용법 무료 통화 완전 활용 가이드",
+        "zh-cn": "Rakuten Link应用使用指南免费通话完整教程",
+        "zh-tw": "Rakuten Link應用使用指南免費通話完整教學",
+        "tl": "Rakuten Link app gabay libreng tawag para sa mga dayuhan",
+        "vi": "Hướng dẫn sử dụng ứng dụng Rakuten Link gọi miễn phí",
+    },
+    {
+        "slug": "docomo-to-rakuten-guide",
+        "ja": "ドコモから楽天モバイル 乗り換え 手順 注意点",
+        "en": "How to switch from Docomo to Rakuten Mobile complete guide",
+        "ko": "도코모에서 라쿠텐 모바일로 번호이동 방법 주의점",
+        "zh-cn": "从docomo转到乐天手机详细步骤注意事项",
+        "zh-tw": "從docomo轉到樂天手機詳細步驟注意事項",
+        "tl": "Paano lumipat mula Docomo papunta Rakuten Mobile hakbang hakbang",
+        "vi": "Hướng dẫn chuyển từ Docomo sang Rakuten Mobile chi tiết",
+    },
+    {
+        "slug": "au-to-rakuten-guide",
+        "ja": "auから楽天モバイル 乗り換え 手順 SIMロック解除",
+        "en": "How to switch from au to Rakuten Mobile SIM unlock guide",
+        "ko": "au에서 라쿠텐 모바일로 번호이동 심락 해제 방법",
+        "zh-cn": "从au转到乐天手机步骤SIM锁解除方法",
+        "zh-tw": "從au轉到樂天手機步驟SIM鎖解除方法",
+        "tl": "Paano lumipat mula au papunta Rakuten Mobile SIM unlock",
+        "vi": "Hướng dẫn chuyển từ au sang Rakuten Mobile mở khóa SIM",
+    },
+    {
+        "slug": "softbank-to-rakuten-guide",
+        "ja": "ソフトバンクから楽天モバイル 乗り換え メリット デメリット",
+        "en": "Switching from SoftBank to Rakuten Mobile pros cons guide",
+        "ko": "소프트뱅크에서 라쿠텐 모바일로 전환 장단점 가이드",
+        "zh-cn": "从软银转到乐天手机优缺点完整指南",
+        "zh-tw": "從軟銀轉到樂天手機優缺點完整指南",
+        "tl": "Paglipat mula SoftBank papunta Rakuten Mobile kalamangan kahinaan",
+        "vi": "Chuyển từ SoftBank sang Rakuten Mobile ưu nhược điểm",
+    },
+    {
+        "slug": "rakuten-overseas-roaming",
+        "ja": "楽天モバイル 海外ローミング 使い方 無料2GB 活用法",
+        "en": "Rakuten Mobile overseas roaming free 2GB how to use abroad",
+        "ko": "라쿠텐 모바일 해외 로밍 무료 2GB 사용 방법",
+        "zh-cn": "乐天手机海外漫游免费2GB使用方法",
+        "zh-tw": "樂天手機海外漫遊免費2GB使用方法",
+        "tl": "Rakuten Mobile overseas roaming libreng 2GB paano gamitin",
+        "vi": "Rakuten Mobile roaming quốc tế miễn phí 2GB cách sử dụng",
+    },
+    {
+        "slug": "foreign-residents-sim-guide",
+        "ja": "在日外国人 スマホ SIM 選び方 楽天モバイルが最適な理由",
+        "en": "Best SIM card for foreigners living in Japan why Rakuten Mobile",
+        "ko": "재일 외국인을 위한 최고의 SIM 선택 가이드 라쿠텐 모바일 추천",
+        "zh-cn": "在日外国人最佳SIM卡选择指南为什么选乐天手机",
+        "zh-tw": "在日外國人最佳SIM卡選擇指南為什麼選樂天手機",
+        "tl": "Pinakamainam na SIM para sa mga dayuhan sa Japan bakit Rakuten Mobile",
+        "vi": "SIM tốt nhất cho người nước ngoài ở Nhật lý do chọn Rakuten Mobile",
+    },
+    {
+        "slug": "iphone-rakuten-setup",
+        "ja": "iPhone 楽天モバイル 設定方法 APN eSIM 対応",
+        "en": "iPhone Rakuten Mobile setup guide APN eSIM configuration",
+        "ko": "아이폰 라쿠텐 모바일 설정 방법 APN eSIM 완전 가이드",
+        "zh-cn": "iPhone乐天手机设置方法APN eSIM完整配置",
+        "zh-tw": "iPhone樂天手機設定方法APN eSIM完整配置",
+        "tl": "iPhone Rakuten Mobile setup gabay APN eSIM configuration",
+        "vi": "Cài đặt Rakuten Mobile trên iPhone hướng dẫn APN eSIM",
+    },
+    {
+        "slug": "rakuten-student-benefits",
+        "ja": "楽天モバイル 学生 メリット 節約 ポイント活用",
+        "en": "Rakuten Mobile benefits for students in Japan save on phone bills",
+        "ko": "라쿠텐 모바일 학생 혜택 절약 포인트 활용법",
+        "zh-cn": "乐天手机对学生的好处省钱积分活用",
+        "zh-tw": "樂天手機對學生的好處省錢積分活用",
+        "tl": "Mga benepisyo ng Rakuten Mobile para sa mga estudyante sa Japan",
+        "vi": "Lợi ích của Rakuten Mobile cho sinh viên tại Nhật tiết kiệm cước",
+    },
+    {
+        "slug": "rakuten-wifi-router",
+        "ja": "楽天モバイル Rakuten Turbo Wi-Fiルーター 自宅回線 節約",
+        "en": "Rakuten Turbo home Wi-Fi router replace home broadband save money",
+        "ko": "라쿠텐 터보 가정용 Wi-Fi 라우터 인터넷 대체 절약",
+        "zh-cn": "乐天Turbo家用Wi-Fi路由器替代宽带省钱",
+        "zh-tw": "樂天Turbo家用Wi-Fi路由器替代寬頻省錢",
+        "tl": "Rakuten Turbo home Wi-Fi palitan ang broadband para makatipid",
+        "vi": "Rakuten Turbo bộ phát Wi-Fi gia đình thay thế cáp quang tiết kiệm",
+    },
+    {
+        "slug": "rakuten-point-smart-usage",
+        "ja": "楽天ポイント 賢い使い方 期間限定ポイント 失効しない方法",
+        "en": "Smart ways to use Rakuten points avoid expiry limited period points",
+        "ko": "라쿠텐 포인트 현명한 사용법 기간한정 포인트 소멸 방지",
+        "zh-cn": "楽天积分聪明使用方法防止限期积分失效",
+        "zh-tw": "樂天點數聰明使用方法防止限期點數失效",
+        "tl": "Matalinong paraan ng paggamit ng Rakuten points limitadong panahon",
+        "vi": "Cách sử dụng điểm Rakuten thông minh tránh mất điểm có hạn",
+    },
 ]
 
 LANG_PROMPTS = {
@@ -307,6 +417,32 @@ Chỉ xuất nội dung bài viết.""",
 }
 
 
+def get_recent_articles(lang: str = "ja", count: int = 5) -> list[dict]:
+    """内部リンク生成用に直近の記事一覧を取得"""
+    posts_dir = REPO_ROOT / "_posts"
+    if not posts_dir.exists():
+        return []
+    results = []
+    for p in sorted(posts_dir.glob("*.md"), reverse=True):
+        stem = p.stem
+        slug_part = stem.split("-", 3)[-1]
+        if lang == "ja":
+            if re.match(r"^(en|ko|zh-cn|zh-tw|tl|vi)-", slug_part):
+                continue
+        else:
+            if not slug_part.startswith(f"{lang}-"):
+                continue
+        text = p.read_text(encoding="utf-8")
+        title_match = re.search(r'^title:\s*"?(.+?)"?\s*$', text, re.MULTILINE)
+        title = title_match.group(1) if title_match else slug_part
+        parts = stem.split("-", 3)
+        url = f"https://mobile-friend.com/{parts[0]}/{parts[1]}/{parts[2]}/{parts[3]}/"
+        results.append({"title": title, "url": url})
+        if len(results) >= count:
+            break
+    return results
+
+
 def pick_unused_topic() -> dict:
     """まだ全言語で記事化していないトピックを選ぶ（日本語版の有無で判断）"""
     posts_dir = REPO_ROOT / "_posts"
@@ -320,10 +456,29 @@ def pick_unused_topic() -> dict:
     return random.choice(unused)
 
 
+def build_internal_links_note(lang: str) -> str:
+    """直近記事リストを内部リンク誘導用テキストに変換"""
+    articles = get_recent_articles(lang, count=5)
+    if not articles:
+        return ""
+    lines = "\n".join(f"- [{a['title']}]({a['url']})" for a in articles)
+    notes = {
+        "ja": f"\n\n関連する既存記事（記事内に自然なMarkdownリンクを1〜2箇所挿入してください）:\n{lines}",
+        "en": f"\n\nExisting related articles (naturally insert 1-2 Markdown links in the article body):\n{lines}",
+        "ko": f"\n\n기존 관련 기사 (본문에 자연스럽게 1~2개의 Markdown 링크를 삽입하세요):\n{lines}",
+        "zh-cn": f"\n\n现有相关文章（在正文中自然插入1-2个Markdown链接）：\n{lines}",
+        "zh-tw": f"\n\n現有相關文章（在正文中自然插入1-2個Markdown連結）：\n{lines}",
+        "tl": f"\n\nMga kasalukuyang kaugnay na artikulo (natural na maglagay ng 1-2 Markdown link sa katawan):\n{lines}",
+        "vi": f"\n\nCác bài viết liên quan hiện có (chèn tự nhiên 1-2 link Markdown trong bài):\n{lines}",
+    }
+    return notes.get(lang, "")
+
+
 def generate_article(keyword: str, lang: str) -> tuple[str, str]:
     """Claude APIで指定言語の記事を生成しタイトルと本文を返す"""
     client = anthropic.Anthropic()
-    prompt = LANG_PROMPTS[lang].format(keyword=keyword, url=REFERRAL_URL)
+    internal_links_note = build_internal_links_note(lang)
+    prompt = LANG_PROMPTS[lang].format(keyword=keyword, url=REFERRAL_URL) + internal_links_note
 
     message = client.messages.create(
         model="claude-sonnet-4-6",
@@ -338,12 +493,16 @@ def generate_article(keyword: str, lang: str) -> tuple[str, str]:
     return title, body
 
 
-def save_post(title: str, body: str, slug: str, lang: str, post_date: date = None) -> Path:
+def save_post(title: str, body: str, slug: str, lang: str, post_date: date = None, base_slug: str = None) -> Path:
     today = post_date or date.today()
     filename = f"{today.strftime('%Y-%m-%d')}-{slug}.md"
     posts_dir = REPO_ROOT / "_posts"
     posts_dir.mkdir(exist_ok=True)
     filepath = posts_dir / filename
+
+    # OGP画像は全言語で日本語版のベーススラッグ共通画像を使用
+    ogp_base = base_slug or slug
+    ogp_image = f"/assets/ogp/{today.strftime('%Y-%m-%d')}-{ogp_base}.png"
 
     front_matter = (
         "---\n"
@@ -351,6 +510,7 @@ def save_post(title: str, body: str, slug: str, lang: str, post_date: date = Non
         f"date: {today.isoformat()}\n"
         f'description: "{title}"\n'
         f"lang: {lang}\n"
+        f"ogp_image: {ogp_image}\n"
         "---\n\n"
     )
     filepath.write_text(front_matter + body, encoding="utf-8")
@@ -374,7 +534,7 @@ def main() -> None:
         slug = topic["slug"] if lang == "ja" else f"{lang}-{topic['slug']}"
         print(f"[{lang}] {keyword}")
         title, body = generate_article(keyword, lang)
-        save_post(title, body, slug, lang, post_date)
+        save_post(title, body, slug, lang, post_date, base_slug=topic["slug"])
 
     print(f"\n完了: 7言語 × トピック「{topic['slug']}」")
 
