@@ -338,8 +338,8 @@ def generate_article(keyword: str, lang: str) -> tuple[str, str]:
     return title, body
 
 
-def save_post(title: str, body: str, slug: str, lang: str) -> Path:
-    today = date.today()
+def save_post(title: str, body: str, slug: str, lang: str, post_date: date = None) -> Path:
+    today = post_date or date.today()
     filename = f"{today.strftime('%Y-%m-%d')}-{slug}.md"
     posts_dir = REPO_ROOT / "_posts"
     posts_dir.mkdir(exist_ok=True)
@@ -359,6 +359,13 @@ def save_post(title: str, body: str, slug: str, lang: str) -> Path:
 
 
 def main() -> None:
+    import sys
+    post_date = None
+    for arg in sys.argv[1:]:
+        if arg.startswith("--date="):
+            post_date = date.fromisoformat(arg.split("=", 1)[1])
+            print(f"指定日付: {post_date}")
+
     topic = pick_unused_topic()
     print(f"トピック: {topic['slug']}")
 
@@ -367,7 +374,7 @@ def main() -> None:
         slug = topic["slug"] if lang == "ja" else f"{lang}-{topic['slug']}"
         print(f"[{lang}] {keyword}")
         title, body = generate_article(keyword, lang)
-        save_post(title, body, slug, lang)
+        save_post(title, body, slug, lang, post_date)
 
     print(f"\n完了: 7言語 × トピック「{topic['slug']}」")
 

@@ -4,7 +4,12 @@ on:
   schedule:
     # 毎日 JST 10:00（UTC 01:00）
     - cron: "0 1 * * *"
-  workflow_dispatch:   # 手動実行も可能
+  workflow_dispatch:
+    inputs:
+      post_date:
+        description: "記事の日付 (YYYY-MM-DD)。空欄なら今日"
+        required: false
+        default: ""
 
 jobs:
   generate-and-publish:
@@ -28,7 +33,12 @@ jobs:
       - name: 記事を生成
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python automation/generate_article.py
+        run: |
+          DATE_ARG=""
+          if [ -n "${{ github.event.inputs.post_date }}" ]; then
+            DATE_ARG="--date=${{ github.event.inputs.post_date }}"
+          fi
+          python automation/generate_article.py $DATE_ARG
 
       - name: Threads投稿CSVを生成
         run: python automation/generate_threads_csv.py
