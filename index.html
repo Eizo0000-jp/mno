@@ -8,6 +8,16 @@
   <meta property="og:title" content="楽天モバイル社員紹介キャンペーン｜最大14,000ポイントもらえる">
   <meta property="og:description" content="社員紹介経由で最大14,000ポイント獲得。通常申込みとの違いをわかりやすく解説。">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mobile-friend.com/">
+  <meta property="og:image" content="https://mobile-friend.com/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="楽天モバイルで節約生活">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="楽天モバイル社員紹介キャンペーン｜最大14,000ポイントもらえる">
+  <meta name="twitter:description" content="社員紹介経由で最大14,000ポイント獲得。通常申込みとの違いをわかりやすく解説。">
+  <meta name="twitter:image" content="https://mobile-friend.com/assets/og-image.png">
+  <link rel="canonical" href="https://mobile-friend.com/">
   <link rel="alternate" hreflang="ja" href="https://mobile-friend.com/">
   <link rel="alternate" hreflang="en" href="https://mobile-friend.com/en/">
   <link rel="alternate" hreflang="ko" href="https://mobile-friend.com/ko/">
@@ -27,6 +37,79 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "楽天モバイルで節約生活",
+    "url": "https://mobile-friend.com/",
+    "description": "楽天モバイルへの乗り換えは社員紹介経由がお得。通常申込みより最大14,000ポイント多くもらえます。"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "なぜ社員紹介リンクから申し込むとポイントが多いのですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "楽天モバイルには従業員紹介キャンペーンがあり、社員の紹介リンク経由で申し込んだ方に優遇ポイントが付与されます。MNP（乗り換え）で最大14,000ポイント、新規申込みで11,000ポイントを獲得できます。通常キャンペーン（13,000ポイント）より多くもらえます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ポイントはいつもらえますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "紹介リンクでログインした月の4ヶ月後から、3ヶ月間に分けて進呈されます。たとえば4月にログイン・申込みした場合、8月・9月・10月に分割で受け取れます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ポイントを受け取るために必要な条件はありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "①紹介リンク経由でログイン（申込み前または申込み日から7日以内）、②対象プランへの申込み、③SIM/eSIMの有効化、④Rakuten Linkアプリで10秒以上の通話（データタイプは不要）、以上の条件をすべて満たす必要があります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "今使っている番号はそのまま使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、MNP（番号ポータビリティ）で今お使いの番号をそのまま楽天モバイルに移行できます。手続きはオンラインで完結します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "解約金・違約金はかかりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "楽天モバイルは最低利用期間・解約金が一切ありません。いつでも解約・他社への乗り換えが無料でできます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "今のスマホのまま使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SIMロック解除済みの端末であればほとんどの機種でご利用可能です。対応端末一覧は楽天モバイル公式サイトでご確認ください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "申し込みに必要なものは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "本人確認書類（運転免許証・マイナンバーカードなど）、クレジットカードまたは口座情報、楽天IDがあれば申し込み可能です。"
+        }
+      }
+    ]
+  }
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -65,9 +148,17 @@
       justify-content: space-between;
       height: 56px;
     }
-    .site-logo { font-size: 14px; font-weight: 700; color: var(--text); }
-    .site-nav { display: flex; gap: 32px; }
-    .site-nav a { font-size: 14px; color: var(--text-sub); }
+    .site-logo { font-size: 14px; font-weight: 700; color: var(--text); text-decoration: none; }
+    .site-logo:hover { text-decoration: none; }
+    .site-header-right { display: flex; align-items: center; gap: 0; }
+    .site-nav {
+      display: flex;
+      gap: 24px;
+      padding-right: 20px;
+      margin-right: 20px;
+      border-right: 1px solid var(--border);
+    }
+    .site-nav a { font-size: 14px; color: var(--text-sub); font-weight: 700; }
 
     .lang-select {
       font-size: 12px;
@@ -328,6 +419,10 @@
     .cta-section h2 { font-size: 32px; font-weight: 700; line-height: 1.6; color: var(--text); margin-bottom: 12px; }
     .cta-section p { font-size: 14px; color: var(--text-sub); margin-bottom: 40px; }
 
+    /* BLOG SECTION */
+    .section-alt { background: var(--bg-gray); }
+    .section { max-width: 1120px; margin: 0 auto; padding: 80px 32px; }
+
     /* FAQ */
     .faq-wrap { max-width: 1120px; margin: 0 auto; padding: 80px 32px; }
     .faq-list { border-top: 1px solid var(--border); }
@@ -352,6 +447,19 @@
       flex-shrink: 0;
       margin-top: 2px;
     }
+    summary::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid var(--text-light);
+      border-bottom: 2px solid var(--text-light);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+      margin-left: auto;
+      margin-top: 4px;
+      transition: transform 0.2s;
+    }
+    details[open] summary::after { transform: rotate(-135deg); margin-top: 8px; }
     .faq-answer { padding: 0 0 20px 32px; font-size: 14px; color: var(--text-sub); line-height: 1.6; }
 
     /* FOOTER */
@@ -367,28 +475,35 @@
       transform: translateX(-50%);
       z-index: 99;
       white-space: nowrap;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
     }
 
     @media (max-width: 767px) {
       .site-header { padding: 0 16px; }
+      .site-nav { padding-right: 12px; margin-right: 12px; }
       .hero { padding: 56px 16px; }
       .hero h1 { font-size: 26px; }
       .compare-wrap, .points-wrap, .how-wrap, .plan-wrap, .faq-wrap { padding: 56px 16px; }
       .cta-section { padding: 56px 16px; }
+      .section { padding: 56px 16px; }
       .section-heading { font-size: 26px; }
       .points-total { flex-direction: column; text-align: center; }
       .plan-price { font-size: 44px; }
       .compare-table { font-size: 12px; }
       .compare-table th, .compare-table td { padding: 10px 12px; }
+      .float-cta { bottom: 16px; left: 16px; right: 16px; transform: none; text-align: center; }
+      .float-cta .btn { display: block; width: 100%; }
     }
   </style>
 </head>
 <body>
 
 <header class="site-header">
-  <span class="site-logo">楽天モバイル 社員紹介キャンペーン</span>
-  <nav class="site-nav">
-    <a href="/blog/">ブログ</a>
+  <a href="/" class="site-logo">楽天モバイル 社員紹介キャンペーン</a>
+  <div class="site-header-right">
+    <nav class="site-nav">
+      <a href="/blog/">ブログ</a>
+    </nav>
     <select class="lang-select" onchange="location.href=this.value" aria-label="Language">
       <option value="/" selected>🌐 日本語</option>
       <option value="/en/">English</option>
@@ -398,7 +513,7 @@
       <option value="/tl/">Filipino</option>
       <option value="/vi/">Tiếng Việt</option>
     </select>
-  </nav>
+  </div>
 </header>
 
 <!-- HERO -->
