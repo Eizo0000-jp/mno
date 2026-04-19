@@ -852,14 +852,12 @@ function switchLang(lang) {
   }
   location.href = homes[lang] || '/';
 }
-(function() {
-  var cta = document.querySelector('.float-cta');
-  window.addEventListener('scroll', function() {
-    if (window.scrollY > 300) {
-      cta.classList.add('float-cta--visible');
-    }
-  }, { passive: true });
-})();
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 300) {
+    var cta = document.querySelector('.float-cta');
+    if (cta) cta.classList.add('float-cta--visible');
+  }
+}, { passive: true });
 </script>
 
 <div class="float-cta">
