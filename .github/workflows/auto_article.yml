@@ -30,9 +30,6 @@ jobs:
       - name: 依存関係インストール
         run: pip install -r automation/requirements.txt
 
-      - name: Playwright ブラウザインストール
-        run: playwright install chromium --with-deps
-
       - name: 記事を生成
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -43,8 +40,13 @@ jobs:
           fi
           python automation/generate_article.py $DATE_ARG
 
+      - name: Playwright ブラウザインストール
+        run: playwright install chromium --with-deps
+        continue-on-error: true
+
       - name: 記事別OGP画像を生成
         run: python automation/generate_og_image_per_article.py
+        continue-on-error: true
 
       - name: Threads投稿CSVを生成
         run: python automation/generate_threads_csv.py
