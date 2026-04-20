@@ -837,17 +837,19 @@
 <script>
 function switchLang(lang) {
   var homes = {ja:'/', en:'/en/', ko:'/ko/', 'zh-cn':'/zh-cn/', 'zh-tw':'/zh-tw/', tl:'/tl/', vi:'/vi/'};
-  var path = window.location.pathname.replace(/^\/|\/$/g, '');
+  var pathname = window.location.pathname;
+  var path = pathname.replace(/^\/|\/$/g, '');
   var parts = path.split('/');
   if (parts.length === 4 && /^\d{4}$/.test(parts[0])) {
     var prefixes = ['zh-cn-', 'zh-tw-', 'en-', 'ko-', 'tl-', 'vi-'];
-    var slug = parts[3];
+    var slug = parts[3].replace(/\.html$/, ''); // .html拡張子を除去
     var base = slug;
     for (var i = 0; i < prefixes.length; i++) {
       if (slug.indexOf(prefixes[i]) === 0) { base = slug.slice(prefixes[i].length); break; }
     }
     var target = lang === 'ja' ? base : lang + '-' + base;
-    location.href = '/' + parts[0] + '/' + parts[1] + '/' + parts[2] + '/' + target + '/';
+    var suffix = pathname.endsWith('.html') ? '.html' : '/';
+    location.href = '/' + parts[0] + '/' + parts[1] + '/' + parts[2] + '/' + target + suffix;
     return;
   }
   location.href = homes[lang] || '/';
