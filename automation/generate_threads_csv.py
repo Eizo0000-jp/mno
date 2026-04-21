@@ -136,44 +136,35 @@ ARTICLE_TEMPLATES = [
 ]
 
 
-def get_todays_ja_posts(lookback_days: int = 7) -> list[dict]:
-    """直近 lookback_days 日以内に生成された日本語記事（langプレフィックスなし）を取得"""
+def get_all_ja_posts() -> list[dict]:
+    """全日本語記事を新しい順で取得（1日1記事紹介用）"""
     posts_dir = REPO_ROOT / "_posts"
     if not posts_dir.exists():
         return []
-    cutoff = date.today() - timedelta(days=lookback_days - 1)
     results = []
-    for p in sorted(posts_dir.glob("*.md")):
-        # 英語・韓国語等はスキップ（ja以外のlangプレフィックスが含まれるファイル）
-        stem = p.stem  # e.g. "2026-04-18-employee-referral-14000pt"
-        # ファイル名から日付を取得してカットオフ判定
+    for p in sorted(posts_dir.glob("*.md"), reverse=True):
+        stem = p.stem
         try:
-            post_date = date.fromisoformat(stem[:10])
+            date.fromisoformat(stem[:10])
         except ValueError:
             continue
-        if post_date < cutoff:
-            continue
-        slug_part = stem.split("-", 3)[-1]  # e.g. "employee-referral-14000pt"
-        # 言語コードで始まるものをスキップ（en-, ko-, zh-cn-, zh-tw-, tl-, vi-）
+        slug_part = stem.split("-", 3)[-1]
         if re.match(r"^(en|ko|zh-cn|zh-tw|tl|vi)-", slug_part):
             continue
-        # タイトルを front matter から取得
         text = p.read_text(encoding="utf-8")
         title_match = re.search(r'^title:\s*"?(.+?)"?\s*$', text, re.MULTILINE)
         title = title_match.group(1) if title_match else slug_part
-        # URL 構築: /YYYY/MM/DD/slug.html
         parts = stem.split("-", 3)
         url = f"{SITE_URL}/{parts[0]}/{parts[1]}/{parts[2]}/{parts[3]}.html"
-        # OGP画像パス (assets/ogp/ にあれば添付)
         ogp_path = REPO_ROOT / "assets" / "ogp" / f"{stem[:10]}-{parts[3]}.png"
         image_path = str(ogp_path) if ogp_path.exists() else ""
         results.append({"title": title, "url": url, "image": image_path})
     return results
 
 
-def build_schedule(start_date: date, article_posts: list[dict]) -> list[dict]:
-    """2週間分の投稿スケジュールを組む"""
-    rng = random.Random()  # シードなし（毎回変わる）
+def build_schedule(start_date: date, all_articles: list[dict]) -> list[dict]:
+    """2週間分の投稿スケジュールを組む（1日1記事紹介 + カジュアル5件）"""
+    rng = random.Random()
     schedule = []
 
     # カジュアル投稿を配置（1日5件 × 14日 = 70件）
@@ -183,6 +174,8 @@ def build_schedule(start_date: date, article_posts: list[dict]) -> list[dict]:
 
     for day_offset in range(SCHEDULE_DAYS):
         day = start_date + timedelta(days=day_offset)
+
+        # カジュアル投稿 5件
         for hour, minute_base in DAILY_TIMES:
             minute = minute_base + rng.randint(-10, 10)
             if minute < 0:
@@ -196,15 +189,15 @@ def build_schedule(start_date: date, article_posts: list[dict]) -> list[dict]:
             pool_index += 1
             schedule.append({"dt": dt, "content": content, "image": ""})
 
-    # 記事紹介投稿を差し込む（1〜3日目の昼ごろ）
-    for i, ap in enumerate(article_posts):
-        insert_day = start_date + timedelta(days=min(i + 1, 3))
-        insert_hour = 11
-        insert_minute = rng.randint(0, 59)
-        dt = datetime(insert_day.year, insert_day.month, insert_day.day, insert_hour, insert_minute)
-        template = rng.choice(ARTICLE_TEMPLATES)
-        content = template.format(title=ap["title"], url=ap["url"])
-        schedule.append({"dt": dt, "content": content, "image": ap.get("image", "")})
+        # 記事紹介投稿 1件/日（記事をサイクル）
+        if all_articles:
+            ap = all_articles[day_offset % len(all_articles)]
+            insert_hour = 11
+            insert_minute = rng.randint(0, 59)
+            dt = datetime(day.year, day.month, day.day, insert_hour, insert_minute)
+            template = rng.choice(ARTICLE_TEMPLATES)
+            content = template.format(title=ap["title"], url=ap["url"])
+            schedule.append({"dt": dt, "content": content, "image": ap.get("image", "")})
 
     return sorted(schedule, key=lambda x: x["dt"])
 
@@ -225,18 +218,16 @@ def write_csv(schedule: list[dict]) -> None:
 
 def main() -> None:
     today = date.today()
-    # 当日の記事投稿を取得
-    article_posts = get_todays_ja_posts()
-    if article_posts:
-        print(f"本日の記事 {len(article_posts)} 件を紹介投稿に含めます")
-        for ap in article_posts:
-            print(f"  - {ap['title']}")
-    else:
-        print("本日の記事なし（カジュアル投稿のみ生成）")
+    all_articles = get_all_ja_posts()
+    print(f"記事 {len(all_articles)} 件を1日1件ずつ紹介投稿に配置します")
+    for ap in all_articles[:5]:
+        print(f"  - {ap['title']}")
+    if len(all_articles) > 5:
+        print(f"  ... 他 {len(all_articles) - 5} 件")
 
     # 明日から2週間のスケジュールを生成
     start_date = today + timedelta(days=1)
-    schedule = build_schedule(start_date, article_posts)
+    schedule = build_schedule(start_date, all_articles)
     write_csv(schedule)
 
 
