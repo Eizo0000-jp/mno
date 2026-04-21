@@ -2,9 +2,8 @@ name: note.com 自動投稿
 
 on:
   schedule:
-    # 毎週火・金 JST 12:00（UTC 03:00）
-    - cron: "0 3 * * 2"
-    - cron: "0 3 * * 5"
+    # 毎日 JST 12:00（UTC 03:00）
+    - cron: "0 3 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
