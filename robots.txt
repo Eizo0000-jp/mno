@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /assets/posts.csv
+Disallow: /seo_reports/
+Disallow: /automation/
+Disallow: /CLAUDE.html
 
 Sitemap: https://mobile-friend.com/sitemap.xml

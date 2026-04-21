@@ -9,6 +9,17 @@ plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
 
+exclude:
+  - CLAUDE.md
+  - seo_reports/
+  - automation/
+  - .github/
+  - Gemfile
+  - Gemfile.lock
+  - "*.py"
+  - "*.txt"
+  - vendor/
+
 defaults:
   - scope:
       path: ""
