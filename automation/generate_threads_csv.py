@@ -161,9 +161,9 @@ def get_todays_ja_posts(lookback_days: int = 7) -> list[dict]:
         text = p.read_text(encoding="utf-8")
         title_match = re.search(r'^title:\s*"?(.+?)"?\s*$', text, re.MULTILINE)
         title = title_match.group(1) if title_match else slug_part
-        # URL 構築: /YYYY/MM/DD/slug/
+        # URL 構築: /YYYY/MM/DD/slug.html
         parts = stem.split("-", 3)
-        url = f"{SITE_URL}/{parts[0]}/{parts[1]}/{parts[2]}/{parts[3]}/"
+        url = f"{SITE_URL}/{parts[0]}/{parts[1]}/{parts[2]}/{parts[3]}.html"
         # OGP画像パス (assets/ogp/ にあれば添付)
         ogp_path = REPO_ROOT / "assets" / "ogp" / f"{stem[:10]}-{parts[3]}.png"
         image_path = str(ogp_path) if ogp_path.exists() else ""

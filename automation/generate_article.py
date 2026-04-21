@@ -436,7 +436,7 @@ def get_recent_articles(lang: str = "ja", count: int = 5) -> list[dict]:
         title_match = re.search(r'^title:\s*"?(.+?)"?\s*$', text, re.MULTILINE)
         title = title_match.group(1) if title_match else slug_part
         parts = stem.split("-", 3)
-        url = f"https://mobile-friend.com/{parts[0]}/{parts[1]}/{parts[2]}/{parts[3]}/"
+        url = f"https://mobile-friend.com/{parts[0]}/{parts[1]}/{parts[2]}/{parts[3]}.html"
         results.append({"title": title, "url": url})
         if len(results) >= count:
             break
