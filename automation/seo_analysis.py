@@ -10,6 +10,7 @@ GA4とSearch Consoleからデータを取得し、Claude APIで分析して
 """
 
 import os
+import re
 import json
 import anthropic
 from datetime import date, timedelta
@@ -217,9 +218,61 @@ def save_report(report: str) -> Path:
     return filepath
 
 
+def extract_topics_as_json(report: str) -> list[dict]:
+    """Claude APIでレポートから記事テーマをJSON形式で抽出する"""
+    client = anthropic.Anthropic()
+    message = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=400,
+        messages=[{
+            "role": "user",
+            "content": (
+                "以下のSEOレポートの「次に書くべき記事テーマ」セクションから"
+                "キーワードとURLスラグを抽出し、JSON配列のみ返してください。\n"
+                "slugはASCII英字・数字・ハイフンのみ（SEOに適した英語スラグ）。\n"
+                "コードブロックなし・JSON配列のみ出力。\n\n"
+                "出力例:\n"
+                '[{"slug": "referral-code-how-to-get", "ja_keyword": "楽天モバイル 紹介コード もらい方"}]\n\n'
+                f"レポート:\n{report}"
+            ),
+        }],
+    )
+    text = message.content[0].text.strip()
+    # コードブロックが含まれていた場合は除去
+    text = re.sub(r"^```[a-z]*\n?", "", text)
+    text = re.sub(r"\n?```$", "", text)
+    try:
+        topics = json.loads(text)
+        print(f"  SEOトピック抽出: {len(topics)} 件")
+        return topics
+    except json.JSONDecodeError:
+        print(f"  警告: トピックJSON解析失敗 → スキップ\n  {text[:200]}")
+        return []
+
+
+def save_seo_topics_json(topics: list[dict]) -> None:
+    """抽出したトピックをseo_topics.jsonに保存（既存データとマージ）"""
+    topics_file = REPO_ROOT / "seo_reports" / "seo_topics.json"
+
+    # 既存データを読み込み（used_slugsは保持）
+    existing: dict = {}
+    if topics_file.exists():
+        try:
+            existing = json.loads(topics_file.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            pass
+
+    data = {
+        "updated_at": date.today().isoformat(),
+        "topics": topics,
+        "used_slugs": existing.get("used_slugs", []),
+    }
+    topics_file.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"  seo_topics.json 保存完了: {topics_file}")
+
+
 def update_topics(report: str) -> None:
-    """分析結果を元にgenerate_article.pyのTOPICSを更新"""
-    # レポートから提案テーマを抽出してログ出力（手動確認用）
+    """分析結果を元にgenerate_article.pyのTOPICSを更新（ログ出力）"""
     print("\n=== 提案された記事テーマ ===")
     lines = report.split("\n")
     in_topics = False
@@ -249,6 +302,11 @@ def main() -> None:
 
     filepath = save_report(report)
     update_topics(report)
+
+    print("\nSEOトピックをJSONに抽出中...")
+    topics = extract_topics_as_json(report)
+    if topics:
+        save_seo_topics_json(topics)
 
     print("\n=== 分析レポート ===")
     print(report)

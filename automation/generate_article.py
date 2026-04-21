@@ -5,6 +5,7 @@ SEOブログ記事 自動生成スクリプト（全言語同時生成）
 """
 
 import re
+import json
 import random
 from datetime import date
 from pathlib import Path
@@ -443,13 +444,59 @@ def get_recent_articles(lang: str = "ja", count: int = 5) -> list[dict]:
     return results
 
 
-def pick_unused_topic() -> dict:
-    """まだ全言語で記事化していないトピックを選ぶ（日本語版の有無で判断）"""
+def _get_existing_slugs() -> set[str]:
+    """_posts/ 内の既存記事スラグ一覧を返す"""
     posts_dir = REPO_ROOT / "_posts"
-    existing_slugs = (
-        {p.stem.split("-", 3)[-1] for p in posts_dir.glob("*.md")}
-        if posts_dir.exists() else set()
-    )
+    if not posts_dir.exists():
+        return set()
+    return {p.stem.split("-", 3)[-1] for p in posts_dir.glob("*.md")}
+
+
+def load_seo_topics() -> list[dict]:
+    """seo_reports/seo_topics.json から未使用のSEO推奨トピックを返す"""
+    topics_file = REPO_ROOT / "seo_reports" / "seo_topics.json"
+    if not topics_file.exists():
+        return []
+    try:
+        data = json.loads(topics_file.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return []
+
+    existing_slugs = _get_existing_slugs()
+    # used_slugs（手動管理）と既存記事の両方でフィルタ
+    used = set(data.get("used_slugs", [])) | existing_slugs
+    return [t for t in data.get("topics", []) if t["slug"] not in used]
+
+
+def seo_topic_to_full_topic(seo_t: dict) -> dict:
+    """SEO推奨トピック（ja_keyword + slug）を全言語トピックdictに変換"""
+    kw = seo_t["ja_keyword"]
+    slug = seo_t["slug"]
+    en_hint = slug.replace("-", " ")
+    return {
+        "slug": slug,
+        "ja": kw,
+        "en": f"Rakuten Mobile {en_hint} complete guide for foreigners in Japan",
+        "ko": f"라쿠텐 모바일 {en_hint} 완전 가이드 재일 외국인",
+        "zh-cn": f"乐天手机 {en_hint} 完整指南在日外国人必看",
+        "zh-tw": f"樂天手機 {en_hint} 完整指南在日外國人必看",
+        "tl": f"Rakuten Mobile {en_hint} kumpletong gabay para sa mga dayuhan sa Japan",
+        "vi": f"Rakuten Mobile {en_hint} hướng dẫn đầy đủ cho người nước ngoài ở Nhật",
+        "_from_seo_report": True,
+    }
+
+
+def pick_unused_topic() -> dict:
+    """まだ記事化していないトピックを選ぶ。SEOレポート推奨トピックを優先"""
+    # SEOレポートの推奨トピックを最優先
+    seo_topics = load_seo_topics()
+    if seo_topics:
+        chosen = seo_topics[0]  # リスト先頭（レポート記載順）を使う
+        print(f"📊 SEOレポート推奨トピックを使用: {chosen['ja_keyword']}")
+        return seo_topic_to_full_topic(chosen)
+
+    # フォールバック: 固定TOPICSリスト
+    existing_slugs = _get_existing_slugs()
     unused = [t for t in TOPICS if t["slug"] not in existing_slugs]
     if not unused:
         unused = TOPICS
@@ -527,7 +574,8 @@ def main() -> None:
             print(f"指定日付: {post_date}")
 
     topic = pick_unused_topic()
-    print(f"トピック: {topic['slug']}")
+    from_seo_report = topic.pop("_from_seo_report", False)
+    print(f"トピック: {topic['slug']} {'[SEOレポート推奨]' if from_seo_report else '[固定リスト]'}")
 
     for lang in LANG_PROMPTS:
         keyword = topic[lang]
