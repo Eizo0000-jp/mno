@@ -534,6 +534,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s;
+      will-change: opacity;
     }
     .float-cta--visible {
       opacity: 1;
@@ -885,12 +886,13 @@ function switchLang(lang) {
   }
   location.href = homes[lang] || '/';
 }
-window.addEventListener('scroll', function() {
-  if (window.scrollY > 300) {
-    var cta = document.querySelector('.float-cta');
-    if (cta) cta.classList.add('float-cta--visible');
-  }
-}, { passive: true });
+var _cta = document.querySelector('.float-cta');
+var _hero = document.querySelector('.hero');
+if (_cta && _hero) {
+  new IntersectionObserver(function(entries) {
+    _cta.classList.toggle('float-cta--visible', !entries[0].isIntersecting);
+  }).observe(_hero);
+}
 </script>
 
 <div class="float-cta">
