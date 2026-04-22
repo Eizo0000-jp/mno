@@ -44,7 +44,14 @@ These values are factual campaign details embedded throughout the site and gener
 | Normal campaign (MNP) | 13,000pt (for comparison) |
 | Monthly plan price | ¥3,278（税込） |
 | Max referrals per person | 5回線 |
-| Point payout schedule | 紹介ログイン月の4ヶ月後から3ヶ月間に分割 |
+| Point payout schedule | 紹介ログイン月の4ヶ月後から3ヶ月間に分割（期間限定ポイント） |
+| Point type | **期間限定ポイント**（通常ポイントではない） |
+| Rakuten Link call requirement | **10秒以上の通話が必須**（2026年3月2日以降申込み）。データタイプは不要 |
+| Re-contract / 2nd line eligibility | **再契約・2回線目も対象**（通常キャンペーンにはない社員紹介限定特典） |
+| Eligible plans | Rakuten最強プラン（スマホ）、Rakuten最強U-NEXT（2025/10/1〜）、Rakuten Turbo（1回線のみ） |
+| データタイプ | 2026年3月5日より新規申込み一時停止。既存ユーザーはキャンペーン対象 |
+| Login rescue rule | 申込み後7日以内に紹介URL経由でログインすれば特典適用可 |
+| Campaign code | 2162 |
 
 ---
 
