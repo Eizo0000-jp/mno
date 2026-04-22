@@ -129,6 +129,7 @@
   }
   </script>
   <style>
+    /* ===== CRITICAL CSS（ファーストビューのみ）===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -228,10 +229,7 @@
       color: var(--text);
       margin-bottom: 16px;
     }
-    .hero h1 em {
-      font-style: normal;
-      color: var(--red);
-    }
+    .hero h1 em { font-style: normal; color: var(--red); }
     .hero-sub {
       font-size: 16px;
       color: var(--text-sub);
@@ -242,287 +240,7 @@
     }
     .hero-note { font-size: 12px; color: var(--text-light); margin-top: 12px; }
 
-    /* COMPARE */
-    .compare-wrap {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 80px 32px;
-    }
-    .section-eyebrow {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--red);
-      letter-spacing: 2.4px;
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-    .section-heading {
-      font-size: 32px;
-      font-weight: 700;
-      line-height: 1.6;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-    .section-sub {
-      font-size: 14px;
-      color: var(--text-sub);
-      margin-bottom: 40px;
-    }
-    .compare-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-    .compare-table th, .compare-table td {
-      padding: 16px 20px;
-      border: 1px solid var(--border-lt);
-      text-align: center;
-      vertical-align: middle;
-    }
-    .compare-table thead th {
-      background: var(--bg-gray);
-      font-weight: 700;
-      font-size: 13px;
-    }
-    .compare-table thead th.col-highlight {
-      background: var(--red);
-      color: #fff;
-    }
-    .compare-table td:first-child {
-      text-align: left;
-      color: var(--text-sub);
-      background: var(--bg-gray);
-      font-weight: 700;
-      width: 40%;
-    }
-    .compare-table .val-highlight {
-      color: var(--red);
-      font-weight: 700;
-      font-size: 16px;
-    }
-    .compare-table .val-plain { color: var(--text-light); }
-
-    /* POINTS */
-    .points-section { background: var(--bg-kinari); }
-    .points-wrap {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 80px 32px;
-    }
-    .points-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1px;
-      background: var(--bg-beige);
-      border: 1px solid var(--bg-beige);
-      margin-bottom: 40px;
-    }
-    .points-item {
-      background: var(--bg-kinari);
-      padding: 32px 24px;
-      text-align: center;
-    }
-    .points-label { font-size: 12px; color: var(--text-sub); margin-bottom: 8px; }
-    .points-num {
-      font-size: 36px;
-      font-weight: 700;
-      color: var(--red);
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-    .points-num span { font-size: 16px; }
-    .points-desc { font-size: 12px; color: var(--text-sub); margin-top: 8px; }
-    .points-total {
-      border: 2px solid var(--red);
-      padding: 24px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    .points-total-label { font-size: 14px; font-weight: 700; color: var(--text); }
-    .points-total-num {
-      font-size: 48px;
-      font-weight: 700;
-      color: var(--red);
-      line-height: 1;
-    }
-    .points-total-num span { font-size: 20px; }
-
-    /* HOW */
-    .how-wrap {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 80px 32px;
-    }
-    .how-steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1px;
-      background: var(--border-lt);
-      border: 1px solid var(--border-lt);
-      margin-bottom: 40px;
-    }
-    .how-step {
-      background: var(--bg);
-      padding: 32px 24px;
-    }
-    .how-num {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-light);
-      letter-spacing: 2.4px;
-      line-height: 1.15;
-      margin-bottom: 12px;
-    }
-    .how-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-    .how-desc { font-size: 12px; color: var(--text-sub); line-height: 1.6; }
-
-    /* PLAN */
-    .plan-section { background: var(--bg-gray); }
-    .plan-wrap {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 80px 32px;
-    }
-    .plan-card {
-      border: 1px solid var(--border);
-      background: var(--bg);
-      padding: 40px;
-      max-width: 440px;
-    }
-    .plan-label {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--red);
-      letter-spacing: 2.4px;
-      line-height: 1.15;
-      margin-bottom: 20px;
-    }
-    .plan-price {
-      font-size: 56px;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-    .plan-price sup { font-size: 24px; vertical-align: top; margin-top: 12px; display: inline-block; }
-    .plan-price sub { font-size: 20px; }
-    .plan-note { font-size: 12px; color: var(--text-light); margin-bottom: 24px; }
-    .plan-list { list-style: none; border-top: 1px solid var(--border-lt); }
-    .plan-list li {
-      font-size: 14px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border-lt);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .plan-list li::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      background: var(--red);
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    /* CTA */
-    .cta-section {
-      background: var(--bg-kinari);
-      padding: 80px 32px;
-      text-align: center;
-    }
-    .cta-section h2 { font-size: 32px; font-weight: 700; line-height: 1.6; color: var(--text); margin-bottom: 12px; }
-    .cta-section p { font-size: 14px; color: var(--text-sub); margin-bottom: 40px; }
-
-    /* BLOG SECTION */
-    .section-alt { background: var(--bg-gray); }
-    .section { max-width: 1120px; margin: 0 auto; padding: 80px 32px; }
-
-    /* FAQ */
-    .faq-wrap { max-width: 1120px; margin: 0 auto; padding: 80px 32px; }
-    .faq-list { border-top: 1px solid var(--border); }
-    details { border-bottom: 1px solid var(--border); }
-    summary {
-      padding: 20px 0;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      list-style: none;
-      color: var(--text);
-    }
-    summary::-webkit-details-marker { display: none; }
-    summary::before {
-      content: 'Q';
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--red);
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    summary::after {
-      content: '';
-      width: 8px;
-      height: 8px;
-      border-right: 2px solid var(--text-light);
-      border-bottom: 2px solid var(--text-light);
-      transform: rotate(45deg);
-      flex-shrink: 0;
-      margin-left: auto;
-      margin-top: 4px;
-      transition: transform 0.2s;
-    }
-    details[open] summary::after { transform: rotate(-135deg); margin-top: 8px; }
-    .faq-answer { padding: 0 0 20px 32px; font-size: 14px; color: var(--text-sub); line-height: 1.6; }
-
-    /* FOOTER */
-    .site-footer { border-top: 1px solid var(--border); padding: 40px 32px; text-align: center; }
-    .site-footer p { font-size: 12px; color: var(--text-light); line-height: 1.6; }
-    .site-footer a { color: var(--text-sub); }
-
-    /* CARRIERS */
-    .carriers-wrap {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 80px 32px;
-    }
-    .carriers-table-wrap { overflow-x: auto; }
-    .carriers-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-      min-width: 560px;
-    }
-    .carriers-table th, .carriers-table td {
-      padding: 14px 18px;
-      border: 1px solid var(--border-lt);
-      text-align: center;
-      vertical-align: middle;
-    }
-    .carriers-table thead th {
-      background: var(--bg-gray);
-      font-weight: 700;
-      font-size: 13px;
-    }
-    .carriers-table thead th.col-rakuten {
-      background: var(--red);
-      color: #fff;
-    }
-    .carriers-table td:first-child {
-      text-align: left;
-      background: var(--bg-gray);
-      font-weight: 700;
-      color: var(--text-sub);
-    }
-    .carriers-table .val-rakuten { color: var(--red); font-weight: 700; }
-    .carriers-table .val-save { font-size: 12px; color: var(--text-light); }
-
-    /* FLOAT */
+    /* FLOAT CTA */
     .float-cta {
       position: fixed;
       bottom: 32px;
@@ -536,24 +254,13 @@
       transition: opacity 0.3s;
       will-change: opacity;
     }
-    .float-cta--visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    .float-cta--visible { opacity: 1; pointer-events: auto; }
 
     @media (max-width: 767px) {
       .site-header { padding: 0 16px; }
       .site-nav { padding-right: 12px; margin-right: 12px; }
       .hero { padding: 56px 16px; }
       .hero h1 { font-size: 26px; }
-      .compare-wrap, .points-wrap, .how-wrap, .plan-wrap, .faq-wrap, .carriers-wrap { padding: 56px 16px; }
-      .cta-section { padding: 56px 16px; }
-      .section { padding: 56px 16px; }
-      .section-heading { font-size: 26px; }
-      .points-total { flex-direction: column; text-align: center; }
-      .plan-price { font-size: 44px; }
-      .compare-table { font-size: 12px; }
-      .compare-table th, .compare-table td { padding: 10px 12px; }
       .float-cta { bottom: 16px; left: 16px; right: 16px; transform: none; text-align: center; }
       .float-cta .btn { display: block; width: 100%; }
     }
@@ -858,6 +565,94 @@
   <p>掲載情報は作成時点のものです。最新情報は<a href="https://network.mobile.rakuten.co.jp/" target="_blank" rel="noopener">楽天モバイル公式サイト</a>をご確認ください。</p>
 </footer>
 
+<style>
+  /* ===== 非クリティカルCSS（スクロール後のセクション）===== */
+  .compare-wrap { max-width: 1120px; margin: 0 auto; padding: 80px 32px; }
+  .section-eyebrow { font-size: 12px; font-weight: 700; color: var(--red); letter-spacing: 2.4px; line-height: 1.15; margin-bottom: 16px; }
+  .section-heading { font-size: 32px; font-weight: 700; line-height: 1.6; color: var(--text); margin-bottom: 8px; }
+  .section-sub { font-size: 14px; color: var(--text-sub); margin-bottom: 40px; }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .compare-table th, .compare-table td { padding: 16px 20px; border: 1px solid var(--border-lt); text-align: center; vertical-align: middle; }
+  .compare-table thead th { background: var(--bg-gray); font-weight: 700; font-size: 13px; }
+  .compare-table thead th.col-highlight { background: var(--red); color: #fff; }
+  .compare-table td:first-child { text-align: left; color: var(--text-sub); background: var(--bg-gray); font-weight: 700; width: 40%; }
+  .compare-table .val-highlight { color: var(--red); font-weight: 700; font-size: 16px; }
+  .compare-table .val-plain { color: var(--text-light); }
+
+  .points-section { background: var(--bg-kinari); }
+  .points-wrap { max-width: 1120px; margin: 0 auto; padding: 80px 32px; }
+  .points-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--bg-beige); border: 1px solid var(--bg-beige); margin-bottom: 40px; }
+  .points-item { background: var(--bg-kinari); padding: 32px 24px; text-align: center; }
+  .points-label { font-size: 12px; color: var(--text-sub); margin-bottom: 8px; }
+  .points-num { font-size: 36px; font-weight: 700; color: var(--red); line-height: 1; margin-bottom: 4px; }
+  .points-num span { font-size: 16px; }
+  .points-desc { font-size: 12px; color: var(--text-sub); margin-top: 8px; }
+  .points-total { border: 2px solid var(--red); padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .points-total-label { font-size: 14px; font-weight: 700; color: var(--text); }
+  .points-total-num { font-size: 48px; font-weight: 700; color: var(--red); line-height: 1; }
+  .points-total-num span { font-size: 20px; }
+
+  .how-wrap { max-width: 1120px; margin: 0 auto; padding: 80px 32px; }
+  .how-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: var(--border-lt); border: 1px solid var(--border-lt); margin-bottom: 40px; }
+  .how-step { background: var(--bg); padding: 32px 24px; }
+  .how-num { font-size: 12px; font-weight: 700; color: var(--text-light); letter-spacing: 2.4px; line-height: 1.15; margin-bottom: 12px; }
+  .how-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .how-desc { font-size: 12px; color: var(--text-sub); line-height: 1.6; }
+
+  .plan-section { background: var(--bg-gray); }
+  .plan-wrap { max-width: 1120px; margin: 0 auto; padding: 80px 32px; }
+  .plan-card { border: 1px solid var(--border); background: var(--bg); padding: 40px; max-width: 440px; }
+  .plan-label { font-size: 12px; font-weight: 700; color: var(--red); letter-spacing: 2.4px; line-height: 1.15; margin-bottom: 20px; }
+  .plan-price { font-size: 56px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 4px; }
+  .plan-price sup { font-size: 24px; vertical-align: top; margin-top: 12px; display: inline-block; }
+  .plan-price sub { font-size: 20px; }
+  .plan-note { font-size: 12px; color: var(--text-light); margin-bottom: 24px; }
+  .plan-list { list-style: none; border-top: 1px solid var(--border-lt); }
+  .plan-list li { font-size: 14px; padding: 12px 0; border-bottom: 1px solid var(--border-lt); display: flex; align-items: center; gap: 12px; }
+  .plan-list li::before { content: ''; width: 6px; height: 6px; background: var(--red); border-radius: 50%; flex-shrink: 0; }
+
+  .cta-section { background: var(--bg-kinari); padding: 80px 32px; text-align: center; }
+  .cta-section h2 { font-size: 32px; font-weight: 700; line-height: 1.6; color: var(--text); margin-bottom: 12px; }
+  .cta-section p { font-size: 14px; color: var(--text-sub); margin-bottom: 40px; }
+
+  .section-alt { background: var(--bg-gray); }
+  .section { max-width: 1120px; margin: 0 auto; padding: 80px 32px; }
+
+  .faq-wrap { max-width: 1120px; margin: 0 auto; padding: 80px 32px; }
+  .faq-list { border-top: 1px solid var(--border); }
+  details { border-bottom: 1px solid var(--border); }
+  summary { padding: 20px 0; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: flex-start; gap: 16px; list-style: none; color: var(--text); }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: 'Q'; font-size: 12px; font-weight: 700; color: var(--red); flex-shrink: 0; margin-top: 2px; }
+  summary::after { content: ''; width: 8px; height: 8px; border-right: 2px solid var(--text-light); border-bottom: 2px solid var(--text-light); transform: rotate(45deg); flex-shrink: 0; margin-left: auto; margin-top: 4px; transition: transform 0.2s; }
+  details[open] summary::after { transform: rotate(-135deg); margin-top: 8px; }
+  .faq-answer { padding: 0 0 20px 32px; font-size: 14px; color: var(--text-sub); line-height: 1.6; }
+
+  .site-footer { border-top: 1px solid var(--border); padding: 40px 32px; text-align: center; }
+  .site-footer p { font-size: 12px; color: var(--text-light); line-height: 1.6; }
+  .site-footer a { color: var(--text-sub); }
+
+  .carriers-wrap { max-width: 1120px; margin: 0 auto; padding: 80px 32px; }
+  .carriers-table-wrap { overflow-x: auto; }
+  .carriers-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px; }
+  .carriers-table th, .carriers-table td { padding: 14px 18px; border: 1px solid var(--border-lt); text-align: center; vertical-align: middle; }
+  .carriers-table thead th { background: var(--bg-gray); font-weight: 700; font-size: 13px; }
+  .carriers-table thead th.col-rakuten { background: var(--red); color: #fff; }
+  .carriers-table td:first-child { text-align: left; background: var(--bg-gray); font-weight: 700; color: var(--text-sub); }
+  .carriers-table .val-rakuten { color: var(--red); font-weight: 700; }
+  .carriers-table .val-save { font-size: 12px; color: var(--text-light); }
+
+  @media (max-width: 767px) {
+    .compare-wrap, .points-wrap, .how-wrap, .plan-wrap, .faq-wrap, .carriers-wrap { padding: 56px 16px; }
+    .cta-section { padding: 56px 16px; }
+    .section { padding: 56px 16px; }
+    .section-heading { font-size: 26px; }
+    .points-total { flex-direction: column; text-align: center; }
+    .plan-price { font-size: 44px; }
+    .compare-table { font-size: 12px; }
+    .compare-table th, .compare-table td { padding: 10px 12px; }
+  }
+</style>
 <!-- Microsoft Clarity -->
 <script>
   (function(c,l,a,r,i,t,y){
