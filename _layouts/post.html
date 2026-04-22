@@ -280,12 +280,10 @@ layout: default
   <div class="share-block">
     <p class="share-label">SHARE</p>
     <div class="share-buttons">
-      <a class="share-btn share-btn-x"
-         href="https://x.com/intent/post?url={{ encoded_url }}&text={{ encoded_title }}"
-         target="_blank" rel="noopener noreferrer" aria-label="X(Twitter)でシェア">
+      <button class="share-btn share-btn-x" onclick="shareX()" aria-label="X(Twitter)でシェア">
         <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.629L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         X でシェア
-      </a>
+      </button>
       <a class="share-btn share-btn-line"
          href="https://social-plugins.line.me/lineit/share?url={{ encoded_url }}"
          target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
@@ -333,12 +331,10 @@ layout: default
   <div class="share-block">
     <p class="share-label">この記事をシェアする</p>
     <div class="share-buttons">
-      <a class="share-btn share-btn-x"
-         href="https://x.com/intent/post?url={{ encoded_url }}&text={{ encoded_title }}"
-         target="_blank" rel="noopener noreferrer">
+      <button class="share-btn share-btn-x" onclick="shareX()" aria-label="X(Twitter)でシェア">
         <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.629L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         X でシェア
-      </a>
+      </button>
       <a class="share-btn share-btn-line"
          href="https://social-plugins.line.me/lineit/share?url={{ encoded_url }}"
          target="_blank" rel="noopener noreferrer">
@@ -418,6 +414,22 @@ layout: default
 </article>
 
 <script>
+function shareX() {
+  var text = encodeURIComponent(document.title);
+  var url  = encodeURIComponent(location.href);
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile) {
+    // モバイル: Xアプリの投稿ディープリンクを使用
+    location.href = 'twitter://post?message=' + text + '%20' + url;
+  } else {
+    // デスクトップ: ポップアップで投稿画面を開く
+    window.open(
+      'https://x.com/intent/post?text=' + text + '&url=' + url,
+      'xshare', 'width=550,height=450,noopener,noreferrer'
+    );
+  }
+}
+
 function copyUrl(btn) {
   navigator.clipboard.writeText(window.location.href).then(() => {
     const orig = btn.innerHTML;
