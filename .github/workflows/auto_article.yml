@@ -55,7 +55,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add --ignore-missing _posts/ assets/ogp/ assets/posts.csv seo_reports/seo_topics.json
+          git add _posts/ assets/ogp/ assets/posts.csv
+          [ -f seo_reports/seo_topics.json ] && git add seo_reports/seo_topics.json || true
           git diff --staged --quiet || git commit -m "auto: SEO記事＋OGP画像＋Threads投稿CSV追加 $(date +'%Y-%m-%d')"
           git pull --rebase origin main
           git push
