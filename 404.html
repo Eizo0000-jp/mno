@@ -1,0 +1,50 @@
+---
+layout: default
+title: ページが見つかりません
+description: お探しのページは存在しないか、移動した可能性があります。
+permalink: /404.html
+lang: ja
+---
+<style>
+  .notfound-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 100px 32px;
+    text-align: center;
+  }
+  .notfound-code {
+    font-size: 96px;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .notfound-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .notfound-desc {
+    font-size: 14px;
+    color: var(--text-sub);
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+  .notfound-links {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>
+
+<div class="notfound-wrap">
+  <p class="notfound-code">404</p>
+  <h1 class="notfound-title">ページが見つかりません</h1>
+  <p class="notfound-desc">お探しのページは削除されたか、URLが変更された可能性があります。<br>トップページまたはブログ記事一覧からお探しください。</p>
+  <div class="notfound-links">
+    <a href="/" class="btn btn-accent">トップページへ</a>
+    <a href="/blog/" class="btn btn-outline">ブログ一覧へ</a>
+  </div>
+</div>
