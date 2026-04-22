@@ -50,6 +50,7 @@ jobs:
 
       - name: Threads投稿CSVを生成
         run: python automation/generate_threads_csv.py
+        continue-on-error: true
 
       - name: コミット & プッシュ
         run: |
