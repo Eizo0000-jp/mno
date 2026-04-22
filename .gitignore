@@ -1,12 +1,15 @@
 assets/*.png
 !assets/og-image.png
 !assets/ogp/
+!assets/favicon/
+!assets/favicon/*.png
 assets/*.jpg
 assets/*.jpeg
 assets/*.gif
 assets/*.bmp
 assets/*.pptx
 *.png
+!assets/favicon/*.png
 *.jpg
 *.jpeg
 *.gif
