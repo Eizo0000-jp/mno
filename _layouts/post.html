@@ -141,6 +141,37 @@ layout: default
   .post-body strong { color: var(--red); font-weight: 700; }
   .post-body a { color: var(--red); text-decoration: underline; }
 
+  /* ── テーブル ── */
+  .post-body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 24px 0 32px;
+  }
+  .post-body th {
+    background: var(--bg-gray);
+    font-weight: 700;
+    color: var(--text);
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    text-align: left;
+    white-space: nowrap;
+  }
+  .post-body td {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+  .post-body tr:nth-child(even) td { background: var(--bg-gray); }
+  .post-body tr td strong { color: var(--red); font-weight: 700; }
+
+  /* モバイルで横スクロール */
+  .post-body table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  @media (max-width: 767px) {
+    .post-body th, .post-body td { padding: 8px 10px; font-size: 13px; }
+  }
+
   /* ── SNSシェアボタン ── */
   .share-block {
     margin: 40px 0;
