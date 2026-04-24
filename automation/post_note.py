@@ -12,6 +12,8 @@ import os
 import re
 import sys
 import random
+import tempfile
+from pathlib import Path
 import anthropic
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 
@@ -27,6 +29,98 @@ NOTE_TOPICS = [
     "家族全員で乗り換えたら年間いくら変わったか",
     "社員紹介と通常申込みの違いを比べてみた",
 ]
+
+
+NOTE_COVER_TEMPLATE = """<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+  body {{
+    width: 1280px;
+    height: 670px;
+    background: linear-gradient(135deg, #7f0019 0%, #b30024 60%, #f4eede 100%);
+    font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 72px 96px;
+    overflow: hidden;
+  }}
+  .tag {{
+    font-size: 14px;
+    font-weight: 700;
+    color: #f4eede;
+    letter-spacing: 3px;
+    border: 2px solid #f4eede;
+    padding: 6px 18px;
+    margin-bottom: 36px;
+    opacity: 0.9;
+  }}
+  .title {{
+    font-size: {font_size}px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.6;
+    max-width: 900px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }}
+  .footer {{
+    position: absolute;
+    bottom: 52px;
+    right: 96px;
+    font-size: 16px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 1px;
+  }}
+</style>
+</head>
+<body>
+  <div class="tag">楽天モバイル 社員紹介</div>
+  <div class="title">{title}</div>
+  <div class="footer">mobile-friend.com</div>
+</body>
+</html>"""
+
+
+def get_font_size(title: str) -> int:
+    length = len(title)
+    if length <= 20:
+        return 54
+    elif length <= 30:
+        return 46
+    elif length <= 40:
+        return 38
+    else:
+        return 32
+
+
+def generate_cover_image(title: str) -> Path:
+    """note.com用カバー画像を一時ファイルとして生成し、そのパスを返す"""
+    font_size = get_font_size(title)
+    html = NOTE_COVER_TEMPLATE.format(title=title, font_size=font_size)
+
+    tmp = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+    tmp_path = Path(tmp.name)
+    tmp.close()
+
+    with sync_playwright() as pw:
+        browser = pw.chromium.launch()
+        context = browser.new_context(viewport={"width": 1280, "height": 670})
+        page = context.new_page()
+        page.set_content(html)
+        page.wait_for_timeout(300)
+        page.screenshot(
+            path=str(tmp_path),
+            clip={"x": 0, "y": 0, "width": 1280, "height": 670}
+        )
+        browser.close()
+
+    print(f"カバー画像生成完了: {tmp_path}")
+    return tmp_path
 
 
 def generate_article() -> tuple[str, str]:
@@ -70,7 +164,7 @@ def generate_article() -> tuple[str, str]:
     return title, body
 
 
-def post_to_note(title: str, body: str) -> None:
+def post_to_note(title: str, body: str, cover_image_path: Path = None) -> None:
     """クッキー認証でnote.comに記事を投稿"""
     session_v5 = os.environ["NOTE_SESSION_V5"]
     gql_auth_token = os.environ["NOTE_GQL_AUTH_TOKEN"]
@@ -115,6 +209,39 @@ def post_to_note(title: str, body: str) -> None:
             page.wait_for_timeout(4000)
             page.screenshot(path="debug_screenshots/02_new_article.png", full_page=False)
             print(f"URL: {page.url}")
+
+            # カバー画像アップロード
+            if cover_image_path and cover_image_path.exists():
+                print("カバー画像をアップロード中...")
+                try:
+                    with page.expect_file_chooser(timeout=8000) as fc_info:
+                        # カバー画像エリアのクリックを試行
+                        for sel in [
+                            'label[for*="cover"]',
+                            'button:has-text("カバー")',
+                            '[aria-label*="カバー"]',
+                            '[data-testid*="cover"]',
+                            '.cover-image',
+                        ]:
+                            if page.locator(sel).count() > 0:
+                                page.click(sel)
+                                break
+                        else:
+                            # セレクタが見つからない場合はfile inputを直接操作
+                            raise Exception("カバーボタン未検出、直接inputを使用")
+                    fc_info.value.set_files(str(cover_image_path))
+                    page.wait_for_timeout(3000)
+                    print("カバー画像アップロード完了（ダイアログ経由）")
+                except Exception:
+                    # フォールバック: file inputを直接セット
+                    file_inputs = page.locator('input[type="file"]')
+                    if file_inputs.count() > 0:
+                        file_inputs.first.set_input_files(str(cover_image_path))
+                        page.wait_for_timeout(3000)
+                        print("カバー画像アップロード完了（input直接）")
+                    else:
+                        print("警告: カバー画像アップロード先が見つかりませんでした")
+                page.screenshot(path="debug_screenshots/02b_cover_uploaded.png", full_page=False)
 
             # タイトル入力
             title_selectors = [
@@ -205,7 +332,12 @@ def main() -> None:
         print("\n[DRY RUN] 投稿はスキップしました")
         return
 
-    post_to_note(title, body)
+    print("カバー画像を生成中...")
+    cover_path = generate_cover_image(title)
+    try:
+        post_to_note(title, body, cover_path)
+    finally:
+        cover_path.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":
