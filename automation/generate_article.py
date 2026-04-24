@@ -297,6 +297,46 @@ TOPICS = [
         "vi": "Rakuten Mobile giới thiệu nhân viên data SIM cũng được khác gì campaign thường",
     },
     {
+        "slug": "rakuten-reputation-honest",
+        "ja": "楽天モバイル 評判 口コミ メリット デメリット 正直レビュー",
+        "en": "Rakuten Mobile reputation reviews pros and cons honest 2026",
+        "ko": "라쿠텐 모바일 평판 리뷰 장단점 솔직한 후기 2026",
+        "zh-cn": "乐天手机口碑评价优缺点真实用户评测2026",
+        "zh-tw": "樂天手機口碑評價優缺點真實用戶評測2026",
+        "tl": "Rakuten Mobile reputasyon review pros cons 2026",
+        "vi": "Đánh giá Rakuten Mobile ưu nhược điểm thực tế 2026",
+    },
+    {
+        "slug": "rakuten-demerits-solutions",
+        "ja": "楽天モバイル デメリット 弱点 対処法 つながりにくい エリア",
+        "en": "Rakuten Mobile disadvantages weak points solutions coverage issues 2026",
+        "ko": "라쿠텐 모바일 단점 약점 해결법 통화 연결 문제 2026",
+        "zh-cn": "乐天手机缺点弱点及解决方法信号覆盖问题2026",
+        "zh-tw": "樂天手機缺點弱點及解決方法訊號覆蓋問題2026",
+        "tl": "Rakuten Mobile disadvantages weak points solusyon coverage 2026",
+        "vi": "Nhược điểm của Rakuten Mobile và cách khắc phục vùng phủ sóng 2026",
+    },
+    {
+        "slug": "rakuten-application-documents",
+        "ja": "楽天モバイル 申込み 必要書類 手続き 流れ 完全ガイド",
+        "en": "Rakuten Mobile application required documents procedure complete guide 2026",
+        "ko": "라쿠텐 모바일 신청 필요 서류 절차 완전 가이드 2026",
+        "zh-cn": "乐天手机申请所需材料手续流程完整指南2026",
+        "zh-tw": "樂天手機申請所需文件手續流程完整指南2026",
+        "tl": "Rakuten Mobile application mga kinakailangang dokumento proseso 2026",
+        "vi": "Đăng ký Rakuten Mobile giấy tờ cần thiết quy trình đầy đủ 2026",
+    },
+    {
+        "slug": "rakuten-signal-troubleshoot",
+        "ja": "楽天モバイル つながらない 圏外 解決法 エリア確認",
+        "en": "Rakuten Mobile no signal connection issues troubleshooting coverage check 2026",
+        "ko": "라쿠텐 모바일 연결 안됨 전파 음영 해결법 커버리지 확인 2026",
+        "zh-cn": "乐天手机没有信号连接问题解决方法覆盖区域确认2026",
+        "zh-tw": "樂天手機沒有訊號連線問題解決方法覆蓋區域確認2026",
+        "tl": "Rakuten Mobile walang signal problema solusyon coverage check 2026",
+        "vi": "Rakuten Mobile mất sóng vấn đề kết nối cách khắc phục kiểm tra vùng phủ 2026",
+    },
+    {
         "slug": "rakuten-unext-referral",
         "ja": "楽天最強U-NEXT 社員紹介 ポイント キャンペーン 申込み",
         "en": "Rakuten Saikyou U-NEXT employee referral points campaign how to apply",
@@ -323,9 +363,9 @@ LANG_PROMPTS = {
 - 最大5回線まで対象
 
 要件:
-- 最初の行を「title: 記事タイトル」の形式にする
+- 最初の行を「title: 記事タイトル」の形式にする（タイトルには必ず「【2026年版】」を含める）
 - ## と ### の見出しで構造化する
-- 文字数: 1200〜1800字
+- 文字数: 2500〜3500字
 - 具体的な数字で価値を伝える
 - 自然な文章で押しつけがましくない
 - 記事の最後のセクションで紹介リンクへ自然に誘導する
@@ -347,9 +387,9 @@ Key facts:
 - Max 5 lines per person
 
 Requirements:
-- First line: "title: Article Title" (in English)
+- First line: "title: Article Title" (in English, must include "[2026 Guide]" or "[Updated 2026]")
 - Use ## and ### headings for structure
-- Length: 900-1400 words
+- Length: 1500-2200 words
 - Include specific point numbers
 - Natural, non-pushy tone
 - End with natural referral link guidance
@@ -371,9 +411,9 @@ Output article body only.""",
 - 1인당 최대 5회선까지 대상
 
 요건:
-- 첫 번째 줄: "title: 기사 제목" (한국어로)
+- 첫 번째 줄: "title: 기사 제목" (한국어로, 반드시 「【2026년판】」 포함)
 - ## 및 ### 제목으로 구성
-- 분량: 900~1400자
+- 분량: 1500~2200자
 - 구체적인 숫자 포함
 - 자연스럽고 강요하지 않는 톤
 - 마지막에 자연스럽게 소개 링크로 유도
@@ -395,9 +435,9 @@ Output article body only.""",
 - 每人最多5条号码
 
 要求:
-- 第一行："title: 文章标题"（用简体中文）
+- 第一行："title: 文章标题"（用简体中文，必须包含「【2026年版】」）
 - 用##和###标题组织结构
-- 字数：900-1400字
+- 字数：1500-2200字
 - 包含具体数字
 - 自然、不强迫推销的语气
 - 结尾自然引导到介绍链接
@@ -419,9 +459,9 @@ Output article body only.""",
 - 每人最多5門號
 
 要求:
-- 第一行：「title: 文章標題」（用繁體中文）
+- 第一行：「title: 文章標題」（用繁體中文，必須包含「【2026年版】」）
 - 用##和###標題組織結構
-- 字數：900-1400字
+- 字數：1500-2200字
 - 包含具體數字
 - 自然、不強迫推銷的語氣
 - 結尾自然引導到介紹連結
@@ -443,9 +483,9 @@ Key facts:
 - Max 5 lines per person
 
 Requirements:
-- First line: "title: Pamagat ng Artikulo" (in Filipino)
+- First line: "title: Pamagat ng Artikulo" (in Filipino, must include "[2026 Guide]")
 - Use ## and ### headings
-- Length: 800-1200 words in Filipino/Tagalog
+- Length: 1200-1800 words in Filipino/Tagalog
 - Include specific point numbers
 - Natural, friendly tone
 - End with natural referral link guidance
@@ -467,9 +507,9 @@ Thông tin chính:
 - Tối đa 5 dòng mỗi người
 
 Yêu cầu:
-- Dòng đầu tiên: "title: Tiêu đề bài viết" (bằng tiếng Việt)
+- Dòng đầu tiên: "title: Tiêu đề bài viết" (bằng tiếng Việt, phải có "[Cập nhật 2026]")
 - Dùng ## và ### cho tiêu đề
-- Độ dài: 800-1200 từ bằng tiếng Việt
+- Độ dài: 1200-1800 từ bằng tiếng Việt
 - Bao gồm số điểm cụ thể
 - Giọng điệu tự nhiên, không ép buộc
 - Kết thúc với hướng dẫn tự nhiên đến link giới thiệu
@@ -589,7 +629,7 @@ def generate_article(keyword: str, lang: str) -> tuple[str, str]:
 
     message = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=2500,
+        max_tokens=4000,
         messages=[{"role": "user", "content": prompt}]
     )
 
