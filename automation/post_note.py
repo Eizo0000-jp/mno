@@ -213,35 +213,75 @@ def post_to_note(title: str, body: str, cover_image_path: Path = None) -> None:
             # カバー画像アップロード
             if cover_image_path and cover_image_path.exists():
                 print("カバー画像をアップロード中...")
-                try:
-                    with page.expect_file_chooser(timeout=8000) as fc_info:
-                        # カバー画像エリアのクリックを試行
-                        for sel in [
-                            'label[for*="cover"]',
-                            'button:has-text("カバー")',
-                            '[aria-label*="カバー"]',
-                            '[data-testid*="cover"]',
-                            '.cover-image',
-                        ]:
-                            if page.locator(sel).count() > 0:
-                                page.click(sel)
-                                break
-                        else:
-                            # セレクタが見つからない場合はfile inputを直接操作
-                            raise Exception("カバーボタン未検出、直接inputを使用")
-                    fc_info.value.set_files(str(cover_image_path))
-                    page.wait_for_timeout(3000)
-                    print("カバー画像アップロード完了（ダイアログ経由）")
-                except Exception:
-                    # フォールバック: file inputを直接セット
+                page.screenshot(path="debug_screenshots/02a_before_cover.png", full_page=True)
+
+                cover_uploaded = False
+
+                # 方法1: file_chooser イベント経由（クリックでダイアログを開く）
+                cover_btn_selectors = [
+                    'button[aria-label*="カバー"]',
+                    'button[aria-label*="cover"]',
+                    '[data-testid*="cover"]',
+                    'label[for*="cover"]',
+                    'label[for*="image"]',
+                    'button:has-text("カバー")',
+                    'button:has-text("画像を追加")',
+                    '[class*="cover"] button',
+                    '[class*="Cover"] button',
+                    '[class*="eyecatch"] button',
+                    '[class*="thumbnail"] button',
+                ]
+                for sel in cover_btn_selectors:
+                    try:
+                        loc = page.locator(sel)
+                        if loc.count() > 0 and loc.first.is_visible():
+                            print(f"カバーボタン発見: {sel}")
+                            with page.expect_file_chooser(timeout=6000) as fc_info:
+                                loc.first.click()
+                            fc_info.value.set_files(str(cover_image_path))
+                            page.wait_for_timeout(4000)
+                            cover_uploaded = True
+                            print("カバー画像アップロード完了（ダイアログ経由）")
+                            break
+                    except Exception as e:
+                        print(f"  {sel} 失敗: {e}")
+                        continue
+
+                # 方法2: file input を直接操作
+                if not cover_uploaded:
+                    print("方法2: file input 直接操作を試みます")
                     file_inputs = page.locator('input[type="file"]')
-                    if file_inputs.count() > 0:
-                        file_inputs.first.set_input_files(str(cover_image_path))
-                        page.wait_for_timeout(3000)
-                        print("カバー画像アップロード完了（input直接）")
-                    else:
-                        print("警告: カバー画像アップロード先が見つかりませんでした")
-                page.screenshot(path="debug_screenshots/02b_cover_uploaded.png", full_page=False)
+                    count = file_inputs.count()
+                    print(f"  file input 数: {count}")
+                    for i in range(count):
+                        try:
+                            fi = file_inputs.nth(i)
+                            # hidden でも強制的にセット
+                            fi.evaluate("el => el.removeAttribute('style')")
+                            fi.set_input_files(str(cover_image_path))
+                            page.wait_for_timeout(4000)
+                            cover_uploaded = True
+                            print(f"カバー画像アップロード完了（input[{i}] 直接）")
+                            break
+                        except Exception as e:
+                            print(f"  input[{i}] 失敗: {e}")
+                            continue
+
+                if not cover_uploaded:
+                    # ページ内のボタン・ラベル一覧をデバッグ出力
+                    print("警告: カバー画像アップロード失敗。ページ内の要素を出力します:")
+                    for el in page.locator("button").all()[:15]:
+                        try:
+                            print(f"  button: '{el.inner_text().strip()}' aria={el.get_attribute('aria-label')}")
+                        except Exception:
+                            pass
+                    for el in page.locator("label").all()[:10]:
+                        try:
+                            print(f"  label: for='{el.get_attribute('for')}' text='{el.inner_text().strip()[:30]}'")
+                        except Exception:
+                            pass
+
+                page.screenshot(path="debug_screenshots/02b_cover_uploaded.png", full_page=True)
 
             # タイトル入力
             title_selectors = [
